@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小說角色取名 · 小說角色名字產生器｜取個好名</title>
+<meta name="description" content="免費小說角色取名工具，依小說分類、角色氣質、性格標籤，產生 5 個候選角色名字，涵蓋古風武俠、現代都市、校園青春、西方奇幻、日系輕小說、科幻、懸疑驚悚。">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="取個好名">
+<meta property="og:title" content="小說角色取名 · 小說角色名字產生器｜取個好名">
+<meta property="og:description" content="免費小說角色取名工具，依小說分類、角色氣質、性格標籤，產生 5 個候選角色名字，涵蓋古風武俠、現代都市、校園青春、西方奇幻、日系輕小說、科幻、懸疑驚悚。">
+<meta property="og:image" content="../assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="小說角色取名 · 小說角色名字產生器｜取個好名">
+<meta name="twitter:description" content="免費小說角色取名工具，依小說分類、角色氣質、性格標籤，產生 5 個候選角色名字，涵蓋古風武俠、現代都市、校園青春、西方奇幻、日系輕小說、科幻、懸疑驚悚。">
+<meta name="twitter:image" content="../assets/og-image.png">
+
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="site-logo">
+      <span class="seal-mark">名</span>
+      <span>取個好名</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../baby-name/index.html">寶寶取名</a>
+      <a href="../novel-name/index.html">小說角色取名</a>
+      <a href="../articles/index.html">文章精選</a>
+      <a href="../faq.html">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container form-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">首頁</a> ＞ 小說角色取名
+  </nav>
+
+  <h1>小說角色取名</h1>
+  <div class="form-intro">
+    <p>寫小說最容易卡住的環節之一，就是角色取名，小說分類、角色氣質、性格，得一次兼顧到。</p>
+    <p>這個工具把這些線索拆成幾個簡短欄位，交給你依序回答，直接收斂出幾個貼近角色設定的候選名字。</p>
+    <p>不用自己一個一個翻字典、湊音節，剩下的挑選與微調，交回你手上。</p>
+  </div>
+
+  <details class="favorites-section" id="favorites-section">
+    <summary>查看我收藏的名字（<span id="fav-count">0</span>）</summary>
+    <div class="favorites-body">
+      <p class="favorites-empty-hint" id="favorites-empty-hint">還沒有收藏的名字。在下方候選卡片點「收藏」，就會出現在這裡（僅存在這台裝置的瀏覽器）。</p>
+      <div class="candidate-grid" id="favorites-grid"></div>
+    </div>
+  </details>
+
+  <p class="step-indicator" id="step-indicator">第 1 頁／共 2 頁：角色基本資料</p>
+
+  <div class="form-card">
+    <form id="novel-form">
+
+      <div id="step-1" class="form-step">
+
+        <div class="field-group">
+          <label class="field-label">性別</label>
+          <div class="option-row" data-field="gender">
+            <button type="button" class="option-btn active" data-value="unisex">不限</button>
+            <button type="button" class="option-btn" data-value="male">男</button>
+            <button type="button" class="option-btn" data-value="female">女</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">年齡層</label>
+          <div class="option-row" data-field="ageTier">
+            <button type="button" class="option-btn active" data-value="">不限</button>
+            <button type="button" class="option-btn" data-value="child">幼年</button>
+            <button type="button" class="option-btn" data-value="teen">少年</button>
+            <button type="button" class="option-btn" data-value="adult">青年</button>
+            <button type="button" class="option-btn" data-value="prime">壯年</button>
+            <button type="button" class="option-btn" data-value="middle">中年</button>
+            <button type="button" class="option-btn" data-value="old">老年</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">姓氏</label>
+          <div class="option-row" data-field="surnameMode">
+            <button type="button" class="option-btn active" data-value="random">隨機</button>
+            <button type="button" class="option-btn" data-value="compound">複姓</button>
+            <button type="button" class="option-btn" data-value="custom">自訂輸入</button>
+            <button type="button" class="option-btn" data-value="none">不需要</button>
+          </div>
+          <input type="text" id="novel-surname-custom" placeholder="輸入姓氏，例如：陳 / Blackwood" maxlength="12" hidden style="margin-top:8px;max-width:260px;">
+          <p class="field-hint" id="novel-surname-random-hint" hidden>西方奇幻／日系輕小說／科幻這三類本身是音譯或日系姓名庫，隨機姓氏只套用在中文姓氏合理的古風武俠／現代都市／校園青春／懸疑驚悚，這三類選「隨機」或「複姓」目前不會加上姓氏，想要姓氏請用「自訂輸入」。</p>
+          <p class="field-hint" id="novel-surname-compound-hint" hidden>「複姓」固定從歐陽、司馬、諸葛這類真實歷史複姓裡抽一個，不是「隨機」模式裡偶爾出現的機率，想要每次都確定是複姓時選這個。</p>
+        </div>
+
+      </div>
+
+      <div id="step-2" class="form-step" hidden>
+
+        <div class="field-group">
+          <label class="field-label">小說分類 <span style="color:var(--color-seal);">*必填</span></label>
+          <div class="option-row" data-field="style">
+            <button type="button" class="option-btn" data-value="gufeng">古風武俠</button>
+            <button type="button" class="option-btn" data-value="modern">現代都市</button>
+            <button type="button" class="option-btn" data-value="campus">校園青春</button>
+            <button type="button" class="option-btn" data-value="fantasy">西方奇幻</button>
+            <button type="button" class="option-btn" data-value="japanese">日系輕小說</button>
+            <button type="button" class="option-btn" data-value="scifi">科幻</button>
+            <button type="button" class="option-btn" data-value="mystery">懸疑驚悚</button>
+          </div>
+          <p class="linked-hint">選好小說分類後，下方角色氣質的說法會跟著更新，可複選。</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">情感取向（選填）</label>
+          <p class="field-hint">言情／耽美／百合，獨立於小說分類之外，可以疊加在任何一種分類上。</p>
+          <div class="option-row" data-field="orientation">
+            <button type="button" class="option-btn active" data-value="">不限</button>
+            <button type="button" class="option-btn" data-value="yanqing">言情</button>
+            <button type="button" class="option-btn" data-value="danmei">耽美</button>
+            <button type="button" class="option-btn" data-value="baihe">百合</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">角色氣質</label>
+          <p class="field-hint">選角色的氣場／氣質，可複選（例如都市總裁可以同時是「豪門世家」＋「心機算計」）。說法會依上面選的小說分類調整，同一個氣質換分類只是換說法。</p>
+          <div class="option-row" id="quality-row" data-field="quality"></div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">性格標籤</label>
+          <p class="field-hint">外貌意象也併在這裡一起選（例如冷豔、清秀、痞帥），可複選。</p>
+          <div class="option-row" id="personality-row" data-field="personality"></div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">特殊需求（選填）</label>
+          <p class="field-hint" id="special-request-hint" hidden>西方奇幻的候選是純英文姓名（音譯，如 Aldric、Elara），排除邏輯只能比對「中文字」，打中文字不會對這個分類的候選產生任何效果，這是音譯姓名庫的既有限制，不是忘了生效。</p>
+          <textarea id="special-request" placeholder="例如：避免撞名、諧音梗、命名禁忌…"></textarea>
+        </div>
+
+      </div>
+
+      <div class="form-nav">
+        <button type="button" id="btn-prev" class="btn btn-secondary" hidden>上一步</button>
+        <span class="spacer"></span>
+        <button type="button" id="btn-next" class="btn">下一步</button>
+        <button type="submit" id="btn-generate" class="btn btn-seal" hidden>產生候選姓名</button>
+      </div>
+    </form>
+  </div>
+
+  <section id="result-section" class="result-page" hidden>
+    <div class="result-toolbar">
+      <h2 style="margin:0;">為你找到的 5 個名字</h2>
+    </div>
+    <div class="candidate-grid" id="candidate-grid"></div>
+    <div class="result-actions-bottom">
+      <button type="button" id="btn-regenerate" class="btn btn-secondary btn-small">再產生一次</button>
+      <button type="button" id="btn-edit-form" class="btn btn-secondary btn-small">修改條件</button>
+      <button type="button" id="btn-share-all" class="btn btn-secondary btn-small">分享全部 5 個名字</button>
+    </div>
+    <div class="ad-slot"><!-- 廣告版位：結果頁候選列表下方，手動廣告單元，實際廣告碼待 AdSense 帳號核准後補上（見設計文件第八節） -->廣告版位</div>
+  </section>
+
+  <section id="shared-section" hidden style="margin-top:20px;">
+    <h2>有人跟你分享了這個名字</h2>
+    <div class="candidate-grid" id="shared-candidate-grid"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="../baby-name/index.html">寶寶取名</a>
+      <a href="../novel-name/index.html">小說角色取名</a>
+      <a href="../articles/index.html">文章列表</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../privacy.html">隱私權政策</a>
+    </div>
+    <hr class="footer-divider">
+    <p class="footer-tagline">取個好名，一個純粹的取名工具站，不需要註冊、不收集個資。</p>
+    <p class="footer-disclaimer">本站提供的命名建議僅供參考。</p>
+    <p class="footer-copyright">&copy; 2026 取個好名 NameChop．由 楚心 ChuXin 製作與維護</p>
+  </div>
+</footer>
+
+<script src="../js/shared.js"></script>
+<script src="../js/novel-name.js"></script>
+</body>
+</html>

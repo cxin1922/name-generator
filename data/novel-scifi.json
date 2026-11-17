@@ -1,0 +1,100 @@
+{
+  "_meta": {
+    "description": "小說取名（科幻）獨立姓名庫，2026-09 改版新增建置（先前完全未做，見 NOTES.md）。屬 MVP 簡易版本，量體比照西方奇幻/日系輕小說的簡易版規模，先求跑通、非最終量體。",
+    "shapeNote": "資料形狀判斷（未經查證，屬推斷，見 NOTES.md）：人類角色（星際軍人/太空船員、機甲駕駛員、駭客/工程師、科學家）沿用一般現代中文命名風格，因為華文科幻小說（如三體系列）即使在遠未來/星際場景，主角多半仍是正常的中文姓名，不像西方奇幻那樣切換成音譯風；AI/仿生人身分則刻意採用『代號風』命名（漢字或音譯詞根＋數字/符號代號），用來在視覺上區隔「人類」與「非人類智能」兩種角色類型，呼應科幻類型作品常見的做法（機器人/AI 常用編號或代號稱呼，而非一般人名）。",
+    "identityNote": "身分選項「星際軍人‧太空船員／機甲駕駛員／駭客‧工程師／科學家／AI‧仿生人」對應設計文件 5.2 定案。",
+    "personalityNote": "性格標籤沿用與其他分類相同的 16 個標籤，方便共用同一套表單邏輯。",
+    "qualityTagsNote": "第五輪改版（2026-09）新增。identities 對應一個主要氣質：star_soldier／mech_pilot（星際軍人、機甲駕駛員）→fierce_bold剛猛豪邁（戰鬥豪氣）；hacker／scientist（駭客、科學家）→rational_precise理性精密，這兩個身分本來就是技術/邏輯導向的職業，跟理性精密的定義（字義偏邏輯、技術、分析）直接對應；android（AI／仿生人）→mysterious_dark異質神秘。再疊加 jiao_xia狡黠→cunning_scheming精明權謀、chun_zhen純真→innocent_young純真新兵。覆蓋結果（擴充前）：精明權謀 2 筆、理性精密 10 筆；上流菁英（noble_elegant）跟底層日常（folk_grassroots）這兩個氣質在科幻反而 0 覆蓋，因為 5 個身分角色概念都是特定專業職業，沒有『上流社會』或『底層庶民』這種階級式的身分概念，也沒有性格標籤訊號能對應。注意：科幻在 5.2.1 表格裡本來就『不提供』文雅書卷（scholarly）這個氣質選項（js/novel-name.js 的 QUALITIES.scifi=null），所以科幻姓名庫刻意不標 scholarly，標了也是使用者永遠選不到的死欄位。",
+    "expansionNote": "第七輪擴充（2026-11）：26 筆擴充到 66 筆，新增 40 筆，判斷依據與覆蓋率統計詳見 NOTES.md 第十二節。重點：維持既有資料形狀判斷（人類角色沿用現代中文命名，AI/仿生人用『詞根＋數字代號』風），新增 31 位人類角色＋9 位仿生人代號角色。刻意新增幾個『黑客心機』型角色（沈夜白、墨玄機、墨昕，標 jiao_xia）把精明權謀從 2 筆補到 5 筆；新增一位『權貴背景的科學家』（顧星遙，標 ba_qi＋科學家身分）讓上流菁英從 0 筆補到 1 筆；新增一位『草根機甲駕駛員』（蕭玦、江硝，標 pi_shuai／hao_mai）讓底層日常從 0 筆補到 2 筆；新增一位『新兵』星際軍人（江晏，標 chun_zhen）補純真新兵。理性精密本來就是科幻覆蓋最好的氣質，這次新增的科學家/駭客角色讓它進一步擴大，是老實反映『科幻人類角色裡技術職業本來就佔多數』的結果，不是刻意灌水。"
+  },
+  "identities": [
+    {
+      "id": "star_soldier",
+      "label": "星際軍人／太空船員"
+    },
+    {
+      "id": "mech_pilot",
+      "label": "機甲駕駛員"
+    },
+    {
+      "id": "hacker",
+      "label": "駭客／工程師"
+    },
+    {
+      "id": "scientist",
+      "label": "科學家"
+    },
+    {
+      "id": "android",
+      "label": "AI／仿生人"
+    }
+  ],
+  "names": [
+    { "name": "星野", "gender": "male", "identities": ["star_soldier"], "personalities": ["jian_yi", "ba_qi"], "qualityTags": ["fierce_bold"] },
+    { "name": "凌昊", "gender": "male", "identities": ["star_soldier"], "personalities": ["hao_mai", "jian_yi"], "qualityTags": ["fierce_bold"] },
+    { "name": "韓烈", "gender": "male", "identities": ["star_soldier", "mech_pilot"], "personalities": ["hao_mai", "ba_qi"], "qualityTags": ["fierce_bold"] },
+    { "name": "墨辰", "gender": "male", "identities": ["mech_pilot"], "personalities": ["pi_shuai", "gao_leng"], "qualityTags": ["fierce_bold"] },
+    { "name": "陸野", "gender": "male", "identities": ["mech_pilot"], "personalities": ["ba_qi", "jian_yi"], "qualityTags": ["fierce_bold"] },
+    { "name": "江昱", "gender": "male", "identities": ["mech_pilot"], "personalities": ["jian_yi", "wen_ya"], "qualityTags": ["fierce_bold"] },
+    { "name": "蕭澈", "gender": "male", "identities": ["hacker"], "personalities": ["shen_mi", "gao_leng"], "qualityTags": ["rational_precise", "mysterious_dark"] },
+    { "name": "沈知", "gender": "male", "identities": ["hacker"], "personalities": ["jiao_xia", "shen_mi"], "qualityTags": ["rational_precise", "cunning_scheming", "mysterious_dark"] },
+    { "name": "顧言", "gender": "male", "identities": ["scientist"], "personalities": ["wen_ya", "zheng_zhi"], "qualityTags": ["rational_precise"] },
+    { "name": "陳硯", "gender": "male", "identities": ["scientist"], "personalities": ["wen_ya", "shen_mi"], "qualityTags": ["rational_precise", "mysterious_dark"] },
+    { "name": "凱－零七", "gender": "male", "identities": ["android"], "personalities": ["leng_yan", "shen_mi"], "qualityTags": ["mysterious_dark"] },
+    { "name": "澤－九號", "gender": "male", "identities": ["android"], "personalities": ["zheng_zhi", "gao_leng"], "qualityTags": ["mysterious_dark"] },
+    { "name": "星璃", "gender": "female", "identities": ["star_soldier"], "personalities": ["jian_yi", "leng_yan"], "qualityTags": ["fierce_bold"] },
+    { "name": "江月澈", "gender": "female", "identities": ["star_soldier", "mech_pilot"], "personalities": ["jian_yi", "qing_xiu"], "qualityTags": ["fierce_bold"] },
+    { "name": "夏澪", "gender": "female", "identities": ["mech_pilot"], "personalities": ["gao_leng", "leng_yan"], "qualityTags": ["fierce_bold"] },
+    { "name": "白澪", "gender": "female", "identities": ["mech_pilot"], "personalities": ["huo_po", "jian_yi"], "qualityTags": ["fierce_bold"] },
+    { "name": "沈曦", "gender": "female", "identities": ["hacker"], "personalities": ["huo_po", "jiao_xia"], "qualityTags": ["rational_precise", "cunning_scheming"] },
+    { "name": "顧微", "gender": "female", "identities": ["hacker", "scientist"], "personalities": ["shen_mi", "wen_ya"], "qualityTags": ["rational_precise", "mysterious_dark"] },
+    { "name": "夜微", "gender": "female", "identities": ["hacker"], "personalities": ["shen_mi", "leng_yan"], "qualityTags": ["rational_precise", "mysterious_dark"] },
+    { "name": "林知夏", "gender": "female", "identities": ["scientist"], "personalities": ["wen_ya", "qing_xiu"], "qualityTags": ["rational_precise"] },
+    { "name": "蘇黎", "gender": "female", "identities": ["scientist"], "personalities": ["gao_leng", "wen_ya"], "qualityTags": ["rational_precise"] },
+    { "name": "沈知微", "gender": "female", "identities": ["scientist"], "personalities": ["wen_rou", "wen_ya"], "qualityTags": ["rational_precise"] },
+    { "name": "艾可－零", "gender": "female", "identities": ["android"], "personalities": ["chun_zhen", "qing_xiu"], "qualityTags": ["mysterious_dark", "innocent_young"] },
+    { "name": "諾娃－九", "gender": "female", "identities": ["android"], "personalities": ["leng_yan", "shen_mi"], "qualityTags": ["mysterious_dark"] },
+    { "name": "0X－源", "gender": "neutral", "identities": ["android"], "personalities": ["shen_mi", "gao_leng"], "qualityTags": ["mysterious_dark"] },
+    { "name": "諦－柒", "gender": "neutral", "identities": ["android"], "personalities": ["zheng_zhi", "shen_mi"], "qualityTags": ["mysterious_dark"] },
+    { "name": "夜鋒", "gender": "male", "identities": ["star_soldier"], "personalities": ["ba_qi", "jian_yi"], "qualityTags": ["fierce_bold"] },
+    { "name": "蕭易", "gender": "male", "identities": ["mech_pilot"], "personalities": ["hao_mai", "pi_shuai"], "qualityTags": ["fierce_bold"] },
+    { "name": "冷崖", "gender": "male", "identities": ["star_soldier"], "personalities": ["gao_leng", "jian_yi"], "qualityTags": ["fierce_bold"] },
+    { "name": "聞澈", "gender": "male", "identities": ["scientist"], "personalities": ["wen_ya", "zheng_zhi"], "qualityTags": ["rational_precise"] },
+    { "name": "江硯之", "gender": "male", "identities": ["scientist"], "personalities": ["wen_ya", "shen_mi"], "qualityTags": ["rational_precise", "mysterious_dark"] },
+    { "name": "沈夜白", "gender": "male", "identities": ["hacker"], "personalities": ["jiao_xia", "shen_mi"], "qualityTags": ["rational_precise", "cunning_scheming", "mysterious_dark"] },
+    { "name": "墨玄機", "gender": "male", "identities": ["hacker"], "personalities": ["jiao_xia", "gao_leng"], "qualityTags": ["rational_precise", "cunning_scheming"] },
+    { "name": "凌蕭", "gender": "male", "identities": ["mech_pilot"], "personalities": ["ba_qi", "hao_mai"], "qualityTags": ["fierce_bold"] },
+    { "name": "顧寒", "gender": "male", "identities": ["scientist"], "personalities": ["gao_leng", "wen_ya"], "qualityTags": ["rational_precise"] },
+    { "name": "江離", "gender": "male", "identities": ["star_soldier", "mech_pilot"], "personalities": ["hao_mai", "zheng_zhi"], "qualityTags": ["fierce_bold"] },
+    { "name": "墨承", "gender": "male", "identities": ["hacker"], "personalities": ["shen_mi", "zheng_zhi"], "qualityTags": ["rational_precise", "mysterious_dark"] },
+    { "name": "陸昭", "gender": "male", "identities": ["star_soldier"], "personalities": ["ba_qi", "jian_yi"], "qualityTags": ["fierce_bold"] },
+    { "name": "蕭玦", "gender": "male", "identities": ["mech_pilot"], "personalities": ["pi_shuai", "hao_mai"], "qualityTags": ["fierce_bold", "folk_grassroots"] },
+    { "name": "江澈", "gender": "male", "identities": ["scientist"], "personalities": ["wen_ya", "qing_xiu"], "qualityTags": ["rational_precise"] },
+    { "name": "顧星遙", "gender": "male", "identities": ["scientist", "hacker"], "personalities": ["ba_qi", "zheng_zhi"], "qualityTags": ["rational_precise", "noble_elegant"] },
+    { "name": "江晏", "gender": "male", "identities": ["star_soldier"], "personalities": ["chun_zhen", "huo_po"], "qualityTags": ["innocent_young", "fierce_bold"] },
+    { "name": "慕淺", "gender": "female", "identities": ["scientist"], "personalities": ["qing_xiu", "wen_ya"], "qualityTags": ["rational_precise"] },
+    { "name": "江凌夜", "gender": "female", "identities": ["star_soldier"], "personalities": ["jian_yi", "leng_yan"], "qualityTags": ["fierce_bold"] },
+    { "name": "墨昕", "gender": "female", "identities": ["hacker"], "personalities": ["jiao_xia", "huo_po"], "qualityTags": ["rational_precise", "cunning_scheming"] },
+    { "name": "夜凝", "gender": "female", "identities": ["hacker"], "personalities": ["shen_mi", "gao_leng"], "qualityTags": ["rational_precise", "mysterious_dark"] },
+    { "name": "沈辛夷", "gender": "female", "identities": ["scientist"], "personalities": ["wen_rou", "wen_ya"], "qualityTags": ["rational_precise"] },
+    { "name": "顧青黎", "gender": "female", "identities": ["mech_pilot"], "personalities": ["jian_yi", "huo_po"], "qualityTags": ["fierce_bold"] },
+    { "name": "江水寒", "gender": "female", "identities": ["star_soldier"], "personalities": ["leng_yan", "jian_yi"], "qualityTags": ["fierce_bold"] },
+    { "name": "墨凌霜", "gender": "female", "identities": ["mech_pilot"], "personalities": ["leng_yan", "gao_leng"], "qualityTags": ["fierce_bold"] },
+    { "name": "蘇見微", "gender": "female", "identities": ["scientist"], "personalities": ["wen_ya", "zheng_zhi"], "qualityTags": ["rational_precise"] },
+    { "name": "夏知微", "gender": "female", "identities": ["hacker"], "personalities": ["shen_mi", "wen_ya"], "qualityTags": ["rational_precise", "mysterious_dark"] },
+    { "name": "江芮", "gender": "female", "identities": ["star_soldier"], "personalities": ["huo_po", "jian_yi"], "qualityTags": ["fierce_bold"] },
+    { "name": "顧韌", "gender": "female", "identities": ["mech_pilot"], "personalities": ["jian_yi", "ba_qi"], "qualityTags": ["fierce_bold"] },
+    { "name": "沈語漫", "gender": "female", "identities": ["scientist"], "personalities": ["wen_rou", "qing_xiu"], "qualityTags": ["rational_precise"] },
+    { "name": "江眠", "gender": "female", "identities": ["hacker"], "personalities": ["gao_leng", "shen_mi"], "qualityTags": ["rational_precise", "mysterious_dark"] },
+    { "name": "江硝", "gender": "female", "identities": ["mech_pilot"], "personalities": ["pi_shuai", "hao_mai"], "qualityTags": ["fierce_bold", "folk_grassroots"] },
+    { "name": "銘－貳", "gender": "male", "identities": ["android"], "personalities": ["zheng_zhi", "gao_leng"], "qualityTags": ["mysterious_dark"] },
+    { "name": "珞－柒", "gender": "female", "identities": ["android"], "personalities": ["chun_zhen", "shen_mi"], "qualityTags": ["mysterious_dark", "innocent_young"] },
+    { "name": "夙－肆", "gender": "neutral", "identities": ["android"], "personalities": ["leng_yan", "shen_mi"], "qualityTags": ["mysterious_dark"] },
+    { "name": "織－壹", "gender": "female", "identities": ["android"], "personalities": ["wen_ya", "shen_mi"], "qualityTags": ["mysterious_dark"] },
+    { "name": "凜－捌", "gender": "neutral", "identities": ["android"], "personalities": ["gao_leng", "zheng_zhi"], "qualityTags": ["mysterious_dark"] },
+    { "name": "玥－參", "gender": "female", "identities": ["android"], "personalities": ["wen_rou", "chun_zhen"], "qualityTags": ["mysterious_dark", "innocent_young"] },
+    { "name": "弦－伍", "gender": "male", "identities": ["android"], "personalities": ["shen_mi", "jian_yi"], "qualityTags": ["mysterious_dark"] },
+    { "name": "曦－陸", "gender": "female", "identities": ["android"], "personalities": ["huo_po", "chun_zhen"], "qualityTags": ["mysterious_dark", "innocent_young"] },
+    { "name": "墟－玖", "gender": "neutral", "identities": ["android"], "personalities": ["yin_yu", "shen_mi"], "qualityTags": ["mysterious_dark"] }
+  ]
+}

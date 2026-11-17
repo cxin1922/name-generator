@@ -1,0 +1,31 @@
+{
+  "_meta": {
+    "description": "小說取名（校園青春）專屬層，疊加在 chars-base.json 之上（設計文件第七節）。2026-09 第五輪改版：「身分」欄位改名「角色氣質」，拿掉單選職業清單，改成 8 個共通氣質的可複選標籤（設計文件 5.2.1／7.2 節定案），使用者選的氣質代碼直接比對候選字的 qualityTags，不再透過 identities[].quality 間接換算。",
+    "identityNote": "以下 identities[] 陣列改為僅供內容參考保留（設計文件 5.2 節：這套「校園青春顯示高中生／大學生／校園風雲人物／教師」的職業查證知識仍是有效的世界觀內容），表單渲染與評分已不再讀取這個陣列，改讀下方 quality 欄位對應的 8 個共通氣質（見 novel-name.js 的 QUALITIES 表）。校園風雲人物當時的 quality 定為剛猛豪邁，取其『鋒芒外露』的意象，非武力行動力，這輪只是保留這份歷史紀錄，不影響新版評分。",
+    "personalityNote": "性格標籤沿用與其他分類相同的 16 個標籤，逐字直接標註於 chars-base.json 的 personalityTags 欄位，此處僅保留標籤清單供表單渲染。"
+  },
+  "identities": [
+    { "id": "high_school", "label": "高中生", "quality": "innocent_young" },
+    { "id": "university", "label": "大學生", "quality": "innocent_young" },
+    { "id": "campus_star", "label": "校園風雲人物", "quality": "fierce_bold" },
+    { "id": "teacher", "label": "教師", "quality": "scholarly" }
+  ],
+  "personalities": [
+    { "id": "leng_yan", "label": "冷豔" },
+    { "id": "qing_xiu", "label": "清秀" },
+    { "id": "pi_shuai", "label": "痞帥" },
+    { "id": "wen_rou", "label": "溫柔" },
+    { "id": "gao_leng", "label": "高冷" },
+    { "id": "huo_po", "label": "活潑" },
+    { "id": "yin_yu", "label": "陰鬱" },
+    { "id": "zheng_zhi", "label": "正直" },
+    { "id": "jiao_xia", "label": "狡黠" },
+    { "id": "hao_mai", "label": "豪邁" },
+    { "id": "wen_ya", "label": "文雅" },
+    { "id": "ba_qi", "label": "霸氣" },
+    { "id": "shen_mi", "label": "神秘" },
+    { "id": "chun_zhen", "label": "純真" },
+    { "id": "jian_yi", "label": "堅毅" },
+    { "id": "du_she", "label": "毒舌" }
+  ]
+}

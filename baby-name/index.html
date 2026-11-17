@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>寶寶取名 · 姓名產生器｜取個好名</title>
+<meta name="description" content="免費寶寶取名工具，依性別、字數、寓意祝福、出生月份、生肖，產生 5 個候選姓名，純瀏覽器運算不需註冊。">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="取個好名">
+<meta property="og:title" content="寶寶取名 · 姓名產生器｜取個好名">
+<meta property="og:description" content="免費寶寶取名工具，依性別、字數、寓意祝福、出生月份、生肖，產生 5 個候選姓名，純瀏覽器運算不需註冊。">
+<meta property="og:image" content="../assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="寶寶取名 · 姓名產生器｜取個好名">
+<meta name="twitter:description" content="免費寶寶取名工具，依性別、字數、寓意祝福、出生月份、生肖，產生 5 個候選姓名，純瀏覽器運算不需註冊。">
+<meta name="twitter:image" content="../assets/og-image.png">
+
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="site-logo">
+      <span class="seal-mark">名</span>
+      <span>取個好名</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../baby-name/index.html">寶寶取名</a>
+      <a href="../novel-name/index.html">小說角色取名</a>
+      <a href="../articles/index.html">文章精選</a>
+      <a href="../faq.html">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container form-page">
+  <nav class="breadcrumb">
+    <a href="../index.html">首頁</a> ＞ 寶寶取名
+  </nav>
+
+  <h1>寶寶取名</h1>
+  <div class="form-intro">
+    <p>幫孩子取名，要同時顧到音韻、寓意，還有家裡長輩的期待，光憑想像常常理不出頭緒。</p>
+    <p>這個工具把念頭拆成幾個具體問題：性別、字數、寓意祝福、月份、生肖，一項項選，讓範圍慢慢收斂。</p>
+    <p>整理出的幾個候選，最後交給你和家人一起拍板。</p>
+  </div>
+
+  <details class="favorites-section" id="favorites-section">
+    <summary>查看我收藏的名字（<span id="fav-count">0</span>）</summary>
+    <div class="favorites-body">
+      <p class="favorites-empty-hint" id="favorites-empty-hint">還沒有收藏的名字。在下方候選卡片點「收藏」，就會出現在這裡（僅存在這台裝置的瀏覽器）。</p>
+      <div class="candidate-grid" id="favorites-grid"></div>
+    </div>
+  </details>
+
+  <p class="step-indicator" id="step-indicator">第 1 頁／共 2 頁：基本條件</p>
+
+  <div class="form-card">
+    <form id="baby-form">
+
+      <div id="step-1" class="form-step">
+
+        <div class="field-group">
+          <label class="field-label">姓氏</label>
+          <div class="option-row" data-field="surnameMode">
+            <button type="button" class="option-btn active" data-value="random">隨機</button>
+            <button type="button" class="option-btn" data-value="custom">自訂輸入</button>
+            <button type="button" class="option-btn" data-value="none">不需要</button>
+          </div>
+          <input type="text" id="surname-custom" placeholder="輸入姓氏，例如：陳" maxlength="2" hidden style="margin-top:8px;max-width:200px;">
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">名字字數</label>
+          <div class="option-row" data-field="nameLength">
+            <button type="button" class="option-btn active" data-value="1">單字名</button>
+            <button type="button" class="option-btn" data-value="2">雙字名</button>
+          </div>
+        </div>
+
+        <div class="field-group" id="generation-field" hidden>
+          <div class="toggle-row">
+            <input type="checkbox" id="generation-toggle">
+            <label for="generation-toggle" class="field-label" style="margin-bottom:0;">固定字輩（家族傳承字）</label>
+          </div>
+          <p class="field-hint">字輩是華人家族常見的命名傳統：同一輩份的兄弟姊妹共用名字裡固定的一個字，用來標記世系。若你的家族有這個傳統，可以在這裡指定。</p>
+          <input type="text" id="generation-char" placeholder="輸入字輩用字，例如：家" maxlength="1" hidden style="max-width:120px;">
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">性別</label>
+          <div class="option-row" data-field="gender">
+            <button type="button" class="option-btn active" data-value="unisex">不限</button>
+            <button type="button" class="option-btn" data-value="male">男</button>
+            <button type="button" class="option-btn" data-value="female">女</button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">出生月份</label>
+          <select id="birth-month">
+            <option value="">不指定</option>
+            <option value="1">1 月</option>
+            <option value="2">2 月</option>
+            <option value="3">3 月</option>
+            <option value="4">4 月</option>
+            <option value="5">5 月</option>
+            <option value="6">6 月</option>
+            <option value="7">7 月</option>
+            <option value="8">8 月</option>
+            <option value="9">9 月</option>
+            <option value="10">10 月</option>
+            <option value="11">11 月</option>
+            <option value="12">12 月</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">生肖</label>
+          <select id="zodiac">
+            <option value="">不指定</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div id="step-2" class="form-step" hidden>
+
+        <div class="field-group">
+          <label class="field-label">寓意/祝福</label>
+          <p class="field-hint">可直接點選下方分類，也可以在文字框輸入你想到的詞，系統會自動幫你比對最接近的分類。已選擇的分類可拖曳調整順序，越前面權重越高。</p>
+
+          <div class="tag-pick-row" id="meaning-tag-pick"></div>
+
+          <input type="text" id="meaning-free-text" placeholder="輸入你想到的詞，例如：希望孩子開朗、有出息">
+          <p class="free-text-hint" id="meaning-free-text-hint"></p>
+
+          <p class="selected-tags-label">已選擇（可拖曳排序，滑鼠拖曳最前面的優先度最高）：</p>
+          <div class="selected-tags-row empty" id="meaning-selected"></div>
+          <p class="field-hint" id="meaning-empty-hint">還沒選寓意/祝福嗎？選幾個能讓結果更貼近你的心意（留空也可以產生，會依常用度為你挑選）。</p>
+        </div>
+
+      </div>
+
+      <div class="form-nav">
+        <button type="button" id="btn-prev" class="btn btn-secondary" hidden>上一步</button>
+        <span class="spacer"></span>
+        <button type="button" id="btn-next" class="btn">下一步</button>
+        <button type="submit" id="btn-generate" class="btn btn-seal" hidden>產生候選姓名</button>
+      </div>
+    </form>
+  </div>
+
+  <section id="result-section" class="result-page" hidden>
+    <div class="result-toolbar">
+      <h2 style="margin:0;">為你找到的 5 個名字</h2>
+    </div>
+    <div class="candidate-grid" id="candidate-grid"></div>
+    <div class="result-actions-bottom">
+      <button type="button" id="btn-regenerate" class="btn btn-secondary btn-small">再產生一次</button>
+      <button type="button" id="btn-edit-form" class="btn btn-secondary btn-small">修改條件</button>
+      <button type="button" id="btn-share-all" class="btn btn-secondary btn-small">分享全部 5 個名字</button>
+    </div>
+    <div class="ad-slot"><!-- 廣告版位：結果頁候選列表下方，手動廣告單元，實際廣告碼待 AdSense 帳號核准後補上（見設計文件第八節） -->廣告版位</div>
+  </section>
+
+  <section id="shared-section" hidden style="margin-top:20px;">
+    <h2>有人跟你分享了這個名字</h2>
+    <div class="candidate-grid" id="shared-candidate-grid"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="../baby-name/index.html">寶寶取名</a>
+      <a href="../novel-name/index.html">小說角色取名</a>
+      <a href="../articles/index.html">文章列表</a>
+      <a href="../faq.html">FAQ</a>
+      <a href="../privacy.html">隱私權政策</a>
+    </div>
+    <hr class="footer-divider">
+    <p class="footer-tagline">取個好名，一個純粹的取名工具站，不需要註冊、不收集個資。</p>
+    <p class="footer-disclaimer">本站提供的命名建議僅供參考。</p>
+    <p class="footer-copyright">&copy; 2026 取個好名 NameChop．由 楚心 ChuXin 製作與維護</p>
+  </div>
+</footer>
+
+<script src="../js/shared.js"></script>
+<script src="../js/baby-name.js"></script>
+</body>
+</html>
