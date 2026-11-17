@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-# Sitemap: 網域確定後補上，例如 https://example.com/sitemap.xml
+Sitemap: https://getnamechop.com/sitemap.xml
