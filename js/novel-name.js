@@ -119,6 +119,14 @@
 
   let currentStep = 1;
   let lastCandidates = [];
+  let shareAllMenu = null; // 分享全部的選單，跟 lastCandidates 綁在一起，換一批候選就要重建（見 runGeneration）
+
+  function resetShareAllMenu() {
+    if (shareAllMenu) {
+      shareAllMenu.remove();
+      shareAllMenu = null;
+    }
+  }
 
   function $(sel) { return document.querySelector(sel); }
   function $all(sel) { return Array.from(document.querySelectorAll(sel)); }
@@ -152,6 +160,7 @@
       state.surnameMode = v;
       $("#novel-surname-custom").hidden = v !== "custom";
       updateSurnameRandomHint();
+      updateStyleAvailability();
     });
     $("#novel-surname-custom").addEventListener("input", (e) => { state.surnameCustom = e.target.value.trim(); });
     $("#special-request").addEventListener("input", (e) => { state.specialRequest = e.target.value; });
@@ -161,6 +170,7 @@
     // 會把使用者已經點選的性格標籤一併清空（見 NOTES.md）。
     renderPersonalityRow();
     renderQualityRow(); // 尚未選小說分類時顯示「請先選擇小說分類」提示，跟性格標籤不同，氣質選項本身依分類換文字
+    updateStyleAvailability(); // 預設姓氏模式是「隨機」，不會停用任何分類，這裡只是確保狀態一致，非必要但保守
 
     bindStepNav();
     bindResultActions();
@@ -222,6 +232,35 @@
     // 複姓說明只在「複姓」模式、且小說分類真的會套用姓氏（HANZI_STYLES）時顯示；
     // POOL_STYLES 已經由上面那句「不會加上姓氏」的提示涵蓋，兩句同時顯示會互相矛盾。
     if (compoundHint) compoundHint.hidden = !(state.surnameMode === "compound" && HANZI_STYLES.includes(state.style));
+  }
+
+  // 「複姓」模式對 POOL_STYLES（西方奇幻／日系輕小說／科幻）完全沒有效果（見 pickSurname），
+  // 跟「隨機」不同的是：使用者選複姓是刻意要確定拿到複姓，不是「可能拿到也可能沒有」的隨機期待，
+  // 讓這三個分類在複姓模式下還能被點選，點了卻完全沒反應，比「隨機」模式下的落空更容易讓人以為
+  // 功能壞掉。所以複姓模式直接停用這三個分類的按鈕，不是只顯示提示文字（提示文字在「隨機」模式
+  // 下已經夠用，但複姓是刻意選的，應該在選擇當下就擋掉不合理組合，見使用者回饋／NOTES.md）。
+  // 「隨機」模式目前維持原樣（三個分類仍可選，只顯示提示），跟使用者原始回饋範圍一致，
+  // 沒有一併擴大改動——如果之後也想對「隨機」做一樣的事，是另一個待確認的決定。
+  function updateStyleAvailability() {
+    const row = document.querySelector('.option-row[data-field="style"]');
+    if (!row) return;
+    const disablePoolStyles = state.surnameMode === "compound";
+    let activeCleared = false;
+    row.querySelectorAll(".option-btn").forEach((btn) => {
+      const isPoolStyle = POOL_STYLES.includes(btn.dataset.value);
+      btn.disabled = disablePoolStyles && isPoolStyle;
+      if (btn.disabled && btn.classList.contains("active")) {
+        btn.classList.remove("active");
+        activeCleared = true;
+      }
+    });
+    if (activeCleared) {
+      state.style = "";
+      renderQualityRow();
+      updateSpecialRequestHint();
+      updateSurnameRandomHint();
+      NG.toast("「複姓」不支援西方奇幻／日系輕小說／科幻這三類音譯姓名庫，已清空小說分類，請重新選擇");
+    }
   }
 
   // 特殊需求排除邏輯（extractExcludeChars）只能擷取中文字，西方奇幻的候選是純英文姓名
@@ -305,13 +344,30 @@
     if (idx >= 0) arr.splice(idx, 1); else arr.push(value);
   }
 
+  // 第 1 頁（姓氏）目前未滿足的必填項目；目前只有一項，但仍回傳陣列而不是單一字串，
+  // 跟 baby-name.js 的 validateStep1 保持同一種介面，之後第 1 頁如果再加必填欄位，
+  // 疊加顯示的邏輯不用改。
+  function validateStep1() {
+    const errors = [];
+    if (state.surnameMode === "custom" && !state.surnameCustom) {
+      errors.push("已選擇「自訂輸入」，請輸入姓氏，或改選「不需要」");
+    }
+    return errors;
+  }
+
   function bindStepNav() {
-    $("#btn-next").addEventListener("click", () => goToStep(2));
+    $("#btn-next").addEventListener("click", () => {
+      const errors = validateStep1();
+      if (errors.length > 0) { NG.toast(errors); return; }
+      goToStep(2);
+    });
     $("#btn-prev").addEventListener("click", () => goToStep(1));
     $("#novel-form").addEventListener("submit", (e) => {
       e.preventDefault();
-      if (!state.style) { NG.toast("請先選擇小說分類"); return; }
-      if (state.surnameMode === "custom" && !state.surnameCustom) { NG.toast("已選擇「自訂輸入」，請輸入姓氏，或改選「不需要」"); return; }
+      // 第 1 頁的必填已經在「下一步」擋過，這裡只補第 2 頁（小說分類）跟防呆重複檢查。
+      const errors = validateStep1();
+      if (!state.style) errors.push("請先選擇小說分類");
+      if (errors.length > 0) { NG.toast(errors); return; }
       runGeneration();
     });
   }
@@ -340,10 +396,17 @@
       $(".step-indicator").hidden = false;
       goToStep(1);
     });
-    $("#btn-share-all").addEventListener("click", () => {
+    const shareAllBtn = $("#btn-share-all");
+    shareAllBtn.addEventListener("click", () => {
       if (lastCandidates.length === 0) return;
+      if (shareAllMenu) {
+        shareAllMenu.hidden = !shareAllMenu.hidden;
+        return;
+      }
       const url = NG.buildShareAllUrl(lastCandidates);
-      NG.copyText(url, "分享連結已複製，貼給朋友就能看到這 " + lastCandidates.length + " 個名字");
+      shareAllMenu = NG.createShareMenu(url, "幫我看看這 " + lastCandidates.length + " 個角色名字", "分享連結已複製，貼給朋友就能看到這 " + lastCandidates.length + " 個名字");
+      shareAllBtn.insertAdjacentElement("afterend", shareAllMenu);
+      shareAllMenu.hidden = false;
     });
   }
 
@@ -428,6 +491,7 @@
     const surname = pickSurname();
     const finalCandidates = chosen.map((c, i) => finalizeCandidate(c, i, surname));
     lastCandidates = finalCandidates;
+    resetShareAllMenu(); // 候選換了一批，舊的分享全部選單網址已經過期，清掉讓下次點擊重建
 
     renderCandidates(finalCandidates);
     $(".form-card").hidden = true;
@@ -646,13 +710,17 @@
     shareBtn.type = "button";
     shareBtn.className = "icon-btn";
     shareBtn.textContent = "分享";
-    shareBtn.addEventListener("click", () => {
-      const url = NG.buildShareUrl(c);
-      NG.copyText(url, "分享連結已複製，貼給朋友就能看到「" + c.fullName + "」");
-    });
     actions.appendChild(shareBtn);
 
     card.appendChild(actions);
+
+    const url = NG.buildShareUrl(c);
+    const shareMenu = NG.createShareMenu(url, "幫我看看這個角色名字：「" + c.fullName + "」", "分享連結已複製，貼給朋友就能看到「" + c.fullName + "」");
+    shareBtn.addEventListener("click", () => {
+      shareMenu.hidden = !shareMenu.hidden;
+    });
+    card.appendChild(shareMenu);
+
     return card;
   }
 

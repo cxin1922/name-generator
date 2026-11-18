@@ -343,6 +343,13 @@ p {
   border-color: var(--color-ink);
 }
 
+.option-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  background-color: var(--color-bg);
+  color: var(--color-ink-soft);
+}
+
 input[type="text"], input[type="number"], select, textarea {
   width: 100%;
   padding: 9px 12px;
@@ -608,6 +615,9 @@ textarea {
   padding: 10px 20px;
   border-radius: var(--radius-base);
   font-size: 14px;
+  text-align: left;
+  white-space: pre-line;
+  max-width: min(90vw, 420px);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
@@ -616,6 +626,36 @@ textarea {
 
 .toast.show {
   opacity: 1;
+}
+
+/* ---------- 分享選單（LINE／Facebook／X／Threads／複製連結） ---------- */
+
+.share-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.share-menu[hidden] {
+  display: none;
+}
+
+.share-menu-item {
+  display: inline-block;
+  font-size: 12px;
+  padding: 5px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.share-menu-item:hover {
+  border-color: var(--color-seal);
+  color: var(--color-seal);
 }
 
 /* ---------- 動態連動提示（小說取名：小說分類 -> 身分） ---------- */

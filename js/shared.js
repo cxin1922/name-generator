@@ -55,6 +55,8 @@ const NG = (function () {
     return 1;
   }
 
+  // message 可以是字串或字串陣列；傳陣列時用換行符號疊加顯示（例如多欄位同時未填時，
+  // 一次列出所有待修正項目，不要讓使用者填一個才看到下一個，見 NOTES.md）。
   function toast(message) {
     let el = document.getElementById("ng-toast");
     if (!el) {
@@ -63,10 +65,13 @@ const NG = (function () {
       el.className = "toast";
       document.body.appendChild(el);
     }
-    el.textContent = message;
+    const text = Array.isArray(message) ? message.join("\n") : message;
+    el.textContent = text;
     el.classList.add("show");
     clearTimeout(el._timer);
-    el._timer = setTimeout(() => el.classList.remove("show"), 1800);
+    // 多行訊息字數較多，給比單行提示更長的閱讀時間。
+    const duration = Array.isArray(message) && message.length > 1 ? 3200 : 1800;
+    el._timer = setTimeout(() => el.classList.remove("show"), duration);
   }
 
   // successMessage 可自訂複製成功後的提示文字（例如分享連結不適合把整串網址塞進提示裡）。
@@ -180,6 +185,56 @@ const NG = (function () {
     } catch (e) {
       return null;
     }
+  }
+
+  // ---------- 分享到社群平台（LINE／Facebook／X／Threads） ----------
+  // 用各平台公開的分享 intent 網址，不需要串接任何平台的 API/SDK、不需要帳號權限。
+  function buildPlatformShareLinks(url, text) {
+    const encodedUrl = encodeURIComponent(url);
+    const encodedText = encodeURIComponent(text || "");
+    return {
+      line: "https://social-plugins.line.me/lineit/share?url=" + encodedUrl,
+      facebook: "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl,
+      x: "https://twitter.com/intent/tweet?url=" + encodedUrl + (text ? "&text=" + encodedText : ""),
+      // Threads 目前沒有獨立的 url 參數，照官方 intent 用法把文字跟網址併在同一個 text 參數裡。
+      threads: "https://www.threads.net/intent/post?text=" + encodeURIComponent((text ? text + " " : "") + url),
+    };
+  }
+
+  // 建立一個預設隱藏的分享選單（複製連結＋4 個平台），呼叫端自己決定要插在哪裡、
+  // 用哪個按鈕觸發開關（見 baby-name.js／novel-name.js 的候選卡分享按鈕、分享全部按鈕）。
+  function createShareMenu(url, text, copyMessage) {
+    const links = buildPlatformShareLinks(url, text);
+    const menu = document.createElement("div");
+    menu.className = "share-menu";
+    menu.hidden = true;
+
+    const copyBtn = document.createElement("button");
+    copyBtn.type = "button";
+    copyBtn.className = "share-menu-item";
+    copyBtn.textContent = "複製連結";
+    copyBtn.addEventListener("click", () => {
+      copyText(url, copyMessage);
+      menu.hidden = true;
+    });
+    menu.appendChild(copyBtn);
+
+    [
+      { label: "LINE", href: links.line },
+      { label: "Facebook", href: links.facebook },
+      { label: "X", href: links.x },
+      { label: "Threads", href: links.threads },
+    ].forEach((item) => {
+      const a = document.createElement("a");
+      a.className = "share-menu-item";
+      a.href = item.href;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = item.label;
+      menu.appendChild(a);
+    });
+
+    return menu;
   }
 
   // ---------- 已選標籤排序元件 ----------
@@ -344,6 +399,8 @@ const NG = (function () {
     readSharedFromUrl,
     buildShareAllUrl,
     readSharedAllFromUrl,
+    buildPlatformShareLinks,
+    createShareMenu,
     renderFavoritesSection,
     createTagSorter,
     COMMON_SURNAMES,
