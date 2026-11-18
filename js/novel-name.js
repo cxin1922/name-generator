@@ -161,8 +161,12 @@
       $("#novel-surname-custom").hidden = v !== "custom";
       updateSurnameRandomHint();
       updateStyleAvailability();
+      refreshStepErrorIfShown();
     });
-    $("#novel-surname-custom").addEventListener("input", (e) => { state.surnameCustom = e.target.value.trim(); });
+    $("#novel-surname-custom").addEventListener("input", (e) => {
+      state.surnameCustom = e.target.value.trim();
+      refreshStepErrorIfShown();
+    });
     $("#special-request").addEventListener("input", (e) => { state.specialRequest = e.target.value; });
 
     // 性格標籤清單不隨小說分類改變（見 currentPersonalityList），只需渲染一次；
@@ -372,6 +376,19 @@
 
   function hideStepError() {
     $("#step-error").hidden = true;
+  }
+
+  // 跟 baby-name.js 同樣的修法：欄位變動當下就重新檢查，已顯示的錯誤訊息如果已經被解決
+  // 就立刻收掉，不用等使用者再點一次下一步（見 NOTES.md）。訊息目前沒顯示時不做任何事。
+  function refreshStepErrorIfShown() {
+    const el = $("#step-error");
+    if (el.hidden) return;
+    const errors = validateStep1();
+    if (errors.length === 0) {
+      hideStepError();
+    } else {
+      showStepError(errors);
+    }
   }
 
   function bindStepNav() {

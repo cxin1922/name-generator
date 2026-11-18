@@ -136,11 +136,13 @@
         } else if (field === "gender") {
           state.gender = value;
         }
+        refreshStepErrorIfShown();
       });
     });
 
     $("#surname-custom").addEventListener("input", (e) => {
       state.surnameCustom = e.target.value.trim();
+      refreshStepErrorIfShown();
     });
   }
 
@@ -150,10 +152,30 @@
     toggle.addEventListener("change", () => {
       state.useGenerationChar = toggle.checked;
       input.hidden = !toggle.checked;
+      refreshStepErrorIfShown();
     });
     input.addEventListener("input", (e) => {
       state.generationChar = e.target.value.trim().slice(0, 1);
+      refreshStepErrorIfShown();
     });
+  }
+
+  // 使用者回報：改選「不需要」等動作解決了欄位缺漏，但第 1 頁的錯誤訊息沒有跟著消失，
+  // 要再點一次「下一步」才會重新檢查。問題在於 showStepError／hideStepError 原本只在
+  // 按鈕點擊當下被呼叫一次，欄位本身變動完全不會觸發重新驗證。修法：只要訊息目前正顯示中，
+  // 任何會影響必填判斷的欄位一變動（姓氏模式、自訂姓氏文字、固定字輩開關、字輩文字）就立刻
+  // 重新跑一次 validateStep1()，已解決的項目就把訊息收掉，還沒解決的項目則更新成最新內容，
+  // 不是等使用者再點一次下一步才後知後覺。訊息目前沒顯示時什麼都不做，不會因為欄位變動
+  // 就提前跳出來打斷使用者還在輸入的過程。
+  function refreshStepErrorIfShown() {
+    const el = $("#step-error");
+    if (el.hidden) return;
+    const errors = validateStep1();
+    if (errors.length === 0) {
+      hideStepError();
+    } else {
+      showStepError(errors);
+    }
   }
 
   function bindMeaningField() {
