@@ -170,7 +170,13 @@
     // 會把使用者已經點選的性格標籤一併清空（見 NOTES.md）。
     renderPersonalityRow();
     renderQualityRow(); // 尚未選小說分類時顯示「請先選擇小說分類」提示，跟性格標籤不同，氣質選項本身依分類換文字
-    updateStyleAvailability(); // 預設姓氏模式是「隨機」，不會停用任何分類，這裡只是確保狀態一致，非必要但保守
+    // 預設姓氏模式是「隨機」，兩個函式都要在 init 時跑一次，不能只靠使用者點擊姓氏模式按鈕才觸發
+    // ——HTML 預設 hidden、按鈕預設都不是 disabled，如果不在這裡主動同步一次，使用者完全不碰
+    // 姓氏欄位、直接翻到第 2 頁時，畫面會跟「隨機模式下這三類本來就該停用」的實際邏輯對不上
+    // （這是這次擴大到「隨機」模式時才發現的既有缺口，複姓模式當時沒碰到是因為複姓不是預設值，
+    // 一定要使用者先點過，點擊事件本身就會觸發同步，見 NOTES.md）。
+    updateStyleAvailability();
+    updateSurnameRandomHint();
 
     bindStepNav();
     bindResultActions();
@@ -220,31 +226,31 @@
   }
 
   // 複姓／單姓隨機池只對 HANZI_STYLES 合理（中文姓氏語境），西方奇幻／日系輕小說／科幻三類
-  // 本身是音譯或日系姓名庫，隨機模式下套用中文姓氏（含複姓）會破壞語境，所以這三類在「隨機」
-  // 模式下不加姓氏（等同「不需要」），並顯示提示讓使用者知道這不是漏生效，而是刻意的設計判斷，
-  // 理由見 NOTES.md。此函式同時被「切換小說分類」與「切換姓氏模式」呼叫，因為姓氏欄位在表單
-  // 第 1 頁、小說分類在第 2 頁，兩者任一變動都可能需要更新這個提示的顯示狀態。
+  // 本身是音譯或日系姓名庫，隨機/複姓模式下套用中文姓氏會破壞語境，所以這三類在這兩個模式下
+  // 不加姓氏（等同「不需要」）。2026-11 第十七輪起，這三個分類在第 2 頁會直接停用（見下方
+  // updateStyleAvailability），這裡的提示文字從「已經選了卻沒套用姓氏，說明為什麼」改成
+  // 「提前告知選了這個模式、下一頁這三類會不能選」，不再需要等 state.style 已經是這三類之一
+  // 才顯示，只要姓氏模式是隨機/複姓就先講清楚。此函式同時被「切換小說分類」與「切換姓氏模式」
+  // 呼叫，因為姓氏欄位在表單第 1 頁、小說分類在第 2 頁，兩者任一變動都可能需要更新提示狀態。
   function updateSurnameRandomHint() {
     const hint = $("#novel-surname-random-hint");
     const compoundHint = $("#novel-surname-compound-hint");
     const isRandomOrCompound = state.surnameMode === "random" || state.surnameMode === "compound";
-    if (hint) hint.hidden = !(isRandomOrCompound && POOL_STYLES.includes(state.style));
+    if (hint) hint.hidden = !isRandomOrCompound;
     // 複姓說明只在「複姓」模式、且小說分類真的會套用姓氏（HANZI_STYLES）時顯示；
-    // POOL_STYLES 已經由上面那句「不會加上姓氏」的提示涵蓋，兩句同時顯示會互相矛盾。
+    // POOL_STYLES 已經由上面那句提示涵蓋，兩句同時顯示會互相矛盾。
     if (compoundHint) compoundHint.hidden = !(state.surnameMode === "compound" && HANZI_STYLES.includes(state.style));
   }
 
-  // 「複姓」模式對 POOL_STYLES（西方奇幻／日系輕小說／科幻）完全沒有效果（見 pickSurname），
-  // 跟「隨機」不同的是：使用者選複姓是刻意要確定拿到複姓，不是「可能拿到也可能沒有」的隨機期待，
-  // 讓這三個分類在複姓模式下還能被點選，點了卻完全沒反應，比「隨機」模式下的落空更容易讓人以為
-  // 功能壞掉。所以複姓模式直接停用這三個分類的按鈕，不是只顯示提示文字（提示文字在「隨機」模式
-  // 下已經夠用，但複姓是刻意選的，應該在選擇當下就擋掉不合理組合，見使用者回饋／NOTES.md）。
-  // 「隨機」模式目前維持原樣（三個分類仍可選，只顯示提示），跟使用者原始回饋範圍一致，
-  // 沒有一併擴大改動——如果之後也想對「隨機」做一樣的事，是另一個待確認的決定。
+  // 「隨機」「複姓」兩個模式對 POOL_STYLES（西方奇幻／日系輕小說／科幻）完全沒有效果（見
+  // pickSurname），讓這三個分類還能被點選、點了卻完全沒套用姓氏，容易讓人以為功能壞掉，所以
+  // 兩個模式都直接停用這三個分類的按鈕，不是只顯示提示文字。2026-11 第十七輪原本只對「複姓」
+  // 做這件事（使用者當時只回報複姓的情境），後來使用者確認「隨機」也要比照辦理，才擴大成
+  // 兩個模式一起停用，見 NOTES.md。
   function updateStyleAvailability() {
     const row = document.querySelector('.option-row[data-field="style"]');
     if (!row) return;
-    const disablePoolStyles = state.surnameMode === "compound";
+    const disablePoolStyles = state.surnameMode === "random" || state.surnameMode === "compound";
     let activeCleared = false;
     row.querySelectorAll(".option-btn").forEach((btn) => {
       const isPoolStyle = POOL_STYLES.includes(btn.dataset.value);
@@ -259,7 +265,8 @@
       renderQualityRow();
       updateSpecialRequestHint();
       updateSurnameRandomHint();
-      NG.toast("「複姓」不支援西方奇幻／日系輕小說／科幻這三類音譯姓名庫，已清空小說分類，請重新選擇");
+      const modeLabel = state.surnameMode === "compound" ? "複姓" : "隨機";
+      NG.toast("「" + modeLabel + "」不支援西方奇幻／日系輕小說／科幻這三類音譯姓名庫，已清空小說分類，請重新選擇");
     }
   }
 
