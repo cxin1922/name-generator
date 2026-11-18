@@ -362,19 +362,33 @@
     return errors;
   }
 
+  // 必填驗證訊息顯示在「上一步/下一步」按鈕正下方（#step-error），不是用全站共用、
+  // 固定在頁面最底部的 NG.toast，跟 baby-name.js 同樣的使用者回饋、同樣的做法。
+  function showStepError(errors) {
+    const el = $("#step-error");
+    el.textContent = errors.join("\n");
+    el.hidden = false;
+  }
+
+  function hideStepError() {
+    $("#step-error").hidden = true;
+  }
+
   function bindStepNav() {
     $("#btn-next").addEventListener("click", () => {
       const errors = validateStep1();
-      if (errors.length > 0) { NG.toast(errors); return; }
+      if (errors.length > 0) { showStepError(errors); return; }
+      hideStepError();
       goToStep(2);
     });
-    $("#btn-prev").addEventListener("click", () => goToStep(1));
+    $("#btn-prev").addEventListener("click", () => { hideStepError(); goToStep(1); });
     $("#novel-form").addEventListener("submit", (e) => {
       e.preventDefault();
       // 第 1 頁的必填已經在「下一步」擋過，這裡只補第 2 頁（小說分類）跟防呆重複檢查。
       const errors = validateStep1();
       if (!state.style) errors.push("請先選擇小說分類");
-      if (errors.length > 0) { NG.toast(errors); return; }
+      if (errors.length > 0) { showStepError(errors); return; }
+      hideStepError();
       runGeneration();
     });
   }
