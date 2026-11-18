@@ -398,7 +398,7 @@ MVP 上線後使用者實際體驗，發現原本憑經驗訂的「故事風格�
 10. ~~15 篇輔助文章的實際內文已全部完成，但從沒連結進網站~~ **已於 2026-11 處理**：15 篇 `.md` 內容一次性轉成跟全站視覺一致的靜態 `.html` 頁面（`articles/{slug}.html`），新增 `articles/index.html` 文章列表頁（依分類分兩組），首頁／兩個工具頁的頁尾都加了連結，每篇文章頁底部也有「延伸閱讀」連到同分類另外 2 篇＋連回對應工具頁。`.md` 原始檔保留在 `articles/` 資料夾原地不動（當作內容草稿/來源），`.html` 是另外產生的發布版本。實作方式、11.2 節的對應調整、實測結果見 NOTES.md 第十五節。
 
 **E. 部署相關**（第九節已列為 MVP 之外，之後要做時提醒回頭看）
-11. ~~GA4 實際串接、AdSense 廣告碼、網域購買、正式 hosting 部署~~ **網域／hosting 已完成上線（2026-11）**：`getnamechop.com`（品牌名 NameChop，網域加 Get 前綴）已購買，部署在 Cloudflare Workers（用 `wrangler.jsonc` 設定靜態資源，不是 Worker 腳本），GitHub repo `cxin1922/name-generator` 接自動部署，自訂網域已綁定，HTTPS 自動生效，實測寶寶取名工具完整流程在正式網域上運作正常。GA4、AdSense 申請仍待進行。`sitemap.xml`、`og:url`（之前都刻意等網域確定才做）現在可以補了。favicon／OG 分享標籤／`robots.txt`／`privacy.html` 都已完成，詳見 NOTES.md 第二十、二十一、二十二節。
+11. ~~GA4 實際串接、AdSense 廣告碼、網域購買、正式 hosting 部署~~ **網域／hosting 已完成上線（2026-11）**：`getnamechop.com`（品牌名 NameChop，網域加 Get 前綴）已購買，部署在 Cloudflare Workers（用 `wrangler.jsonc` 設定靜態資源，不是 Worker 腳本），GitHub repo `cxin1922/name-generator` 接自動部署，自訂網域已綁定，HTTPS 自動生效，實測寶寶取名工具完整流程在正式網域上運作正常。GA4、AdSense 申請仍待進行。`sitemap.xml`、`og:url`（之前都刻意等網域確定才做）現在可以補了。favicon／OG 分享標籤／`robots.txt`／`privacy.html`／`about.html`（關於頁，滿足 AdSense「不得隱瞞發布者/內容創作者身分」這條規定）都已完成，詳見 NOTES.md 第二十、二十一、二十二、二十三節。
 
 **F. 待釐清範圍**
 12. ~~加上不負責任聲明＋修改前言和結語~~ **已處理**：不負責任聲明「本站提供的命名建議僅供參考。」放在全站頁尾，連結上方、分隔線下方，跟標語同一個襯線字體，三個頁面都已同步；結語使用者明確表示不需要；前言維持現狀不改。
