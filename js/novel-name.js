@@ -227,6 +227,7 @@
     renderQualityRow();
     updateSpecialRequestHint();
     updateSurnameRandomHint();
+    refreshStepErrorIfShown();
   }
 
   // 複姓／單姓隨機池只對 HANZI_STYLES 合理（中文姓氏語境），西方奇幻／日系輕小說／科幻三類
@@ -366,6 +367,17 @@
     return errors;
   }
 
+  // 目前畫面上看得到的那一頁該檢查哪些項目：第 1 頁只檢查姓氏；第 2 頁除了姓氏（防呆，
+  // 理論上已經在「下一步」擋過一次）還要加上小說分類必填。用 currentStep 判斷，
+  // 不是固定檢查全部項目，避免使用者還在第 1 頁、小說分類根本還看不到時就被念。
+  function validateCurrentStep() {
+    const errors = validateStep1();
+    if (currentStep === 2 && !state.style) {
+      errors.push("請先選擇小說分類");
+    }
+    return errors;
+  }
+
   // 必填驗證訊息顯示在「上一步/下一步」按鈕正下方（#step-error），不是用全站共用、
   // 固定在頁面最底部的 NG.toast，跟 baby-name.js 同樣的使用者回饋、同樣的做法。
   function showStepError(errors) {
@@ -379,11 +391,15 @@
   }
 
   // 跟 baby-name.js 同樣的修法：欄位變動當下就重新檢查，已顯示的錯誤訊息如果已經被解決
-  // 就立刻收掉，不用等使用者再點一次下一步（見 NOTES.md）。訊息目前沒顯示時不做任何事。
+  // 就立刻收掉，不用等使用者再點一次下一步或送出（見 NOTES.md）。訊息目前沒顯示時不做任何事。
+  // 2026-11 使用者實測發現：原本這裡只重新檢查 validateStep1()，選了小說分類之後，
+  // 第 2 頁靠送出表單跳出來的「請先選擇小說分類」訊息完全沒反應——因為小說分類的檢查
+  // 寫死在 submit 事件裡、沒有被這個函式涵蓋到。改成呼叫 validateCurrentStep()，
+  // 同一個函式依目前頁數涵蓋兩頁各自的必填項目，不是只顧第 1 頁。
   function refreshStepErrorIfShown() {
     const el = $("#step-error");
     if (el.hidden) return;
-    const errors = validateStep1();
+    const errors = validateCurrentStep();
     if (errors.length === 0) {
       hideStepError();
     } else {
@@ -402,8 +418,7 @@
     $("#novel-form").addEventListener("submit", (e) => {
       e.preventDefault();
       // 第 1 頁的必填已經在「下一步」擋過，這裡只補第 2 頁（小說分類）跟防呆重複檢查。
-      const errors = validateStep1();
-      if (!state.style) errors.push("請先選擇小說分類");
+      const errors = validateCurrentStep();
       if (errors.length > 0) { showStepError(errors); return; }
       hideStepError();
       runGeneration();
