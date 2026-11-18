@@ -47,6 +47,14 @@
   let meaningSorter = null;
   let currentStep = 1;
   let lastCandidates = [];
+  let shareAllMenu = null; // 分享全部的選單，跟 lastCandidates 綁在一起，換一批候選就要重建（見 runGeneration）
+
+  function resetShareAllMenu() {
+    if (shareAllMenu) {
+      shareAllMenu.remove();
+      shareAllMenu = null;
+    }
+  }
 
   function $(sel) { return document.querySelector(sel); }
   function $all(sel) { return Array.from(document.querySelectorAll(sel)); }
@@ -206,13 +214,31 @@
     return matched;
   }
 
+  // 回傳第 1 頁目前未滿足的必填項目文字清單；兩個欄位都沒填時會回傳兩條，
+  // 讓 NG.toast 一次疊加顯示，不是填一個才看到下一個（見 NOTES.md）。
+  function validateStep1() {
+    const errors = [];
+    if (state.surnameMode === "custom" && !state.surnameCustom) {
+      errors.push("已選擇「自訂輸入」，請輸入姓氏，或改選「不需要」");
+    }
+    if (state.useGenerationChar && !state.generationChar) {
+      errors.push("已開啟「固定字輩」，請輸入字輩用字，或關閉開關");
+    }
+    return errors;
+  }
+
   function bindStepNav() {
-    $("#btn-next").addEventListener("click", () => goToStep(2));
+    $("#btn-next").addEventListener("click", () => {
+      const errors = validateStep1();
+      if (errors.length > 0) { NG.toast(errors); return; }
+      goToStep(2);
+    });
     $("#btn-prev").addEventListener("click", () => goToStep(1));
     $("#baby-form").addEventListener("submit", (e) => {
       e.preventDefault();
-      if (state.surnameMode === "custom" && !state.surnameCustom) { NG.toast("已選擇「自訂輸入」，請輸入姓氏，或改選「不需要」"); return; }
-      if (state.useGenerationChar && !state.generationChar) { NG.toast("已開啟「固定字輩」，請輸入字輩用字，或關閉開關"); return; }
+      // 第 1 頁必填已經在「下一步」擋過一次，這裡是防呆（例如瀏覽器上一頁/下一頁回到第 2 頁的情境）。
+      const errors = validateStep1();
+      if (errors.length > 0) { NG.toast(errors); return; }
       runGeneration();
     });
   }
@@ -238,10 +264,17 @@
       $(".step-indicator").hidden = false;
       goToStep(1);
     });
-    $("#btn-share-all").addEventListener("click", () => {
+    const shareAllBtn = $("#btn-share-all");
+    shareAllBtn.addEventListener("click", () => {
       if (lastCandidates.length === 0) return;
+      if (shareAllMenu) {
+        shareAllMenu.hidden = !shareAllMenu.hidden;
+        return;
+      }
       const url = NG.buildShareAllUrl(lastCandidates);
-      NG.copyText(url, "分享連結已複製，貼給朋友就能看到這 " + lastCandidates.length + " 個名字");
+      shareAllMenu = NG.createShareMenu(url, "幫我看看這 " + lastCandidates.length + " 個名字", "分享連結已複製，貼給朋友就能看到這 " + lastCandidates.length + " 個名字");
+      shareAllBtn.insertAdjacentElement("afterend", shareAllMenu);
+      shareAllMenu.hidden = false;
     });
   }
 
@@ -345,6 +378,7 @@
 
     const surname = pickSurname();
     lastCandidates = chosen.map((combo, i) => buildCandidateObject(combo.chars, surname, i));
+    resetShareAllMenu(); // 候選換了一批，舊的分享全部選單網址已經過期，清掉讓下次點擊重建
 
     renderCandidates(lastCandidates);
     $(".form-card").hidden = true;
@@ -466,13 +500,17 @@
     shareBtn.type = "button";
     shareBtn.className = "icon-btn";
     shareBtn.textContent = "分享";
-    shareBtn.addEventListener("click", () => {
-      const url = NG.buildShareUrl(c);
-      NG.copyText(url, "分享連結已複製，貼給朋友就能看到「" + c.fullName + "」");
-    });
     actions.appendChild(shareBtn);
 
     card.appendChild(actions);
+
+    const url = NG.buildShareUrl(c);
+    const shareMenu = NG.createShareMenu(url, "幫我看看這個名字：「" + c.fullName + "」", "分享連結已複製，貼給朋友就能看到「" + c.fullName + "」");
+    shareBtn.addEventListener("click", () => {
+      shareMenu.hidden = !shareMenu.hidden;
+    });
+    card.appendChild(shareMenu);
+
     return card;
   }
 

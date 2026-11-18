@@ -426,3 +426,27 @@
 106. **沒有幫使用者填任何註冊人真實資料，也提醒不能填假資料**：Cloudflare Registrar 結帳時要填 Registrant information（姓名／地址／電話／信箱，ICANN 規定），這塊我完全沒有碰、沒有問使用者實際內容，請他自己填。使用者問「地址可以填中文亂寫嗎」，明確回答不行——Cloudflare 已經把這些資料從公開 WHOIS 隱藏了（內建隱私保護），填假資料不會換到更多隱私，只會換到「網域被查核時可能被停權、或之後要證明網域是自己的時拿不出真實資料」的風險，這兩件事（隱私保護／資料真實性）是分開的要求，不能互相替代。State/Province 欄位對應台灣的縣市英文名（例如 Taipei City），不是美式行政區劃，這點有講清楚但沒有要求對方告訴我實際住哪裡。
 
 107. **最終上線驗證**：`getnamechop.com` 買定、在 Workers 專案的 Domains 分頁用「Add Domain」綁定（Subdomain 留空走根網域、Enable for 選 Production），綁定後直接用瀏覽器實測這個正式網址：HTTPS 自動生效、首頁／寶寶取名／FAQ／隱私權政策／文章列表／favicon／OG 分享圖全部 200，而且真的跑了一次完整的寶寶取名流程（選條件到送出）確認在正式網域上評分邏輯跟字庫讀取都正常運作，不是只有靜態頁面能開。console 全程無錯誤。**sitemap.xml 跟 og:url 這兩項，之前都卡在「沒有真實網域所以不先做」，現在網域已經生出來了，可以回頭補上**，design.md 第九節第 11 點同步更新為「已完成上線」狀態。
+
+108. **補 sitemap.xml／canonical／og:url，順便發現並確認 Cloudflare Workers 靜態資源的乾淨網址規則**：實際用瀏覽器測試發現 Workers 的 assets 服務會自動把 `/x/index.html` 轉成 `/x/`、把 `/x.html`（非 index）轉成去掉副檔名的 `/x`（例如 `/faq.html`→`/faq`、`/articles/shijing-chuci-qiming.html`→`/articles/shijing-chuci-qiming`），這個規則沒有寫在文件任何地方，是這次要生 sitemap 時才動手測出來的。sitemap.xml（21 條，對應全站 21 個頁面）跟新增的 `<link rel="canonical">`／`og:url` 都改用這個乾淨網址格式，不是 `.html` 原始路徑，確保跟搜尋引擎實際收錄、社群分享看到的網址一致。站內既有連結（導覽列、頁尾、文章內部連結）維持原樣用 `.html`／`index.html`，不跟著全部改寫——因為 Cloudflare 本來就會自動轉址到乾淨網址，SEO 效果跟直接用乾淨網址差異很小，但要把全站幾十個連結改寫的風險／工程量不成比例，不值得做。
+
+109. **Google Search Console 驗證＋sitemap 提交**：使用者選「網址前置字元」＋「HTML 標記」驗證法，拿到 Google 給的 `google-site-verification` meta tag 後，我直接加進 `index.html`（只加在首頁，驗證只檢查根網址）、commit、push，等 Cloudflare 自動部署生效（這次等了快 50 秒才真的出現在線上，比之前幾次單純改文字的部署稍慢，猜測是 build 排隊，不是出錯，耐心多等幾次 `fetch` 確認就看到了）後，使用者驗證成功、提交 sitemap，Search Console 回報「系統探索到的網頁：21」，剛好對上 sitemap 列的 21 條，確認收錄流程正常啟動。
+
+110. **Google AdSense `ads.txt` 驗證＋送審**：使用者提供 AdSense 給的 `ads.txt` 內容（`google.com, pub-6345271316872509, DIRECT, f08c47fec0942fa0`），直接在網站根目錄新增 `ads.txt`、commit、push、確認部署後內容與路徑都正確（`https://getnamechop.com/ads.txt` 回 200 且內容完全一致）。使用者在 AdSense 後台選「Ads.txt 程式碼片段」驗證法，勾選「我已發布 ads.txt 檔案」後驗證成功（網站擁有權驗證打勾），接著按「要求複查」把網站正式送進 AdSense 審核。**目前狀態：審核中，等待 Google 回覆**，期間按一般 AdSense 審核慣例不建議大改版，維持內容/導覽結構穩定。
+
+**這一輪（第十六節）總結：「取個好名」從完全沒有版控、沒有網域、只存在於使用者本機的靜態檔案，一路做到有 GitHub repo、正式網域 `getnamechop.com`、Cloudflare Workers 自動部署、Search Console 收錄中、AdSense 審核中的真正上線狀態。** 之後如果 AdSense 審核沒過，要回頭看 Google 給的具體原因再處理；審核通過的話，下一步是在 `ad-slot` 這些預留版位裡真正放上 AdSense 廣告程式碼（目前都還是純文字佔位），design.md 第八節有這個版位的既有規劃可以參考。
+
+## 二十三、第十七輪：上線後實測回報的 4 項修正
+
+使用者正式上線後實際使用，一次回報 5 件事：AdSense 要不要有關於/聯絡頁（查證後答覆，見下方）、要加 LINE/FB/X/Threads 分享、固定字輩／自訂輸入姓氏要在「下一步」就卡必填且訊息要疊加、小說取名選複姓時第二頁不該讓西方奇幻等分類還能點、寶寶/小說取名的收藏要不要共用（問我的建議，不是回報問題）。後三項是真的程式改動，這節記錄；AdSense 頁面查證跟收藏建議純屬文字答覆，不寫在這裡（答覆內容見使用者對話紀錄，不重複進技術筆記）。
+
+111. **分享功能從「複製連結」擴充成「複製連結＋LINE／Facebook／X／Threads」五選一選單**：`js/shared.js` 新增 `buildPlatformShareLinks(url, text)`（組出四個平台公開的分享 intent 網址，不需要串任何平台 API/SDK/帳號權限）跟 `createShareMenu(url, text, copyMessage)`（建立一個預設隱藏的選單元素，呼叫端自己決定插在哪裡、用什麼按鈕觸發開關）。候選卡片的「分享」按鈕跟結果頁的「分享全部」按鈕都改成點一下展開/收合這個選單，不是直接複製。「分享全部」的選單因為對應到「目前這一批候選」，換一批候選（再產生一次／修改條件後重新送出）時舊選單的連結已經過期，在 `runGeneration()` 重新指派 `lastCandidates` 的同一行補上 `resetShareAllMenu()`（移除舊選單 DOM、清空變數參照），不是只清參照不清 DOM，避免殘留孤兒元素或點擊展開舊網址。`baby-name.js`／`novel-name.js` 做法完全對稱。Threads 目前沒有獨立的 `url` 參數，照官方 intent 用法把文字跟網址併進同一個 `text` 參數。CSS 新增 `.share-menu`／`.share-menu-item`，視覺上是候選卡下方多一排小按鈕，不是跳出 popover（避免手機版定位/遮擋問題）。
+
+112. **必填驗證從「送出表單時才檢查」改成「點下一步就擋，且多項同時缺填時一次列出」**：`NG.toast()` 改成可以接受陣列（`message.join("\n")`），搭配 CSS 新增 `.toast { white-space: pre-line; text-align: left; }` 讓多行訊息正確換行顯示，陣列訊息（多於 1 行）的顯示時間從 1.8 秒延長到 3.2 秒，給使用者多一點時間讀完。`baby-name.js` 新增 `validateStep1()`，一次檢查「自訂輸入姓氏」跟「固定字輩」兩個欄位（兩者都在第 1 頁），有缺填就回傳對應訊息陣列，`#btn-next` 的點擊事件改成先跑這個檢查、有錯就 `NG.toast(errors)` 並 `return`（不呼叫 `goToStep(2)`），表單送出時的檢查保留當防呆（例如瀏覽器上一頁/下一頁回到第 2 頁的情境）。`novel-name.js` 同樣新增 `validateStep1()`，但姓氏「自訂輸入」是唯一在第 1 頁的必填情境，「小說分類」必填在第 2 頁，所以 `novel-form` 的 submit 事件保留對小說分類的檢查，跟 `validateStep1()` 的結果合併成同一個陣列一起顯示，不是分成兩次彈窗。兩個工具都用瀏覽器實測過：兩欄都空時擋下導覽、顯示疊加的兩條訊息；填完後正常前進；happy path（正常填寫整個流程到產生候選）沒有被這次改動影響。
+
+113. **小說取名選「複姓」時，第 2 頁的小說分類直接停用西方奇幻／日系輕小說／科幻三個按鈕，不是只顯示提示文字**：`novel-name.js` 新增 `updateStyleAvailability()`，在姓氏模式變成 `"compound"` 時把這三個分類按鈕設成 `disabled`（CSS 新增 `.option-btn:disabled` 灰階視覺），不是 `"compound"` 時全部恢復可點。如果使用者是先選了這三類之一、才回頭切到複姓模式，造成目前選取的分類突然變不合法，會自動清空 `state.style`、移除按鈕的 `active` 樣式、重新渲染角色氣質區塊（氣質選項依小說分類換說法，分類被清空也要跟著清）、彈出 `NG.toast` 說明「為什麼被清空」，不是靜默清空讓使用者不知道發生什麼事。**這個修法只套用在「複姓」模式，使用者這次只回報複姓的問題，沒有要求「隨機」模式也要這樣做**——「隨機」模式下這三個分類目前仍然可以點選、只顯示既有的提示文字說明不會加姓氏，維持原樣。「隨機」跟「複姓」在這件事上其實是同一種矛盾（隨機模式選這三類一樣永遠不會套用姓氏），要不要讓「隨機」也比照辦理是一致性問題，待使用者之後決定，這次沒有自作主張一併擴大修改範圍。
+
+114. **驗證**：本機伺服器測試（為了避開瀏覽器快取舊版 `js/shared.js` 的問題，這次直接換一個全新 port 啟動 server，不是靠 cache-busting query string——同一個 port 底下，子資源如 `<script src="js/shared.js">` 的快取不會因為頁面網址加 `?v=` 就被連帶刷新，之前幾輪都是改 CSS/HTML 這種直接在網址列開啟的檔案才靠 query string 就夠，這次是改外部 script 檔案，才第一次踩到換 port 比較可靠這件事，記下來避免以後重踩）：
+    - 兩個工具都測過「兩個必填欄位都空白時點下一步」→ 正確擋下、顯示疊加的兩條訊息（用 `JSON.stringify` 確認訊息之間真的是換行字元，不是人眼誤判）；填完後點下一步正常前進到第 2 頁。
+    - 小說取名選複姓→進第 2 頁，確認西方奇幻／日系輕小說／科幻三個按鈕 `disabled` 為 `true`，其餘分類 `false`；反向測試「先選西方奇幻、回頭切複姓」，確認西方奇幻的 `active` 樣式被拿掉、`state.style` 清空、跳出說明用的 toast。
+    - 候選卡「分享」按鈕、結果頁「分享全部」按鈕都實測點擊展開選單，確認選單裡 LINE／Facebook／X／Threads 四個連結的 `href` 正確組出對應平台網址、網址裡的分享連結正確編碼；「分享全部」選單在「再產生一次」後正確被移除、不會殘留舊選單。
+    - 全程 console 無錯誤。
