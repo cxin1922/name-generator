@@ -215,7 +215,7 @@
   }
 
   // 回傳第 1 頁目前未滿足的必填項目文字清單；兩個欄位都沒填時會回傳兩條，
-  // 讓 NG.toast 一次疊加顯示，不是填一個才看到下一個（見 NOTES.md）。
+  // 讓 showStepError 一次疊加顯示，不是填一個才看到下一個（見 NOTES.md）。
   function validateStep1() {
     const errors = [];
     if (state.surnameMode === "custom" && !state.surnameCustom) {
@@ -227,18 +227,33 @@
     return errors;
   }
 
+  // 必填驗證訊息顯示在「上一步/下一步」按鈕正下方（#step-error），不是用全站共用、
+  // 固定在頁面最底部的 NG.toast——使用者這輪明確要求訊息要出現在按鈕附近，不要讓人
+  // 看完提示還要往下滑到頁尾才找得到，見 NOTES.md。
+  function showStepError(errors) {
+    const el = $("#step-error");
+    el.textContent = errors.join("\n");
+    el.hidden = false;
+  }
+
+  function hideStepError() {
+    $("#step-error").hidden = true;
+  }
+
   function bindStepNav() {
     $("#btn-next").addEventListener("click", () => {
       const errors = validateStep1();
-      if (errors.length > 0) { NG.toast(errors); return; }
+      if (errors.length > 0) { showStepError(errors); return; }
+      hideStepError();
       goToStep(2);
     });
-    $("#btn-prev").addEventListener("click", () => goToStep(1));
+    $("#btn-prev").addEventListener("click", () => { hideStepError(); goToStep(1); });
     $("#baby-form").addEventListener("submit", (e) => {
       e.preventDefault();
       // 第 1 頁必填已經在「下一步」擋過一次，這裡是防呆（例如瀏覽器上一頁/下一頁回到第 2 頁的情境）。
       const errors = validateStep1();
-      if (errors.length > 0) { NG.toast(errors); return; }
+      if (errors.length > 0) { showStepError(errors); return; }
+      hideStepError();
       runGeneration();
     });
   }

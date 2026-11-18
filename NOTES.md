@@ -450,3 +450,5 @@
     - 小說取名選複姓→進第 2 頁，確認西方奇幻／日系輕小說／科幻三個按鈕 `disabled` 為 `true`，其餘分類 `false`；反向測試「先選西方奇幻、回頭切複姓」，確認西方奇幻的 `active` 樣式被拿掉、`state.style` 清空、跳出說明用的 toast。
     - 候選卡「分享」按鈕、結果頁「分享全部」按鈕都實測點擊展開選單，確認選單裡 LINE／Facebook／X／Threads 四個連結的 `href` 正確組出對應平台網址、網址裡的分享連結正確編碼；「分享全部」選單在「再產生一次」後正確被移除、不會殘留舊選單。
     - 全程 console 無錯誤。
+
+115. **必填驗證訊息的顯示位置，從「全站共用、固定在頁面最底部的 NG.toast」改成「上一步/下一步按鈕正下方的區塊」**：使用者上線後實際用過，回報固定在頁面最底部的 toast 太容易被忽略（尤其第 1 頁內容一多，使用者視線還停留在按鈕附近，不會往下滑到頁尾）。`baby-name/index.html`／`novel-name/index.html` 的 `.form-nav`（上一步/下一步/產生候選姓名按鈕那個區塊）後面各自新增一個 `<div id="step-error" class="step-validation-error" hidden>`，`js/baby-name.js`／`js/novel-name.js` 新增 `showStepError(errors)`／`hideStepError()`，取代原本呼叫 `NG.toast(errors)` 的那幾行。這個訊息元素**沒有計時器自動淡出**（跟全站 `NG.toast` 不一樣），因為這裡是阻擋使用者前進的錯誤提示，要等使用者實際修正欄位、成功前進到下一頁或送出表單才主動隱藏，不應該讓它自己消失卻沒解決問題。`NG.toast` 本身沒有被拿掉，其他地方（複製成功、收藏切換等一次性通知）維持使用全站固定在頁尾的 toast，這次只換掉「阻擋性的必填驗證」這一種情境，不是把 toast 整個系統都換掉。CSS 新增 `.step-validation-error`，視覺上跟 `.toast` 同樣的深色底白字，差別只在不是 `position: fixed`，是跟在按鈕區塊後面的一般文件流元素。本機伺服器實測兩個工具都確認訊息出現在按鈕正下方、不在頁尾，console 無錯誤。

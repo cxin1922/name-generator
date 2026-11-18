@@ -628,6 +628,22 @@ textarea {
   opacity: 1;
 }
 
+/* ---------- 第 1/2 頁必填驗證訊息（顯示在上一步/下一步按鈕正下方，不是頁面最底部的全站 toast） ---------- */
+
+.step-validation-error {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background-color: var(--color-ink);
+  color: var(--color-bg);
+  border-radius: var(--radius-base);
+  font-size: 14px;
+  white-space: pre-line;
+}
+
+.step-validation-error[hidden] {
+  display: none;
+}
+
 /* ---------- 分享選單（LINE／Facebook／X／Threads／複製連結） ---------- */
 
 .share-menu {
