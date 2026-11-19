@@ -149,5 +149,17 @@
   </div>
 </footer>
 
+<script>
+  // 第四十四節：點進文章頁後按瀏覽器上一頁回到這裡，瀏覽器會把 bfcache（往返快取）還原的
+  // 焦點視為「可見聚焦」，導致剛才點過的那張卡片一直顯示 :focus-visible 的外框/底色，即使
+  // 滑鼠早就離開了也不會消失。pageshow 在 bfcache 還原時會觸發（跟一般 load 不同），這時如果
+  // 焦點還落在文章卡片連結上，主動移除焦點，讓樣式回到沒有互動過的正常狀態。
+  window.addEventListener("pageshow", function () {
+    var active = document.activeElement;
+    if (active && active.classList && active.classList.contains("article-list-link")) {
+      active.blur();
+    }
+  });
+</script>
 </body>
 </html>

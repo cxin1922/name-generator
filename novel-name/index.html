@@ -45,11 +45,7 @@
   </nav>
 
   <h1>小說角色取名</h1>
-  <p class="form-intro">依小說分類、角色氣質與性格標籤分兩頁選填，整理出 5 個貼近角色設定的候選名字，涵蓋古風武俠、現代都市、西方奇幻等 7 種分類，幫角色命名時不用自己翻字典湊音節。</p>
-
-  <div class="form-toolbar">
-    <button type="button" id="btn-reset-form" class="link-btn reset-form-btn">清空重填</button>
-  </div>
+  <p class="form-intro">依小說分類、角色氣質與性格標籤分兩頁選填，整理出 5 個貼近角色設定的<span class="no-break">候選名字</span>，涵蓋古風武俠、現代都市、西方奇幻等 7 種分類，幫角色命名時不用自己翻字典湊音節。</p>
 
   <section id="shared-section" class="shared-section" hidden>
     <h2>有人跟你分享了這個名字</h2>
@@ -57,7 +53,13 @@
     <button type="button" id="btn-start-own" class="btn btn-seal shared-start-btn" hidden>我也要自己取名</button>
   </section>
 
-  <p class="step-indicator" id="step-indicator">第 1 頁／共 2 頁：角色基本資料</p>
+  <div class="step-bar">
+    <p class="step-indicator" id="step-indicator">第 1 頁／共 2 頁：角色基本資料</p>
+    <div class="form-toolbar">
+      <button type="button" id="btn-clear-step" class="link-btn reset-form-btn" title="只清除目前這一頁的欄位，另一頁與已產生的結果會保留">清除此頁</button>
+      <button type="button" id="btn-reset-form" class="link-btn reset-form-btn" title="兩頁所有欄位與已產生的結果都會清除">全部清空</button>
+    </div>
+  </div>
 
   <div class="form-card">
     <form id="novel-form">
@@ -94,7 +96,7 @@
             <button type="button" class="option-btn" data-value="custom">自訂輸入</button>
             <button type="button" class="option-btn" data-value="none">不需要</button>
           </div>
-          <input type="text" id="novel-surname-custom" placeholder="輸入姓氏，例如：陳 / Blackwood" maxlength="12" hidden style="margin-top:8px;max-width:260px;">
+          <input type="text" id="novel-surname-custom" placeholder="輸入姓氏，例如：陳 / Blackwood" maxlength="30" hidden style="margin-top:8px;max-width:260px;">
           <p class="field-hint" id="novel-surname-random-hint" hidden>隨機姓氏會依小說分類換一套姓氏庫：古風武俠／現代都市／校園青春／懸疑驚悚／科幻抽中文姓氏，日系輕小說抽日本姓氏（如佐藤 美咲），西方奇幻抽西式家族姓氏（如 Elowen Blackwood）。科幻的 AI／仿生人角色是代號（如凱－零七），不論選哪種姓氏模式都不加姓。</p>
           <p class="field-hint" id="novel-surname-compound-hint" hidden>「複姓」固定從歐陽、司馬、諸葛這類真實歷史複姓裡抽一個，不是「隨機」模式裡偶爾出現的機率，想要每次都確定是複姓時選這個。</p>
         </div>
@@ -161,6 +163,7 @@
   <section id="result-section" class="result-page" hidden>
     <div class="result-toolbar">
       <h2 style="margin:0;" id="result-title">為你找到的 5 個名字</h2>
+      <button type="button" id="btn-reset-form-result" class="link-btn reset-form-btn" title="兩頁所有欄位與已產生的結果都會清除">全部清空</button>
     </div>
     <div class="candidate-grid" id="candidate-grid"></div>
     <p class="lock-status" id="lock-status" hidden><span id="lock-status-text"></span> <button type="button" id="btn-clear-locks" class="link-btn">全部解除</button></p>
@@ -180,7 +183,10 @@
 <aside class="fav-drawer" id="fav-drawer" aria-hidden="true" aria-labelledby="fav-drawer-title">
   <div class="fav-drawer-header">
     <h2 id="fav-drawer-title"><span id="fav-drawer-tool">小說取名</span>的收藏（<span id="fav-drawer-count">0</span>）</h2>
-    <button type="button" class="fav-drawer-close" id="fav-drawer-close" aria-label="關閉收藏">×</button>
+    <div class="fav-drawer-actions">
+      <button type="button" class="fav-drawer-clear" id="fav-drawer-clear">清空收藏</button>
+      <button type="button" class="fav-drawer-close" id="fav-drawer-close" aria-label="關閉收藏">×</button>
+    </div>
   </div>
   <div class="fav-drawer-body">
     <p class="fav-drawer-cross-note" id="fav-drawer-cross-note" hidden></p>

@@ -4,50 +4,119 @@
     {
       "name": "name-generator-static",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8934"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8934"
+      ],
       "port": 8934
     },
     {
       "name": "name-generator-wrangler",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["wrangler", "dev", "--port", "8956"],
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--port",
+        "8956"
+      ],
       "port": 8956
     },
     {
       "name": "name-generator-wrangler-9071",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["wrangler", "dev", "--port", "9071"],
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--port",
+        "9071"
+      ],
       "port": 9071
     },
     {
       "name": "name-generator-static-9032",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "9032"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "9032"
+      ],
       "port": 9032
     },
     {
       "name": "name-generator-wrangler-9097",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["wrangler", "dev", "--port", "9097"],
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--port",
+        "9097"
+      ],
       "port": 9097
     },
     {
       "name": "name-generator-static-9123",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "9123"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "9123"
+      ],
       "port": 9123
     },
     {
       "name": "name-generator-wrangler-9245",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["wrangler", "dev", "--port", "9245"],
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--port",
+        "9245"
+      ],
       "port": 9245
     },
     {
       "name": "name-generator-static-9333",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "9333"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "9333"
+      ],
       "port": 9333
+    },
+    {
+      "name": "name-generator-wrangler-9468",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--port",
+        "9468"
+      ],
+      "port": 9468
+    },
+    {
+      "name": "name-generator-wrangler-9512",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--port",
+        "9512"
+      ],
+      "port": 9512
+    },
+    {
+      "name": "name-generator-wrangler-9583",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--port",
+        "9583"
+      ],
+      "port": 9583
     }
   ]
 }
