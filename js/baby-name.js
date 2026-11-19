@@ -36,13 +36,17 @@
   const state = {
     surnameMode: "random",
     surnameCustom: "",
-    nameLength: 1, // 1 = 兩字全名（單字名）；2 = 三字全名（雙字名）
+    // 1 = 兩字全名（單字名）；2 = 三字全名（雙字名）。第四十二節起預設雙字名（HTML 的 active 按鈕、
+    // #generation-field 預設顯示要跟這裡一致；全部清空／清除此頁也寫回同一個預設值 DEFAULT_NAME_LENGTH）。
+    nameLength: 2,
     useGenerationChar: false,
     generationChar: "",
     gender: "unisex",
     birthMonth: "",
     zodiacId: "",
   };
+
+  const DEFAULT_NAME_LENGTH = 2;
 
   let meaningSorter = null;
   let currentStep = 1;
@@ -178,16 +182,19 @@
     }
     // 使用者已經在自己取名（表單或自己的結果），分享區塊整個隱藏（第三十五節）。
     NG.setSharedViewActive(false);
+    // 第四十五節：結果頁的「全部清空」原本留在 .step-bar 裡（只隱藏文字），步驟指示文字一消失，
+    // 這顆按鈕變成孤零零浮在右邊一整排空白中，跟下面「為你找到的 N 個名字」對不上。改成結果頁
+    // 整條 .step-bar 都收起，改用 .result-toolbar 裡新增的 #btn-reset-form-result（跟標題同一列，
+    // 左右對齊），兩顆按鈕共用同一個 resetForm，行為完全一樣，只是結果頁換了個位置的按鈕。
+    $(".step-bar").hidden = view === "result";
     if (view === "result") {
       $(".form-card").hidden = true;
-      $(".step-indicator").hidden = true;
       $("#result-section").hidden = false;
       NG.scrollToWorkArea($("#result-section"));
       return;
     }
     $("#result-section").hidden = true;
     $(".form-card").hidden = false;
-    $(".step-indicator").hidden = false;
     hideStepError();
     goToStep(view === "step2" ? 2 : 1);
   }
@@ -349,15 +356,18 @@
     return matched;
   }
 
-  // 回傳第 1 頁目前未滿足的必填項目文字清單；兩個欄位都沒填時會回傳兩條，
+  // 回傳第 1 頁目前未滿足的必填項目清單；兩個欄位都沒填時會回傳兩條，
   // 讓 showStepError 一次疊加顯示，不是填一個才看到下一個（見 NOTES.md）。
+  // 第四十二節：每條除了文字（text）還帶對應欄位（field），showStepError 會把那個欄位標成印章紅邊框。
+  // 固定字輩只在雙字名才檢查：#generation-field 只有雙字名才顯示、generateCombos 單字名也不看字輩；
+  // 原本不分字數都檢查，開了字輩再切回單字名，會被一個看不到的欄位擋住（第四十二節順手修正）。
   function validateStep1() {
     const errors = [];
     if (state.surnameMode === "custom" && !state.surnameCustom) {
-      errors.push("已選擇「自訂輸入」，請輸入姓氏，或改選「不需要」");
+      errors.push({ text: "已選擇「自訂輸入」，請輸入姓氏，或改選「不需要」", field: "#surname-custom" });
     }
-    if (state.useGenerationChar && !state.generationChar) {
-      errors.push("已開啟「固定字輩」，請輸入字輩用字，或關閉開關");
+    if (state.nameLength === 2 && state.useGenerationChar && !state.generationChar) {
+      errors.push({ text: "已開啟「固定字輩」，請輸入字輩用字，或關閉開關", field: "#generation-char" });
     }
     return errors;
   }
@@ -365,14 +375,31 @@
   // 必填驗證訊息顯示在「上一步/下一步」按鈕正下方（#step-error），不是用全站共用、
   // 固定在頁面最底部的 NG.toast——使用者這輪明確要求訊息要出現在按鈕附近，不要讓人
   // 看完提示還要往下滑到頁尾才找得到，見 NOTES.md。
+  // 第四十二節：同時把每條錯誤對應的欄位加上 .field-invalid（印章紅邊框）。每次呼叫都先清掉上一輪的標記，
+  // 再依這次的 errors 重標，所以 refreshStepErrorIfShown 重新驗證時，已修正的欄位會立刻恢復、不會殘留。
   function showStepError(errors) {
     const el = $("#step-error");
-    el.textContent = errors.join("\n");
+    el.textContent = errors.map((e) => e.text).join("\n");
     el.hidden = false;
+    clearFieldInvalid();
+    errors.forEach((e) => {
+      const f = e.field && $(e.field);
+      if (!f) return;
+      f.classList.add("field-invalid");
+      f.setAttribute("aria-invalid", "true");
+    });
   }
 
   function hideStepError() {
     $("#step-error").hidden = true;
+    clearFieldInvalid();
+  }
+
+  function clearFieldInvalid() {
+    $all("#baby-form .field-invalid").forEach((f) => {
+      f.classList.remove("field-invalid");
+      f.removeAttribute("aria-invalid");
+    });
   }
 
   function bindStepNav() {
@@ -428,34 +455,47 @@
     });
   }
 
-  // 第三十八節：「清空重填」。欄位恢復成剛進頁面的預設值、目前結果一併清掉，回到步驟 1；
-  // 已填不少內容或已經有結果時才二次確認，避免表單本來就空空的也要多跳一次對話框。
+  // 第三十八節：「清空重填」，第四十二節拆成兩顆：
+  // - 「全部清空」（resetForm）：範圍、確認門檻跟原本的「清空重填」完全一樣（兩頁欄位＋結果＋回到步驟 1）。
+  // - 「清除此頁」（clearCurrentStep）：只把目前這一頁的欄位寫回預設值；另一頁、結果、鎖定、已看過紀錄都不動，
+  //   也留在目前這一頁。確認門檻比照「全部清空」的精神：這一頁本來就是預設值就直接清（不跳對話框），
+  //   有任何一項不是預設值才跳 confirm。
+  // 頁面分組依 HTML 的 #step-1／#step-2：第 1 頁＝姓氏模式／自訂姓氏／名字字數／固定字輩開關與用字／性別／
+  // 出生月份／生肖；第 2 頁＝寓意/祝福已選排序＋自由輸入文字。第 2 頁不依賴第 1 頁的值（沒有跨頁連動），
+  // 清其中一頁不會連帶改到另一頁。
   function bindResetForm() {
     $("#btn-reset-form").addEventListener("click", resetForm);
+    $("#btn-clear-step").addEventListener("click", clearCurrentStep);
+    // 第四十五節：結果頁專用的「全部清空」（跟表單頁的 #btn-reset-form 是兩個 DOM 節點，同一個
+    // click 動作），同一個位置只有一顆會顯示（showView 控制 .step-bar／#result-section 的顯示）。
+    $("#btn-reset-form-result").addEventListener("click", resetForm);
   }
 
-  function formHasContent() {
+  function step1HasContent() {
     return (
       state.surnameMode !== "random" ||
       !!state.surnameCustom ||
-      state.nameLength !== 1 ||
+      state.nameLength !== DEFAULT_NAME_LENGTH ||
       state.useGenerationChar ||
       !!state.generationChar ||
       state.gender !== "unisex" ||
       !!state.birthMonth ||
-      !!state.zodiacId ||
-      meaningSorter.getOrder().length > 0 ||
-      $("#meaning-free-text").value.trim() !== "" ||
-      lastCandidates.length > 0
+      !!state.zodiacId
     );
   }
 
-  function resetForm() {
-    if (formHasContent() && !window.confirm("確定要清空重新填寫嗎？已填寫的條件與目前的結果都會被清除。")) return;
+  function step2HasContent() {
+    return meaningSorter.getOrder().length > 0 || $("#meaning-free-text").value.trim() !== "";
+  }
 
+  function formHasContent() {
+    return step1HasContent() || step2HasContent() || lastCandidates.length > 0;
+  }
+
+  function clearStep1Fields() {
     state.surnameMode = "random";
     state.surnameCustom = "";
-    state.nameLength = 1;
+    state.nameLength = DEFAULT_NAME_LENGTH;
     state.useGenerationChar = false;
     state.generationChar = "";
     state.gender = "unisex";
@@ -468,15 +508,34 @@
     });
     $("#surname-custom").value = "";
     $("#surname-custom").hidden = true;
-    $("#generation-field").hidden = true;
+    $("#generation-field").hidden = state.nameLength !== 2;
     $("#generation-toggle").checked = false;
     $("#generation-char").value = "";
     $("#generation-char").hidden = true;
     $("#birth-month").value = "";
     $("#zodiac").value = "";
+  }
+
+  function clearStep2Fields() {
     meaningSorter.setItems([]);
     $("#meaning-free-text").value = "";
     $("#meaning-free-text-hint").textContent = "";
+  }
+
+  function clearCurrentStep() {
+    const step = currentStep;
+    const hasContent = step === 1 ? step1HasContent() : step2HasContent();
+    if (hasContent && !window.confirm("確定要清除第 " + step + " 頁的內容嗎？另一頁已填的條件和目前的結果都會保留。")) return;
+    if (step === 1) clearStep1Fields(); else clearStep2Fields();
+    hideStepError();
+    NG.toast("已清除第 " + step + " 頁的內容");
+  }
+
+  function resetForm() {
+    if (formHasContent() && !window.confirm("確定要清空重新填寫嗎？已填寫的條件與目前的結果都會被清除。")) return;
+
+    clearStep1Fields();
+    clearStep2Fields();
     hideStepError();
 
     // 結果、鎖定、已看過紀錄一併清掉（10.3/第二十五節：鎖定/已看過本來就只存在記憶體）。
@@ -590,15 +649,17 @@
       chars.forEach((ch, pos) => {
         // 字輩只對雙字名生效（generateCombos 單字名不看字輩），切回單字名時 state 可能還留著字輩設定，要排除。
         if (state.nameLength === 2 && state.useGenerationChar && state.generationChar && ch !== state.generationChar) return;
-        units.push({ type: "given", pos, char: ch });
+        // 第四十四節：字輩模式下每個組合本來就都有字輩字，只鎖字沒有意義，這種單位一鎖就連位置一起鎖（fixPos）。
+        const isGenUnit = state.nameLength === 2 && state.useGenerationChar && state.generationChar && ch === state.generationChar;
+        units.push(isGenUnit ? { type: "given", pos, char: ch, fixPos: true } : { type: "given", pos, char: ch });
       });
     }
     return units;
   }
 
   function matchesLock(chars) {
-    if (!locks.given) return true;
-    return chars[locks.given.pos] === locks.given.char;
+    // 第四十四節：預設只鎖字（任何位置有這個字就算），使用者另外按「也固定在首字／末字」才比對位置。
+    return NG.charsMatchGivenLock(locks, chars);
   }
 
   function runGeneration(opts) {

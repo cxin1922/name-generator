@@ -44,6 +44,17 @@ body {
   font-family: var(--font-sans);
   line-height: 1.7;
   font-size: 16px;
+  /* 第四十四節：中文沒有空格分詞，瀏覽器預設逐字斷行，換行點有時剛好落在「候選名字」
+     這類詞彙中間（斷成「候選名」/「字」），讀起來卡。text-wrap: pretty 讓瀏覽器用比較
+     講究的演算法選換行點（主要是避免最後一行只剩一兩個字的孤行），不是語意斷詞，不能
+     完全消除這類情況，只能讓整體換行品質變好；不支援的瀏覽器會忽略這行、沒有副作用。 */
+  text-wrap: pretty;
+}
+
+/* text-wrap: pretty 沒辦法保證避開特定詞彙中間，真的要擋掉某個已知很醜的斷點，
+   手動包這個 class（見兩個工具頁引言的「候選名字」），不要整段文字都包，範圍越小越好。 */
+.no-break {
+  white-space: nowrap;
 }
 
 a {
@@ -295,25 +306,39 @@ p {
   margin-bottom: 16px;
 }
 
-/* 第三十八節：「清空重填」放在引言下方、步驟指示上方，靠右對齊。位置特意跟表單底部的
-   「上一步/下一步」、結果頁的「修改條件/再產生一次」拉開距離，避免誤觸；用 .link-btn
-   同一套素淨文字連結樣式（非 .btn 實心按鈕），視覺上刻意不搶眼。這一行本身不隨表單步驟/
-   結果頁切換而隱藏（不包在 .form-card／.step-indicator／#result-section 裡面），
-   分享視圖顯示中才由 NG.setSharedViewActive 收起（跟「我也要自己取名」功能重疊）。 */
+/* 第四十二節：步驟指示列（.step-bar）＝左邊「第 X 頁／共 2 頁」＋右邊「清除此頁／全部清空」。
+   第三十八節原本把「清空重填」獨立放在引言下方一行，使用者反映位置怪；改成跟步驟指示同一列，
+   清除動作就貼在「目前在第幾頁」旁邊，「清除此頁」指的是哪一頁一眼就對得上。
+   仍跟表單底部的「上一步/下一步」、結果頁的「修改條件/再產生一次」拉開距離，避免誤觸；
+   沿用 .link-btn 素淨文字連結樣式（非 .btn 實心按鈕）。整列不包在 .form-card／#result-section 裡，
+   結果頁時步驟指示文字由 showView 收起、只剩「全部清空」；分享視圖顯示中整列由
+   NG.setSharedViewActive 收起（跟「我也要自己取名」功能重疊）。
+   flex-wrap：手機寬度（375px）步驟指示文字＋兩顆按鈕放不下一行時，按鈕整組換到下一行，
+   margin-left:auto 讓它換行後仍靠右，不會撐出水平捲軸。 */
+.step-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 16px;
+  row-gap: 6px;
+  margin-bottom: 20px;
+}
+
 .form-toolbar {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 10px;
+  gap: 16px;
+  margin-left: auto;
 }
 
 .reset-form-btn {
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .step-indicator {
   font-size: 13px;
   color: var(--color-ink-soft);
-  margin-bottom: 20px;
+  margin: 0;
 }
 
 .form-card {
@@ -381,6 +406,25 @@ input[type="text"], input[type="number"], select, textarea {
   font-family: var(--font-sans);
   font-size: 15px;
   color: var(--color-ink);
+}
+
+/* 第四十二節：必填驗證失敗時，欄位本身也標出來（不只按鈕下方的文字訊息）。用印章紅邊框，
+   跟 .step-validation-error 同一個「阻擋性錯誤」語意色；不做會自動消失的動畫，跟錯誤訊息一樣
+   維持到使用者修正為止（showStepError／hideStepError 統一加上、清掉，見 NOTES.md 第十一節第 115 點）。
+   輸入框：邊框＋1px 外框加粗，避免 1px 細線換色不夠顯眼。
+   按鈕列（小說分類）：每顆可點的按鈕邊框換色，表示「這一排要選一個」；停用的按鈕不標。 */
+input.field-invalid {
+  border-color: var(--color-seal);
+  box-shadow: 0 0 0 1px var(--color-seal);
+}
+
+/* 使用者點進欄位準備修正時，瀏覽器預設的聚焦外框顏色會蓋過紅框；外框也換成印章紅，聚焦中仍看得出這格待修正。 */
+input.field-invalid:focus {
+  outline-color: var(--color-seal);
+}
+
+.option-row.field-invalid .option-btn:not(:disabled) {
+  border-color: var(--color-seal);
 }
 
 textarea {
@@ -484,6 +528,14 @@ textarea {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
+/* 桌面滑鼠拖曳中：加一圈印章紅外框＋放大＋陰影，跟上面觸控長按拖曳同一個視覺精神
+   （NOTES.md 第四十三節）。原本桌面拖曳只有 opacity:0.5，看不出哪顆在被拖曳。 */
+.selected-tags-row.mouse-dragging .selected-tag-chip.dragging {
+  opacity: 0.85;
+  transform: scale(1.08);
+  box-shadow: 0 0 0 2px var(--color-seal), 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
 /* 「已選擇」提示文字依輸入方式切換（NOTES.md 第四十節）：主要指標是觸控（手機、平板）顯示「長按」版，
    其餘（滑鼠）顯示「滑鼠拖曳」版。用 pointer/hover 判斷而不是螢幕寬度，因為拖曳方式取決於輸入裝置。 */
 .hint-touch {
@@ -500,10 +552,12 @@ textarea {
   font-weight: 700;
 }
 
-/* 手機版排序箭頭按鈕（設計文件第十二節：手機版不用觸控拖曳） */
+/* 手機版排序箭頭按鈕（設計文件第十二節：長按拖曳的備援機制）。
+   第四十三節後觸控長按拖曳已經可用，這兩顆箭頭變成備援而非主要操作，但原本 gap:2px
+   太窄，手指點擊容易誤觸隔壁那顆（觸控目標間距建議至少 8px），改大一點。 */
 .tag-arrow-btns {
   display: none;
-  gap: 2px;
+  gap: 8px;
 }
 
 .tag-arrow-btns button {
@@ -513,7 +567,7 @@ textarea {
   cursor: pointer;
   font-size: 11px;
   line-height: 1;
-  padding: 3px 5px;
+  padding: 4px 7px;
   border-radius: 2px;
 }
 
@@ -659,6 +713,33 @@ body.fav-drawer-open .fav-tabs {
   font-size: 18px;
 }
 
+.fav-drawer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.fav-drawer-clear {
+  border: 1px solid var(--color-border);
+  background: none;
+  color: var(--color-ink-soft);
+  font-size: 13px;
+  padding: 5px 10px;
+  border-radius: var(--radius-base);
+  cursor: pointer;
+}
+
+.fav-drawer-clear:hover,
+.fav-drawer-clear:focus-visible {
+  border-color: var(--color-seal);
+  color: var(--color-seal);
+}
+
+.fav-drawer-clear[hidden] {
+  display: none;
+}
+
 .fav-drawer-close {
   border: none;
   background: none;
@@ -741,6 +822,20 @@ html.ng-shared-leaving {
   gap: 6px;
   padding-top: 8px;
   border-top: 1px dashed var(--color-border);
+}
+
+/* 第四十四節：「也固定在首字／末字」，鎖住某個字之後才出現的次要選項。未啟用時虛線框、字小一號，
+   看起來是「附加選項」而不是另一個要選的字；啟用後沿用 .icon-btn.locked 的印章紅。 */
+.icon-btn.lock-pos-btn {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-style: dashed;
+  color: var(--color-ink-soft);
+}
+
+.icon-btn.lock-pos-btn.locked {
+  color: var(--color-seal);
+  border-style: solid;
 }
 
 .lock-panel-hint {
@@ -859,6 +954,13 @@ html.ng-shared-leaving {
   color: var(--color-seal);
 }
 
+/* 第四十二節：底色維持墨黑（toast 多半是「已複製」「已加入收藏」這類成功/中性通知，整個換成紅底
+   會被誤讀成出錯）；左側加一條印章紅色條當「系統通知」的識別，跟同樣墨黑底的選取中按鈕
+   （.option-btn.active）區隔開。用左側色條而不是頂部細線：toast 文字靠左對齊、可能多行，
+   左側色條跟閱讀起點對齊，像引用/提示框的慣用標記；圓角只有 2px，不會被色條擠變形。
+   色條佔用的寬度從左內距扣（20px→16px＋4px 色條），文字位置跟改版前一致。
+   色條寬度用 4px 而不是 3px：印章紅對墨黑底的明度差小（約 1.9:1），3px 在手機實測幾乎糊進底色，
+   4px 才看得出是一條紅；色條外側貼著暖白頁面底色，那一側的對比本來就足夠。 */
 .toast {
   position: fixed;
   bottom: 24px;
@@ -866,7 +968,8 @@ html.ng-shared-leaving {
   transform: translateX(-50%);
   background-color: var(--color-ink);
   color: var(--color-bg);
-  padding: 10px 20px;
+  border-left: 4px solid var(--color-seal);
+  padding: 10px 20px 10px 16px;
   border-radius: var(--radius-base);
   font-size: 14px;
   text-align: left;
@@ -884,10 +987,13 @@ html.ng-shared-leaving {
 
 /* ---------- 第 1/2 頁必填驗證訊息（顯示在上一步/下一步按鈕正下方，不是頁面最底部的全站 toast） ---------- */
 
+/* 第四十二節：底色從墨黑改成印章紅。原本跟選取中的按鈕（.option-btn.active）同一套墨黑底白字，
+   使用者反映會搞混；這裡是真正的「錯誤/阻擋」語意，用紅色剛好對上。文字 --color-bg（#F5F4F0）
+   對印章紅（#8C2E24）對比度約 7.5:1，達 WCAG AAA。 */
 .step-validation-error {
   margin-top: 12px;
   padding: 10px 14px;
-  background-color: var(--color-ink);
+  background-color: var(--color-seal);
   color: var(--color-bg);
   border-radius: var(--radius-base);
   font-size: 14px;
@@ -1203,6 +1309,20 @@ html {
 .btn-mail {
   max-width: 100%;
   overflow-wrap: anywhere;
+  /* 使用者反映這顆按鈕（獨立出現在段落旁，不像表單導覽按鈕群那樣有別的按鈕襯托）看起來不像
+     可以點的東西。.btn-secondary 原本只靠 .btn:hover 的 opacity:0.85，底色透明時幾乎看不出
+     變化；這裡額外給它一個靜態的淺陰影（跟 .btn-seal 那種實色按鈕的視覺重量更接近），hover／
+     focus 時改成跟全站其他「hover 填色」模式一致的反色填滿，而不是只是變淡。 */
+  box-shadow: 0 1px 3px rgba(36, 33, 25, 0.12);
+  transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-mail:hover,
+.btn-mail:focus-visible {
+  background-color: var(--color-ink);
+  color: var(--color-bg);
+  opacity: 1;
+  box-shadow: 0 2px 6px rgba(36, 33, 25, 0.2);
 }
 
 /* ---------- 關於頁專屬（.about-body 只掛在 about.html，不影響共用 .article-body 的文章頁／隱私權政策） ---------- */
@@ -1394,16 +1514,27 @@ html {
     display: inline-flex;
   }
 
+  /* 手機版「已選擇」標籤改成直排單欄（NOTES.md 第四十三節）：原本 flex-wrap 在窄螢幕下
+     會自然換行變成不規則的兩兩一排，改成 column 讓每個標籤自己佔一整行。 */
+  .selected-tags-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .selected-tag-chip {
+    width: 100%;
+    justify-content: space-between;
+  }
+
   /* 文章列表頁手機版卡片化（第四十一節第204點，範圍更正後：手機版也要做完整卡片視覺，
      不是只做桌面版）：每個 .article-list-item 從「純底線分隔」變成一張真正的卡片
      （背景色＋邊框＋圓角＋陰影，比桌面版那一點點 hover 底色明顯許多）。整張卡片可點擊
      沿用上面桌面版同一套 stretched-link 邏輯（.article-list-link::after 鋪滿
      .article-list-item），不另外寫一套手機專屬的點擊判斷。摘要文字維持顯示完整，
      不加 2 行截斷（這次只要求桌面版引言統一截斷，手機版沒有要求要做）。
-     分類快速跳轉按鈕沿用原本「手機版不加」的範圍，不受這次更正影響，維持隱藏。 */
-  .article-list-jump {
-    display: none;
-  }
+     分類快速跳轉按鈕第四十二節起手機版也顯示（原本隱藏的決定被使用者推翻）：
+     .article-list-jump 本身已經是 flex-wrap，375px 寬兩顆分類膠囊放不下會自動換行，
+     不需要額外的手機專屬樣式。 */
 
   .article-list-item {
     padding: 16px;

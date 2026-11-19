@@ -281,6 +281,17 @@ const NG = (function () {
     return nowFavorited;
   }
 
+  // 第四十四節：收藏抽屜「清空收藏」——一次清掉目前正在看的那個工具的全部收藏（不影響另一個
+  // 工具的收藏，兩邊本來就分開存放）。呼叫端自己負責先用 window.confirm 跟使用者確認，這裡
+  // 只管清空本身，跟 toggleFavorite 一樣只處理資料，不管 UI 重繪。
+  function clearAllFavorites(tool) {
+    try {
+      localStorage.setItem(favKey(tool), JSON.stringify([]));
+    } catch (e) {
+      /* 同上，localStorage 不可用時至少讓本次瀏覽視覺上清空 */
+    }
+  }
+
   // ---------- 分享（把單一候選編碼進網址參數，見 10.5） ----------
   // 注意：payload 是 base64 字串本身（未手動 encodeURIComponent），
   // URLSearchParams.set / .get 已自動處理網址層級的編碼/解碼，不需要再手動包一層。
@@ -451,12 +462,21 @@ const NG = (function () {
       if (e.button !== 0) return;
       e.preventDefault();
       let currentIndex = index;
+      // 一拿起來就馬上標上 .dragging＋容器加 .mouse-dragging（配合 CSS 的桌面拖曳視覺回饋，
+      // NOTES.md 第四十三節），不用等滑鼠移到別的標籤上才第一次 render 出來。
+      draggingIndex = currentIndex;
+      container.classList.add("mouse-dragging");
+      const chip = container.children[currentIndex];
+      if (chip) chip.classList.add("dragging");
       const onMove = (moveEvt) => {
         currentIndex = reorderAt(moveEvt.clientX, moveEvt.clientY, currentIndex);
       };
       const onUp = () => {
         document.removeEventListener("mousemove", onMove);
         document.removeEventListener("mouseup", onUp);
+        draggingIndex = -1;
+        container.classList.remove("mouse-dragging");
+        render();
         onChange(order.map((o) => o.key));
       };
       document.addEventListener("mousemove", onMove);
@@ -670,6 +690,10 @@ const NG = (function () {
     gridEl.innerHTML = "";
     if (emptyHintEl) emptyHintEl.hidden = favs.length > 0;
     favs.forEach((c) => gridEl.appendChild(renderFavoriteCard(tool, c)));
+
+    // 第四十四節：沒有收藏時「清空收藏」沒有對象可清，藏起來，避免使用者點了才發現沒東西可清。
+    const clearBtn = document.getElementById("fav-drawer-clear");
+    if (clearBtn) clearBtn.hidden = favs.length === 0;
   }
 
   // 候選卡的收藏按鈕帶 data-fav-id，收藏狀態一變就把頁面上所有同一個 id 的按鈕同步成最新狀態。
@@ -735,6 +759,18 @@ const NG = (function () {
     });
     overlay.addEventListener("click", close);
     if (closeBtn) closeBtn.addEventListener("click", close);
+    const clearBtn = document.getElementById("fav-drawer-clear");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", () => {
+        const tool = favState.viewTool;
+        const n = getFavorites(tool).length;
+        if (n === 0) return;
+        if (!window.confirm("確定要清空「" + FAV_TOOLS[tool].label + "」的全部 " + n + " 筆收藏嗎？這個動作無法復原。")) return;
+        clearAllFavorites(tool);
+        refreshFavorites();
+        toast("已清空「" + FAV_TOOLS[tool].label + "」的收藏");
+      });
+    }
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
     // 同一個瀏覽器的其他分頁（例如另一個工具頁）改了收藏時，storage 事件會通知這一頁，數字跟列表即時同步。
     window.addEventListener("storage", (e) => {
@@ -754,11 +790,12 @@ const NG = (function () {
     const formCard = document.querySelector(".form-card");
     const indicator = document.querySelector(".step-indicator");
     const startBtn = document.getElementById("btn-start-own");
-    // 「清空重填」（第三十八節）：分享視圖本來就還沒有自己的表單內容，跟「我也要自己取名」
-    // 功能重疊，分享視圖顯示中時一起收起，使用者進自己的表單/結果後才看得到。
-    const resetBtn = document.getElementById("btn-reset-form");
+    // 「清除此頁／全部清空」（第三十八節的「清空重填」，第四十二節拆成兩顆、移到步驟指示同一列 .step-bar）：
+    // 分享視圖本來就還沒有自己的表單內容，跟「我也要自己取名」功能重疊，分享視圖顯示中時整列收起，
+    // 使用者進自己的表單/結果後才看得到。收的是整列而不是個別按鈕，避免步驟指示也藏起來後留下一列空白間距。
+    const stepBar = document.querySelector(".step-bar");
     if (!shared) return;
-    if (resetBtn) resetBtn.hidden = active;
+    if (stepBar) stepBar.hidden = active;
     if (active) {
       cancelSharedCollapse(shared);
       shared.hidden = false;
@@ -778,8 +815,9 @@ const NG = (function () {
     }
     // 先量好「分享區塊收合後，後面的內容會往上移多少」，給 scrollToWorkArea 算捲動終點用。
     // 不用「暫時 hidden 再量」：這時表單也還 hidden，頁面會瞬間變短、捲動位置被瀏覽器夾住，量出來會錯。
-    // 改用算的：收合前，後面內容的起點＝分享區塊底邊＋它的下 margin；收合後＝前一個元素（清空重填列）
-    // 底邊＋它的下 margin（上下相鄰 margin 會疊成較大的那個；後面的步驟指示上 margin 為 0，不列入）。
+    // 改用算的：收合前，後面內容的起點＝分享區塊底邊＋它的下 margin；收合後＝前一個元素（引言段落；
+    // 第四十二節前是清空重填列）底邊＋它的下 margin（上下相鄰 margin 會疊成較大的那個；
+    // 後面的步驟指示列 .step-bar 上 margin 為 0，不列入）。
     const prev = shared.previousElementSibling;
     const sharedRect = shared.getBoundingClientRect();
     const mb = (el) => parseFloat(getComputedStyle(el).marginBottom) || 0;
@@ -792,7 +830,9 @@ const NG = (function () {
     shared.style.maxHeight = "0px";
     document.documentElement.classList.add("ng-shared-leaving");
     if (formCard) formCard.classList.add("ng-fade-in");
-    if (indicator) indicator.classList.add("ng-fade-in");
+    // 步驟指示列（含清除按鈕）整列一起淡入；沒有這一列的頁面退回只淡入步驟指示本身。
+    if (stepBar) stepBar.classList.add("ng-fade-in");
+    else if (indicator) indicator.classList.add("ng-fade-in");
     const finish = () => {
       if (!shared.classList.contains("is-collapsing")) return;
       cancelSharedCollapse(shared);
@@ -995,26 +1035,46 @@ const NG = (function () {
 
   // ---------- 鎖定單字（見 NOTES.md 第二十五節、設計文件 10.3） ----------
   // 鎖定是「整批」層級的條件，不是某張卡自己的狀態：鎖住某張卡的某個字之後，下一次「再產生一次」
-  // 整批 5 個候選在同一個位置都會是這個字（跟寶寶取名「固定字輩」同一種機制：先篩出符合的組合，
+  // 整批 5 個候選都會含有這個字（第四十四節起預設不限位置，見下方 lockUnitLabel 前說明；跟寶寶取名「固定字輩」同一種機制：先篩出符合的組合，
   // 再照原本的分數＋抽樣挑 5 個）。locks 物件由呼叫端持有：
-  //   { surname: "陳" 或 null, given: { pos: 0/1, char: "宇" } 或 null }
+  //   { surname: "陳" 或 null, given: { char: "宇", pos: null（只鎖字）或 0/1（字＋位置） } 或 null }
   // 姓氏可以另外鎖（只在隨機/複姓模式有意義），名字裡同一時間只鎖一個字（鎖兩個字＝整個名字固定，
   // 等於只剩一個組合，用收藏就好），鎖新的字會取代舊的。
   // units：這張卡可鎖定的單位，[{type:"surname", value}, {type:"given", pos, char}]，由呼叫端依工具規則決定。
   // 第二十三輪新增 {type:"given_pool", value}：小說取名西方奇幻／日系輕小說的名字是整筆從姓名庫抽出來的、
   // 不是逐字組合，所以把「整個名字」當一個單位鎖，鎖住時 locks.given = { pool: "名字" }（跟逐字鎖的
   // { pos, char } 共用 given 欄位：一個分類只會是其中一種，而且同樣「名字部分同一時間只鎖一個」）。
-  function lockUnitLabel(unit, givenLength) {
+  // 第四十四節：逐字鎖預設「只鎖字、不鎖位置」，locks.given = { char, pos: null }，新一批只要名字任何位置有這個字就算；
+  // 使用者在選字列另外按「也固定在首字／末字」才升級成 { char, pos: 0/1 }（字＋位置都鎖，等於原本的行為）。
+  // unit.fixPos：這個單位一鎖就必須連位置一起鎖（寶寶取名開啟字輩時，每個組合本來就都有字輩字，只鎖字沒有意義，
+  // 鎖字輩的用途就是指定它放第一字或第二字），這種單位不顯示「也固定位置」，標籤也直接講位置。
+  // 單字名（givenLength <= 1）沒有位置可言，同樣不顯示「也固定位置」。
+  function posLabel(pos) {
+    return pos === 0 ? "首字" : "末字";
+  }
+
+  function canFixPos(unit, givenLength) {
+    return unit.type === "given" && givenLength >= 2 && !unit.fixPos;
+  }
+
+  function givenPosFixed(locks) {
+    return !!locks.given && locks.given.pool === undefined && locks.given.pos !== null && locks.given.pos !== undefined;
+  }
+
+  // 選字列按鈕上的文字。locked：這顆目前是否被鎖（鎖了位置時改講「名字首字」，讓按鈕本身反映目前狀態）。
+  function lockUnitLabel(unit, givenLength, locks) {
     if (unit.type === "surname") return "姓「" + unit.value + "」";
     if (unit.type === "given_pool") return "名字「" + unit.value + "」";
     if (givenLength <= 1) return "名字「" + unit.char + "」";
-    return (unit.pos === 0 ? "名字首字" : "名字末字") + "「" + unit.char + "」";
+    const posFixed = unit.fixPos || (locks && isUnitLocked(locks, unit) && givenPosFixed(locks));
+    return posFixed ? "名字" + posLabel(unit.pos) + "「" + unit.char + "」" : "名字「" + unit.char + "」";
   }
 
   function isUnitLocked(locks, unit) {
     if (unit.type === "surname") return locks.surname === unit.value;
     if (unit.type === "given_pool") return !!locks.given && locks.given.pool === unit.value;
-    return !!locks.given && locks.given.pool === undefined && locks.given.pos === unit.pos && locks.given.char === unit.char;
+    if (!locks.given || locks.given.pool !== undefined || locks.given.char !== unit.char) return false;
+    return !givenPosFixed(locks) || locks.given.pos === unit.pos;
   }
 
   function toggleLockUnit(locks, unit) {
@@ -1026,8 +1086,18 @@ const NG = (function () {
       locks.given = null;
       return false;
     }
-    locks.given = unit.type === "given_pool" ? { pool: unit.value } : { pos: unit.pos, char: unit.char };
+    locks.given = unit.type === "given_pool"
+      ? { pool: unit.value }
+      : { char: unit.char, pos: unit.fixPos ? unit.pos : null };
     return true;
+  }
+
+  // 篩選用：這組名字的字（陣列）符不符合目前的逐字鎖。只鎖字＝任何位置有這個字；鎖了位置＝該位置必須是這個字。
+  // 不處理 given_pool（小說取名那個分支由呼叫端自己判斷）。
+  function charsMatchGivenLock(locks, chars) {
+    if (!locks.given) return true;
+    if (!givenPosFixed(locks)) return chars.includes(locks.given.char);
+    return chars[locks.given.pos] === locks.given.char;
   }
 
   // 建立候選卡上的「鎖定」按鈕＋展開的選字列。回傳 { button, panel, refresh }，refresh 讓呼叫端
@@ -1054,14 +1124,40 @@ const NG = (function () {
       b.type = "button";
       b.className = "icon-btn";
       b.addEventListener("click", () => {
+        const before = lockUnitLabel(unit, givenLength, locks);
         const nowLocked = toggleLockUnit(locks, unit);
-        toast(nowLocked
-          ? "已鎖定" + lockUnitLabel(unit, givenLength) + "，按「再產生一次」時新一批都會保留"
-          : "已取消鎖定" + lockUnitLabel(unit, givenLength));
+        let msg;
+        if (!nowLocked) msg = "已取消鎖定" + before;
+        else if (canFixPos(unit, givenLength)) {
+          msg = "已鎖定「" + unit.char + "」，新一批名字都會有這個字（不限位置）；要連位置一起固定，再按「也固定在" + posLabel(unit.pos) + "」";
+        } else {
+          msg = "已鎖定" + lockUnitLabel(unit, givenLength, locks) + "，按「再產生一次」時新一批都會保留";
+        }
+        toast(msg);
         onChange();
       });
       panel.appendChild(b);
-      return { unit, b };
+      // 「也固定位置」：只在這顆被鎖住時出現，緊接在它後面，點了在「只鎖字」「字＋位置」之間切換。
+      let posBtn = null;
+      if (canFixPos(unit, givenLength)) {
+        posBtn = document.createElement("button");
+        posBtn.type = "button";
+        posBtn.className = "icon-btn lock-pos-btn";
+        posBtn.hidden = true;
+        posBtn.addEventListener("click", () => {
+          if (!isUnitLocked(locks, unit)) return;
+          if (givenPosFixed(locks)) {
+            locks.given = { char: unit.char, pos: null };
+            toast("已取消固定位置，「" + unit.char + "」可以出現在名字的首字或末字");
+          } else {
+            locks.given = { char: unit.char, pos: unit.pos };
+            toast("已把「" + unit.char + "」固定在名字" + posLabel(unit.pos) + "，新一批的" + posLabel(unit.pos) + "都會是「" + unit.char + "」");
+          }
+          onChange();
+        });
+        panel.appendChild(posBtn);
+      }
+      return { unit, b, posBtn };
     });
 
     button.addEventListener("click", () => {
@@ -1073,12 +1169,19 @@ const NG = (function () {
     let wasLocked = null; // 第一次 refresh 前未知，不觸發收合
     function refresh() {
       let any = false;
-      unitBtns.forEach(({ unit, b }) => {
+      unitBtns.forEach(({ unit, b, posBtn }) => {
         const locked = isUnitLocked(locks, unit);
         if (locked) any = true;
         b.classList.toggle("locked", locked);
-        b.textContent = lockUnitLabel(unit, givenLength) + (locked ? " 已鎖" : "");
+        b.textContent = lockUnitLabel(unit, givenLength, locks) + (locked ? " 已鎖" : "");
         b.setAttribute("aria-pressed", String(locked));
+        if (posBtn) {
+          const fixed = locked && givenPosFixed(locks);
+          posBtn.hidden = !locked;
+          posBtn.classList.toggle("locked", fixed);
+          posBtn.textContent = fixed ? "已固定在" + posLabel(unit.pos) : "也固定在" + posLabel(unit.pos);
+          posBtn.setAttribute("aria-pressed", String(fixed));
+        }
       });
       button.classList.toggle("locked", any);
       button.textContent = any ? "已鎖定" : "鎖定";
@@ -1094,12 +1197,14 @@ const NG = (function () {
 
   // 結果區下方的鎖定狀態列文字（沒有任何鎖定時回傳空字串，呼叫端據此隱藏）。
   // givenLength 選填：呼叫端確定名字固定是單字時傳 1（寶寶取名單字名，第二十二輪），顯示「名字「X」」而不是「名字首字」；
-  // 小說取名的漢字組合混著單字/雙字名，鎖住的字確實是「首字」，不傳維持原本說法。
+  // 小說取名不傳。第四十四節起：沒鎖位置顯示「名字裡有「X」（只鎖字，不限位置）」，鎖了位置才講「名字首字「X」」。
   function describeLocks(locks, givenLength) {
     const parts = [];
     if (locks.surname) parts.push("姓「" + locks.surname + "」");
     if (locks.given && locks.given.pool !== undefined) parts.push("名字「" + locks.given.pool + "」");
-    else if (locks.given) parts.push((givenLength === 1 ? "名字" : (locks.given.pos === 0 ? "名字首字" : "名字末字")) + "「" + locks.given.char + "」");
+    else if (locks.given && (givenLength === 1)) parts.push("名字「" + locks.given.char + "」");
+    else if (locks.given && givenPosFixed(locks)) parts.push("名字" + posLabel(locks.given.pos) + "「" + locks.given.char + "」（字和位置都固定）");
+    else if (locks.given) parts.push("名字裡有「" + locks.given.char + "」（只鎖字，不限位置）");
     return parts.join("、");
   }
 
@@ -1111,6 +1216,7 @@ const NG = (function () {
     getFavorites,
     isFavorited,
     toggleFavorite,
+    clearAllFavorites,
     buildShareUrl,
     readSharedFromUrl,
     buildShareAllUrl,
@@ -1130,6 +1236,7 @@ const NG = (function () {
     fullNameKey,
     buildLockControl,
     describeLocks,
+    charsMatchGivenLock,
     createTagSorter,
     COMMON_SURNAMES,
     randomSurname,

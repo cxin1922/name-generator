@@ -312,16 +312,18 @@
     }
     // 使用者已經在自己取名（表單或自己的結果），分享區塊整個隱藏（第三十五節）。
     NG.setSharedViewActive(false);
+    // 第四十五節（同 baby-name.js）：結果頁的「全部清空」原本留在 .step-bar 裡只隱藏文字，
+    // 變成孤零零浮在右邊一整排空白中，跟下面「為你找到的 N 個名字」對不上。改成結果頁整條
+    // .step-bar 都收起，改用 .result-toolbar 裡新增的 #btn-reset-form-result（跟標題同一列）。
+    $(".step-bar").hidden = view === "result";
     if (view === "result") {
       $(".form-card").hidden = true;
-      $(".step-indicator").hidden = true;
       $("#result-section").hidden = false;
       NG.scrollToWorkArea($("#result-section"));
       return;
     }
     $("#result-section").hidden = true;
     $(".form-card").hidden = false;
-    $(".step-indicator").hidden = false;
     hideStepError();
     goToStep(view === "step2" ? 2 : 1);
   }
@@ -345,11 +347,12 @@
   function onStyleChange(value) {
     state.style = value;
     // 只有「角色氣質」的顯示文字依小說分類連動；性格標籤／特殊需求／情感取向是使用者已填的資料，
-    // 不依賴小說分類，不應該被清空（這是上一輪修的 bug，原本連性格標籤都被重置，見 NOTES.md）。
-    // 角色氣質本身（底層代碼）不整批清空：已選的氣質如果在新分類還有對應說法就維持選取、只換文字；
-    // 剛好選到新分類「不提供」的氣質，靜默從 state.qualities 移除（不彈錯誤、不打斷），
-    // 這是第五輪改版的核心邏輯，見設計文件 5.2.1 與 NOTES.md。
-    state.qualities = state.qualities.filter((qId) => qualityLabelFor(qId, value) !== null);
+    // 不依賴小說分類，不應該被清空（上一輪修的 bug，原本連性格標籤都被重置，見 NOTES.md）。
+    // 角色氣質本身：第四十四節改回整批清空（取代第五輪「部分保留、只換文字」的做法）。
+    // 原因：同一個氣質代碼跨分類換文字時，有些說法語感落差太大，使用者實測發現「江湖狠角色」
+    // （modern）切到校園青春會變成「熱血陽光」，兩者氣質完全不同調，保留選取反而是誤導使用者
+    // 以為換了分類還選的是同一種方向；改分類時全部清空、要求重選，比較不會讓使用者誤會。
+    state.qualities = [];
     renderQualityRow();
     updateSpecialRequestHint();
     updateSurnameRandomHint();
@@ -497,10 +500,11 @@
   // 第 1 頁（姓氏）目前未滿足的必填項目；目前只有一項，但仍回傳陣列而不是單一字串，
   // 跟 baby-name.js 的 validateStep1 保持同一種介面，之後第 1 頁如果再加必填欄位，
   // 疊加顯示的邏輯不用改。
+  // 第四十二節：每條除了文字（text）還帶對應欄位（field），showStepError 會把那個欄位標成印章紅邊框（同 baby-name.js）。
   function validateStep1() {
     const errors = [];
     if (state.surnameMode === "custom" && !state.surnameCustom) {
-      errors.push("已選擇「自訂輸入」，請輸入姓氏，或改選「不需要」");
+      errors.push({ text: "已選擇「自訂輸入」，請輸入姓氏，或改選「不需要」", field: "#novel-surname-custom" });
     }
     return errors;
   }
@@ -511,21 +515,38 @@
   function validateCurrentStep() {
     const errors = validateStep1();
     if (currentStep === 2 && !state.style) {
-      errors.push("請先選擇小說分類");
+      errors.push({ text: "請先選擇小說分類", field: '.option-row[data-field="style"]' });
     }
     return errors;
   }
 
   // 必填驗證訊息顯示在「上一步/下一步」按鈕正下方（#step-error），不是用全站共用、
   // 固定在頁面最底部的 NG.toast，跟 baby-name.js 同樣的使用者回饋、同樣的做法。
+  // 第四十二節：同時把對應欄位加上 .field-invalid（輸入框印章紅邊框；小說分類那一排按鈕邊框換色），
+  // 每次呼叫都先清掉上一輪的標記再依這次的 errors 重標，已修正的欄位在 refreshStepErrorIfShown 時立刻恢復。
   function showStepError(errors) {
     const el = $("#step-error");
-    el.textContent = errors.join("\n");
+    el.textContent = errors.map((e) => e.text).join("\n");
     el.hidden = false;
+    clearFieldInvalid();
+    errors.forEach((e) => {
+      const f = e.field && $(e.field);
+      if (!f) return;
+      f.classList.add("field-invalid");
+      f.setAttribute("aria-invalid", "true");
+    });
   }
 
   function hideStepError() {
     $("#step-error").hidden = true;
+    clearFieldInvalid();
+  }
+
+  function clearFieldInvalid() {
+    $all("#novel-form .field-invalid").forEach((f) => {
+      f.classList.remove("field-invalid");
+      f.removeAttribute("aria-invalid");
+    });
   }
 
   // 跟 baby-name.js 同樣的修法：欄位變動當下就重新檢查，已顯示的錯誤訊息如果已經被解決
@@ -601,56 +622,93 @@
     });
   }
 
-  // 第三十八節：「清空重填」，做法同 baby-name.js。欄位恢復成剛進頁面的預設值、結果一併清掉、
-  // 回到步驟 1；已填不少內容或已經有結果時才二次確認。
+  // 第三十八節：「清空重填」，第四十二節拆成「全部清空」（resetForm，範圍與確認門檻不變）＋
+  // 「清除此頁」（clearCurrentStep，只清目前這一頁、結果與另一頁都保留），做法同 baby-name.js。
+  // 頁面分組依 HTML 的 #step-1／#step-2：第 1 頁＝性別／年齡層／姓氏模式／自訂姓氏；
+  // 第 2 頁＝小說分類／情感取向／角色氣質／性格標籤／特殊需求。
+  // 跨頁連動只有一條：第 1 頁「複姓」會停用第 2 頁的西方奇幻／日系輕小說（updateStyleAvailability）。
+  // 清第 1 頁＝姓氏模式回到「隨機」，只會把停用的分類重新開放，不會清掉第 2 頁已選的分類；
+  // 清第 2 頁不碰姓氏模式，停用狀態維持原樣（所以這裡不像 resetForm 先把 disabled 全部打開）。
   function bindResetForm() {
     $("#btn-reset-form").addEventListener("click", resetForm);
+    $("#btn-clear-step").addEventListener("click", clearCurrentStep);
+    // 第四十五節：結果頁專用的「全部清空」（跟表單頁的 #btn-reset-form 是兩個 DOM 節點，同一個
+    // click 動作），同一個位置只有一顆會顯示（showView 控制 .step-bar／#result-section 的顯示）。
+    $("#btn-reset-form-result").addEventListener("click", resetForm);
   }
 
-  function formHasContent() {
+  function step1HasContent() {
     return (
       state.gender !== "unisex" ||
       !!state.ageTier ||
       state.surnameMode !== "random" ||
-      !!state.surnameCustom ||
+      !!state.surnameCustom
+    );
+  }
+
+  function step2HasContent() {
+    return (
       !!state.style ||
       !!state.orientation ||
       state.qualities.length > 0 ||
       state.personalities.length > 0 ||
-      state.specialRequest.trim() !== "" ||
-      lastCandidates.length > 0
+      state.specialRequest.trim() !== ""
     );
   }
 
-  function resetForm() {
-    if (formHasContent() && !window.confirm("確定要清空重新填寫嗎？已填寫的條件與目前的結果都會被清除。")) return;
+  function formHasContent() {
+    return step1HasContent() || step2HasContent() || lastCandidates.length > 0;
+  }
 
+  function syncOptionRows(fields) {
+    fields.forEach((field) => {
+      const row = document.querySelector('.option-row[data-field="' + field + '"]');
+      if (!row) return;
+      row.querySelectorAll(".option-btn").forEach((b) => b.classList.toggle("active", b.dataset.value === String(state[field])));
+    });
+  }
+
+  function clearStep1Fields() {
     state.gender = "unisex";
     state.ageTier = "";
     state.surnameMode = "random";
     state.surnameCustom = "";
+    syncOptionRows(["gender", "ageTier", "surnameMode"]);
+    $("#novel-surname-custom").value = "";
+    $("#novel-surname-custom").hidden = true;
+    updateSurnameRandomHint();
+    updateStyleAvailability();
+  }
+
+  function clearStep2Fields() {
     state.style = "";
     state.orientation = "";
     state.qualities = [];
     state.personalities = [];
     state.specialRequest = "";
-
-    ["gender", "ageTier", "surnameMode", "style", "orientation"].forEach((field) => {
-      const row = document.querySelector('.option-row[data-field="' + field + '"]');
-      if (!row) return;
-      row.querySelectorAll(".option-btn").forEach((b) => {
-        b.disabled = false;
-        b.classList.toggle("active", b.dataset.value === String(state[field]));
-      });
-    });
-    $("#novel-surname-custom").value = "";
-    $("#novel-surname-custom").hidden = true;
+    syncOptionRows(["style", "orientation"]);
     $("#special-request").value = "";
     renderQualityRow();
     renderPersonalityRow();
     updateSurnameRandomHint();
-    updateStyleAvailability();
     updateSpecialRequestHint();
+  }
+
+  function clearCurrentStep() {
+    const step = currentStep;
+    const hasContent = step === 1 ? step1HasContent() : step2HasContent();
+    if (hasContent && !window.confirm("確定要清除第 " + step + " 頁的內容嗎？另一頁已填的條件和目前的結果都會保留。")) return;
+    if (step === 1) clearStep1Fields(); else clearStep2Fields();
+    hideStepError();
+    NG.toast("已清除第 " + step + " 頁的內容");
+  }
+
+  function resetForm() {
+    if (formHasContent() && !window.confirm("確定要清空重新填寫嗎？已填寫的條件與目前的結果都會被清除。")) return;
+
+    $all('.option-row[data-field="style"] .option-btn').forEach((b) => { b.disabled = false; });
+    clearStep1Fields();
+    clearStep2Fields();
     hideStepError();
 
     lastCandidates = [];
@@ -735,7 +793,7 @@
   // 這張卡可以鎖哪些單位（規則見 NOTES.md 第二十五節）：
   // - 姓氏：只有「隨機」「複姓」模式、而且這批真的有套姓氏（漢字類分類）才需要鎖。
   // - 名字的字：只有漢字類分類（候選是逐字組合出來的）。小說取名的漢字組合本來就混著單字名與雙字名，
-  //   單字名鎖住那個字之後，新一批會是「這個字」或「這個字開頭的雙字名」，仍有足夠組合，所以單字名也開放。
+  //   單字名鎖住那個字之後，新一批會是「含這個字的單字或雙字名」（第四十四節起預設不限位置），仍有足夠組合，所以單字名也開放。
   // - 西方奇幻／日系輕小說／科幻是整筆姓名庫，名字不是逐字組合出來的，沒有「字位」可鎖，不顯示鎖定按鈕。
   // 第二十一輪：西方奇幻／日系輕小說在「隨機」模式也會抽姓，比照 10.3「隨機姓氏可以鎖」開放只鎖姓氏
   // （名字仍是整筆條目、沒有字位可鎖），所以這兩類在隨機模式下卡片會出現只有「姓「佐藤」」一個選項的鎖定按鈕。
@@ -762,7 +820,8 @@
     if (!locks.given) return true;
     if (locks.given.pool !== undefined) return c.kind === "pool" && c.entry.name === locks.given.pool;
     if (c.kind !== "hanzi") return true;
-    return c.chars[locks.given.pos] === locks.given.char;
+    // 第四十四節：預設只鎖字（任何位置有這個字就算），使用者另外按「也固定在首字／末字」才比對位置。
+    return NG.charsMatchGivenLock(locks, c.chars);
   }
 
   // 西方奇幻／日系輕小說鎖住整個名字：只剩這一筆條目，每批必然只有 1 張卡、每次都「看完一輪」。
