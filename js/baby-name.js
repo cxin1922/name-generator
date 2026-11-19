@@ -249,9 +249,7 @@
       });
     });
 
-    $("#surname-custom").addEventListener("input", (e) => {
-      const filtered = filterToChineseChars(e.target.value);
-      if (filtered !== e.target.value) e.target.value = filtered;
+    bindChineseOnlyInput($("#surname-custom"), 4, (filtered) => {
       state.surnameCustom = filtered.trim();
       refreshStepErrorIfShown();
     });
@@ -264,6 +262,30 @@
     return text.replace(/[^\u4e00-\u9fff]/g, "");
   }
 
+  // \u4f7f\u7528\u8005\u56de\u5831\uff08Mac \u6ce8\u97f3\uff09\uff1a\u9019\u5169\u500b\u6b04\u4f4d\u7528\u4e2d\u6587\u8f38\u5165\u6cd5\u5b8c\u5168\u6253\u4e0d\u9032\u53bb\u3002\u6839\u56e0\uff1a\u8f38\u5165\u6cd5\u7d44\u5b57\u671f\u9593
+  // \u700f\u89bd\u5668\u6703\u9023\u7e8c\u89f8\u767c input \u4e8b\u4ef6\uff0c\u6b04\u4f4d\u503c\u662f\u300c\u3114\u3123\u02ca\u300d\u9019\u985e\u9084\u6c92\u9078\u5b57\u7684\u4e2d\u9593\u72c0\u614b\uff0c\u539f\u672c\u7684\u5373\u6642
+  // \u904e\u6ffe\u6bcf\u6b21\u90fd\u628a\u6ce8\u97f3\u7b26\u865f\u7576\u4e0d\u5408\u6cd5\u5b57\u5143\u6ffe\u6389\uff0c\u7d44\u5b57\u88ab\u6e05\u7a7a\uff0c\u6c38\u9060\u9078\u4e0d\u5230\u5b57\u3002\u4fee\u6cd5\uff1a\u7528
+  // compositionstart\uff0fcompositionend \u8ffd\u8e64\u300c\u662f\u5426\u6b63\u5728\u7d44\u5b57\u300d\uff0c\u7d44\u5b57\u4e2d\u7684 input \u4e00\u5f8b\u8df3\u904e\uff0c
+  // \u8b93\u8f38\u5165\u6cd5\u81ea\u5df1\u5b8c\u6210\uff1bcompositionend\uff08\u4f7f\u7528\u8005\u9078\u5b9a\u5b57\u7684\u7576\u4e0b\uff09\u7acb\u523b\u88dc\u8dd1\u4e00\u6b21\u5b8c\u6574\u904e\u6ffe\u3002
+  // \u975e\u8f38\u5165\u6cd5\u60c5\u5883\uff08\u76f4\u63a5\u6253\u82f1\u6587\u3001\u8cbc\u4e0a\u3001\u522a\u9664\uff09\u6c92\u6709 composition \u4e8b\u4ef6\uff0c\u7dad\u6301\u5373\u6642\u904e\u6ffe\u3002
+  // \u5b57\u6578\u4e0a\u9650\u4e5f\u6539\u7531\u9019\u88e1 slice \u63a7\u5236\u3001HTML \u4e0d\u518d\u8a2d maxlength\uff1amaxlength \u7b97\u7684\u662f\u6b04\u4f4d\u88e1\u7684
+  // \u5b57\u5143\u6578\uff0c\u7d44\u5b57\u4e2d\u7684\u6ce8\u97f3\u7b26\u865f\u4e5f\u53ef\u80fd\u88ab\u7b97\u9032\u53bb\uff08\u300c\u3110\u3127\u311a\u300d\u5c31 3 \u500b\uff09\uff0c\u4e0a\u9650 1 \u7684\u5b57\u8f29\u6b04\u4f4d
+  // \u6709\u88ab\u700f\u89bd\u5668\u539f\u751f\u622a\u65b7\u3001\u7834\u58de\u7d44\u5b57\u7684\u98a8\u96aa\uff1b\u6539\u6210\u9078\u5b9a\u5b57\u4e4b\u5f8c\u624d\u622a\u65b7\uff0c\u5169\u8005\u4e0d\u6703\u4e92\u76f8\u84cb\u6389\u3002
+  function bindChineseOnlyInput(input, maxChars, onChange) {
+    let composing = false;
+    const apply = () => {
+      const filtered = filterToChineseChars(input.value).slice(0, maxChars);
+      if (filtered !== input.value) input.value = filtered;
+      onChange(filtered);
+    };
+    input.addEventListener("compositionstart", () => { composing = true; });
+    input.addEventListener("compositionend", () => { composing = false; apply(); });
+    input.addEventListener("input", () => {
+      if (composing) return;
+      apply();
+    });
+  }
+
   function bindGenerationField() {
     const toggle = $("#generation-toggle");
     const input = $("#generation-char");
@@ -272,9 +294,7 @@
       input.hidden = !toggle.checked;
       refreshStepErrorIfShown();
     });
-    input.addEventListener("input", (e) => {
-      const filtered = filterToChineseChars(e.target.value).slice(0, 1);
-      if (filtered !== e.target.value) e.target.value = filtered;
+    bindChineseOnlyInput(input, 1, (filtered) => {
       state.generationChar = filtered;
       refreshStepErrorIfShown();
     });
