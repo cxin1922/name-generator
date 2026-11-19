@@ -295,6 +295,21 @@ p {
   margin-bottom: 16px;
 }
 
+/* 第三十八節：「清空重填」放在引言下方、步驟指示上方，靠右對齊。位置特意跟表單底部的
+   「上一步/下一步」、結果頁的「修改條件/再產生一次」拉開距離，避免誤觸；用 .link-btn
+   同一套素淨文字連結樣式（非 .btn 實心按鈕），視覺上刻意不搶眼。這一行本身不隨表單步驟/
+   結果頁切換而隱藏（不包在 .form-card／.step-indicator／#result-section 裡面），
+   分享視圖顯示中才由 NG.setSharedViewActive 收起（跟「我也要自己取名」功能重疊）。 */
+.form-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.reset-form-btn {
+  font-size: 13px;
+}
+
 .step-indicator {
   font-size: 13px;
   color: var(--color-ink-soft);
@@ -398,11 +413,15 @@ textarea {
   margin-bottom: 16px;
 }
 
+/* NOTES.md 第四十節：.tag-pick 是 <button>，按鈕不繼承 body 的文字色，而是吃瀏覽器預設的 buttontext；
+   桌面 Chrome 的 buttontext 是黑色看不出差別，iOS Safari 則是系統藍，所以手機上未選取標籤變藍字。
+   這裡明確指定墨色（.selected 再蓋成品牌紅）。 */
 .tag-pick {
   padding: 7px 14px;
   border: 1px solid var(--color-border);
   border-radius: 14px;
   background-color: #fff;
+  color: var(--color-ink);
   cursor: pointer;
   font-size: 14px;
 }
@@ -427,6 +446,9 @@ textarea {
   border: 1px dashed var(--color-border);
   border-radius: var(--radius-base);
   align-items: center;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .selected-tags-row.empty::before {
@@ -444,11 +466,33 @@ textarea {
   color: #fff;
   font-size: 13px;
   cursor: grab;
+  /* 觸控長按拖曳時不要觸發文字選取、iOS 的長按選單（NOTES.md 第四十節）。
+     不設 touch-action: none：那樣在標籤上滑動就捲不動頁面；改由 JS 在長按進入拖曳後才擋捲動。 */
+  -webkit-user-select: none;
   user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .selected-tag-chip.dragging {
   opacity: 0.5;
+}
+
+/* 觸控拖曳中：拿起來的那顆放大一點，讓手指底下也看得出正在拖哪一個 */
+.selected-tags-row.touch-dragging .selected-tag-chip.dragging {
+  opacity: 0.75;
+  transform: scale(1.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* 「已選擇」提示文字依輸入方式切換（NOTES.md 第四十節）：主要指標是觸控（手機、平板）顯示「長按」版，
+   其餘（滑鼠）顯示「滑鼠拖曳」版。用 pointer/hover 判斷而不是螢幕寬度，因為拖曳方式取決於輸入裝置。 */
+.hint-touch {
+  display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .hint-mouse { display: none; }
+  .hint-touch { display: inline; }
 }
 
 .selected-tag-chip .remove-tag {
@@ -644,6 +688,38 @@ body.fav-drawer-open .fav-tabs {
 
 .shared-section {
   margin: 4px 0 24px;
+}
+
+/* NOTES.md 第四十節：按「我也要自己取名」時分享區塊先淡出、再收合高度（JS 先把 max-height 設成目前高度再改成 0），
+   動畫結束才由 NG.setSharedViewActive 真的 hidden；下方步驟指示與表單卡同時淡入。
+   收合期間關掉捲動錨定（overflow-anchor），避免瀏覽器自動補償捲動位置、跟 JS 的平滑捲動互搶。
+   跟 toast 無關：toast 維持實色背景、不加透明度（NOTES.md 第四十節）。 */
+.shared-section.is-collapsing {
+  overflow: hidden;
+  opacity: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, max-height 0.4s ease 0.1s, margin 0.4s ease 0.1s;
+}
+
+html.ng-shared-leaving {
+  overflow-anchor: none;
+}
+
+.ng-fade-in {
+  animation: ng-fade-in 0.45s ease both;
+}
+
+/* 只動透明度、不加位移：scrollToWorkArea 用 getBoundingClientRect 算捲動終點，transform 位移會被算進去 */
+@keyframes ng-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shared-section.is-collapsing { transition: none; }
+  .ng-fade-in { animation: none; }
 }
 
 .shared-start-btn {
@@ -959,6 +1035,43 @@ body.fav-drawer-open .fav-tabs {
   padding-bottom: 60px;
 }
 
+/* 分類快速跳轉（第四十一節第203點）：h1 跟引言之間的錨點導覽，點了捲動到下面對應的
+   .article-list-group。只在桌面顯示，手機版維持原本沒有這排按鈕的樣子（見下方
+   max-width:700px 區塊的 display:none）。html 的 scroll-behavior:smooth 讓錨點
+   跳轉變成平滑捲動而不是瞬間跳，prefers-reduced-motion 的使用者維持瞬跳。 */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.article-list-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 16px;
+}
+
+.article-list-jump a {
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background-color: var(--color-card-bg);
+  color: var(--color-ink);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.article-list-jump a:hover,
+.article-list-jump a:focus-visible {
+  border-color: var(--color-seal);
+  color: var(--color-seal);
+}
+
 .article-list-group {
   margin-bottom: 36px;
 }
@@ -967,9 +1080,19 @@ body.fav-drawer-open .fav-tabs {
   font-size: 19px;
 }
 
+/* 整項可點擊（第四十一節第203點）：用「stretched link」做法——<a class="article-list-link">
+   只包標題文字（語意跟無障礙都正確：screen reader 的連結名稱只唸標題，不會把整段摘要
+   也唸進連結名稱、Tab 鍵一樣只停在標題這一個焦點），但在這個連結上掛一個鋪滿整個
+   .article-list-item 的透明 ::after，讓滑鼠點在摘要文字（或卡片任何空白處）上也等於
+   點到連結。position:relative 開在 .article-list-item 上，::after 的 absolute／
+   inset:0 就是以它為基準鋪滿整張卡片，不受巢狀在 h3 裡面影響。
+   手機版的完整卡片視覺在下方 max-width:700px 區塊另外加，但可點擊沿用同一套，不重寫。 */
 .article-list-item {
+  position: relative;
   padding: 16px 0;
   border-bottom: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  transition: background-color 0.15s ease;
 }
 
 .article-list-item h3 {
@@ -977,10 +1100,50 @@ body.fav-drawer-open .fav-tabs {
   margin: 0 0 4px;
 }
 
+.article-list-item h3 .article-list-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+/* 鍵盤聚焦時整張卡片給視覺回饋，不是只有標題文字周圍一圈細框。:has() 不支援的瀏覽器
+   仍會有 <a> 自己的預設 focus 外框，不會變成完全看不出聚焦在哪裡。 */
+.article-list-item:has(.article-list-link:focus-visible) {
+  outline: 2px solid var(--color-seal);
+  outline-offset: 2px;
+  background-color: var(--color-card-bg);
+}
+
 .article-list-item p {
   color: var(--color-ink-soft);
   font-size: 14px;
   margin: 0;
+}
+
+/* 桌面版專屬（第四十一節第203點）：卡片感刻意很淡，只加一點內距跟 hover 時的極淡底色，
+   不做白底邊框陰影；引言統一只顯示 2 行，min-height 讓沒有超過 2 行的摘要也保留 2 行的
+   高度，16 篇摘要長度不一致時卡片高度仍一致。手機版不要這兩項：手機版的卡片視覺本身已經
+   比這裡明顯（見下方 700px 區塊），引言維持顯示完整文字、不裁切。 */
+@media (min-width: 701px) {
+  .article-list-item {
+    padding: 16px 14px;
+    margin: 0 -14px;
+  }
+
+  .article-list-item:hover,
+  .article-list-item:focus-within {
+    background-color: var(--color-card-bg);
+  }
+
+  .article-list-item p {
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    min-height: 3em;
+  }
 }
 
 /* ---------- FAQ 頁 ---------- */
@@ -1027,6 +1190,61 @@ body.fav-drawer-open .fav-tabs {
   margin: 0;
   padding: 0 16px 16px 38px;
   color: var(--color-ink-soft);
+}
+
+/* ---------- 聯絡信箱按鈕（FAQ 頁、關於頁共用，見 NOTES.md 第三十八節） ---------- */
+
+.btn-mail svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.btn-mail {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- 關於頁專屬（.about-body 只掛在 about.html，不影響共用 .article-body 的文章頁／隱私權政策） ---------- */
+
+.about-body p {
+  line-height: 1.85;
+}
+
+.about-cta {
+  max-width: 680px;
+  margin-top: 36px;
+  padding: 24px 20px;
+  text-align: center;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-seal);
+  border-radius: var(--radius-base);
+}
+
+.about-cta h2 {
+  font-size: 21px;
+}
+
+.about-cta p {
+  color: var(--color-ink-soft);
+}
+
+.about-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ---------- 隱私權政策文末的更新日期：淡化成頁尾時間戳記 ---------- */
+
+.article-body .doc-updated {
+  margin-top: 2.4em;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  font-size: 13px;
+  color: #77715f;
 }
 
 /* ---------- 收藏側邊標籤＋抽屜：較窄螢幕（<1100px）改貼畫面底邊／改成 bottom sheet
@@ -1167,12 +1385,40 @@ body.fav-drawer-open .fav-tabs {
     bottom: 76px;
   }
 
-  /* 觸控拖曳容易與滾動手勢衝突，改用上下箭頭按鈕排序 */
+  /* 手機寬度另提供上下箭頭按鈕排序（NOTES.md 第四十節起觸控也能長按拖曳，箭頭保留當備援） */
   .selected-tag-chip {
     cursor: default;
   }
 
   .tag-arrow-btns {
     display: inline-flex;
+  }
+
+  /* 文章列表頁手機版卡片化（第四十一節第204點，範圍更正後：手機版也要做完整卡片視覺，
+     不是只做桌面版）：每個 .article-list-item 從「純底線分隔」變成一張真正的卡片
+     （背景色＋邊框＋圓角＋陰影，比桌面版那一點點 hover 底色明顯許多）。整張卡片可點擊
+     沿用上面桌面版同一套 stretched-link 邏輯（.article-list-link::after 鋪滿
+     .article-list-item），不另外寫一套手機專屬的點擊判斷。摘要文字維持顯示完整，
+     不加 2 行截斷（這次只要求桌面版引言統一截斷，手機版沒有要求要做）。
+     分類快速跳轉按鈕沿用原本「手機版不加」的範圍，不受這次更正影響，維持隱藏。 */
+  .article-list-jump {
+    display: none;
+  }
+
+  .article-list-item {
+    padding: 16px;
+    margin-bottom: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background-color: var(--color-card-bg);
+    box-shadow: 0 1px 4px rgba(36, 33, 25, 0.08);
+  }
+
+  .article-list-group .article-list-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .article-list-item:active {
+    background-color: #efece3;
   }
 }

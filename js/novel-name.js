@@ -225,6 +225,7 @@
 
     bindStepNav();
     bindResultActions();
+    bindResetForm();
     NG.initFavoritesDrawer("novel");
     refreshFavoritesSection();
 
@@ -598,6 +599,76 @@
       const url = NG.buildShareAllUrl(lastCandidates);
       NG.copyText(url, "分享連結已複製，貼給朋友就能看到這 " + lastCandidates.length + " 個名字");
     });
+  }
+
+  // 第三十八節：「清空重填」，做法同 baby-name.js。欄位恢復成剛進頁面的預設值、結果一併清掉、
+  // 回到步驟 1；已填不少內容或已經有結果時才二次確認。
+  function bindResetForm() {
+    $("#btn-reset-form").addEventListener("click", resetForm);
+  }
+
+  function formHasContent() {
+    return (
+      state.gender !== "unisex" ||
+      !!state.ageTier ||
+      state.surnameMode !== "random" ||
+      !!state.surnameCustom ||
+      !!state.style ||
+      !!state.orientation ||
+      state.qualities.length > 0 ||
+      state.personalities.length > 0 ||
+      state.specialRequest.trim() !== "" ||
+      lastCandidates.length > 0
+    );
+  }
+
+  function resetForm() {
+    if (formHasContent() && !window.confirm("確定要清空重新填寫嗎？已填寫的條件與目前的結果都會被清除。")) return;
+
+    state.gender = "unisex";
+    state.ageTier = "";
+    state.surnameMode = "random";
+    state.surnameCustom = "";
+    state.style = "";
+    state.orientation = "";
+    state.qualities = [];
+    state.personalities = [];
+    state.specialRequest = "";
+
+    ["gender", "ageTier", "surnameMode", "style", "orientation"].forEach((field) => {
+      const row = document.querySelector('.option-row[data-field="' + field + '"]');
+      if (!row) return;
+      row.querySelectorAll(".option-btn").forEach((b) => {
+        b.disabled = false;
+        b.classList.toggle("active", b.dataset.value === String(state[field]));
+      });
+    });
+    $("#novel-surname-custom").value = "";
+    $("#novel-surname-custom").hidden = true;
+    $("#special-request").value = "";
+    renderQualityRow();
+    renderPersonalityRow();
+    updateSurnameRandomHint();
+    updateStyleAvailability();
+    updateSpecialRequestHint();
+    hideStepError();
+
+    lastCandidates = [];
+    lastLockMeta = [];
+    lockControls = [];
+    locks.surname = null;
+    locks.given = null;
+    seenNames.clear();
+    seenFullNames.clear();
+    $("#candidate-grid").innerHTML = "";
+    $("#lock-status").hidden = true;
+
+    // 清掉 sessionStorage 裡這個頁面實例存的表單狀態，不然清空後重新整理又會還原回剛才的選項。
+    NG.clearSession("novel", viewHistory.sid);
+
+    // 回到步驟 1：跟「修改條件」同一套退回瀏覽紀錄的做法（NG.createViewHistory），不是另推一筆新紀錄。
+    viewHistory.backTo("step1");
+    NG.toast("已清空，重新開始填寫");
   }
 
   function charInfo(ch) {

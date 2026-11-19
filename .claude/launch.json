@@ -36,6 +36,18 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "9123"],
       "port": 9123
+    },
+    {
+      "name": "name-generator-wrangler-9245",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["wrangler", "dev", "--port", "9245"],
+      "port": 9245
+    },
+    {
+      "name": "name-generator-static-9333",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "9333"],
+      "port": 9333
     }
   ]
 }

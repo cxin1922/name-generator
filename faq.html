@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>常見問題 FAQ｜取個好名</title>
-<meta name="description" content="取個好名的常見問題整理：收費、隱私、收藏保存方式、候選名字產生邏輯、寶寶取名與小說角色取名的差異等。">
+<title>常見問題 FAQ｜取個好名 NameChop</title>
+<meta name="description" content="取個好名 NameChop 的常見問題整理：收費、隱私、收藏保存方式、候選名字產生邏輯、寶寶取名與小說角色取名的差異等。">
 <link rel="canonical" href="https://getnamechop.com/faq">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="取個好名">
+<meta property="og:site_name" content="取個好名 NameChop">
 <meta property="og:url" content="https://getnamechop.com/faq">
-<meta property="og:title" content="常見問題 FAQ｜取個好名">
-<meta property="og:description" content="取個好名的常見問題整理：收費、隱私、收藏保存方式、候選名字產生邏輯、寶寶取名與小說角色取名的差異等。">
+<meta property="og:title" content="常見問題 FAQ｜取個好名 NameChop">
+<meta property="og:description" content="取個好名 NameChop 的常見問題整理：收費、隱私、收藏保存方式、候選名字產生邏輯、寶寶取名與小說角色取名的差異等。">
 <meta property="og:image" content="assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="常見問題 FAQ｜取個好名">
-<meta name="twitter:description" content="取個好名的常見問題整理：收費、隱私、收藏保存方式、候選名字產生邏輯、寶寶取名與小說角色取名的差異等。">
+<meta name="twitter:title" content="常見問題 FAQ｜取個好名 NameChop">
+<meta name="twitter:description" content="取個好名 NameChop 的常見問題整理：收費、隱私、收藏保存方式、候選名字產生邏輯、寶寶取名與小說角色取名的差異等。">
 <meta name="twitter:image" content="assets/og-image.png">
 
 <link rel="stylesheet" href="css/style.css">
@@ -28,7 +28,7 @@
   <div class="container">
     <a href="/" class="site-logo">
       <span class="seal-mark">名</span>
-      <span>取個好名</span>
+      <span>取個好名 NameChop</span>
     </a>
     <nav class="site-nav">
       <a href="/baby-name/">寶寶取名</a>
@@ -51,7 +51,7 @@
 
   <div class="faq-list">
 
-    <details class="faq-item">
+    <details class="faq-item" open>
       <summary>這個工具要收費或註冊嗎？</summary>
       <p>完全免費，不需要註冊、不需要登入，也不收集任何個人資料。所有取名的運算都在你自己的瀏覽器裡完成，不會把你的選擇傳到任何伺服器。</p>
     </details>
@@ -61,14 +61,15 @@
       <p>目前這個工具依你選的性別、字數、寓意祝福等條件，從字庫裡配對出候選名字。產生的建議僅供參考。</p>
     </details>
 
-    <details class="faq-item">
+    <details class="faq-item" id="faq-favorites">
       <summary>收藏的名字會不會不見？</summary>
-      <p>收藏是存在瀏覽器的本機儲存空間（localStorage），只會留在你目前使用的這台裝置、這個瀏覽器裡。換裝置、清除瀏覽器資料，或使用隱私/無痕模式，收藏都會遺失。想保留的名字建議直接複製下來，或用分享連結保存。</p>
+      <p>收藏是存在瀏覽器的本機儲存空間（localStorage），只會留在你目前使用的這台裝置、這個瀏覽器裡，不會跨裝置同步。換了裝置或瀏覽器、清除瀏覽器資料，或是關掉隱私/無痕視窗，收藏都可能會遺失（無痕模式下，同一個視窗還開著的時候收藏都還在，整個無痕視窗關掉之後通常就會被清空）。</p>
+      <p>想長期保留的名字，最穩的做法是存一個分享連結：在候選卡或收藏清單的名字卡上點「分享」，或是在結果頁點「分享全部 N 個名字」，系統會把名字編進一個專屬網址並自動複製。把這個網址貼到 LINE 的記事本、手機備忘錄，或任何你方便找的地方，之後隨時點開都能看到同一批名字。</p>
     </details>
 
     <details class="faq-item">
       <summary>為什麼同樣的條件，每次按「再產生一次」出來的名字不一樣？</summary>
-      <p>系統會先依寓意/氣質評分排序，再從分數較高、而且這次瀏覽還沒出現過的名字裡抽出 5 個，所以每次都是新的名字，整體仍貼合你選的方向。符合條件的名字都看過一輪後，才會開始出現看過的名字（畫面會提示）。鎖定名字裡的字之後，能變化的組合會變少；如果鎖住的等於整個名字（例如單字名的那個字），而姓氏是隨機的，每批會改成同一個名字搭配 5 個不同姓氏；連姓氏也固定時，每批就只會剩 1 個名字，這是正常的。</p>
+      <p>系統會先依寓意/氣質評分排序，再從分數較高、而且這次瀏覽還沒出現過的名字裡抽出 5 個，所以每次都是新的名字，整體仍貼合你選的方向。符合條件的名字都看過一輪後，才會開始出現看過的名字（畫面會提示）。鎖定名字裡的字之後，能變化的組合會變少。如果你鎖住的已經是完整的名字（例如單字名只有一個字，鎖了它就等於鎖住整個名字），姓氏又是隨機的，之後每批都會是這個名字，再配上 5 個不同的姓氏讓你比較；如果連姓氏也固定了，每批就只會剩 1 個名字，這是正常的。</p>
     </details>
 
     <details class="faq-item">
@@ -98,7 +99,8 @@
 
     <details class="faq-item">
       <summary>發現問題或想提供意見，可以怎麼聯絡？</summary>
-      <p>歡迎寄信到 <a href="mailto:contact@getnamechop.com">contact@getnamechop.com</a>，不管是錯字、功能問題還是單純的想法都可以。</p>
+      <p>歡迎寄信給我，不管是錯字、功能問題還是單純的想法都可以。</p>
+      <p class="contact-action"><a class="btn btn-secondary btn-mail" href="mailto:contact@getnamechop.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.8 7l8.2 6 8.2-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>contact@getnamechop.com</a></p>
     </details>
 
   </div>
@@ -130,5 +132,17 @@
   </div>
 </footer>
 
+<script>
+  function openHashTarget() {
+    if (!location.hash) return;
+    var el = document.querySelector(location.hash);
+    if (el && el.tagName === "DETAILS") {
+      el.open = true;
+      el.scrollIntoView({ block: "start" });
+    }
+  }
+  openHashTarget();
+  window.addEventListener("hashchange", openHashTarget);
+</script>
 </body>
 </html>
