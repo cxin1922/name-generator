@@ -283,9 +283,16 @@ p {
   padding-bottom: 60px;
 }
 
+/* 第十九輪：引言從三段散文縮成一段（見 NOTES.md 第二十五節），h1 與引言的間距一起收緊，把垂直空間讓給表單 */
+.form-page h1 {
+  margin-bottom: 0.3em;
+}
+
 .form-intro {
   color: var(--color-ink-soft);
   max-width: 640px;
+  font-size: 15px;
+  margin-bottom: 16px;
 }
 
 .step-indicator {
@@ -472,44 +479,214 @@ textarea {
   margin-top: 6px;
 }
 
-/* ---------- 收藏查看區塊（可展開，見 NOTES.md 判斷紀錄） ---------- */
+/* ---------- 收藏：側邊標籤＋抽屜（2026-11 第十九輪改成懸浮按鈕＋抽屜，見 NOTES.md 第二十五節；
+   第二十四輪懸浮按鈕改成「寶寶取名／小說取名」兩個側邊標籤貼紙，兩個工具頁都有，見 NOTES.md 第三十節；
+   第二十五輪把 <1100px 的抽屜滑入方向從側邊改成底部 bottom sheet，見 NOTES.md 第三十二節） ----------
+   層級：遮罩 94 < 抽屜 95 < 側邊標籤 96（抽屜開著時標籤仍看得到、可直接切換）< toast 100。
+   寬螢幕（≥1100px，頁面左右留白夠寬）：標籤直式貼在畫面右緣垂直置中，像資料夾側邊索引貼紙；
+   抽屜從右側滑入，貼在畫面右緣，標籤跟著移到抽屜左緣。
+   較窄螢幕（<1100px，含手機）：右緣會壓到內容，抽屜關著時標籤改成橫式、貼在畫面底邊右側（像從底邊冒出來的
+   索引貼紙，佔的位置跟原本懸浮按鈕差不多）；抽屜改成從底部往上滑出的 bottom sheet（貼齊底邊、寬度佔滿、
+   高度限制在 --fav-sheet-h），標籤維持橫式但整組上移到抽屜上緣之上，規則寫在檔案後段的 media query。 */
 
-.favorites-section {
-  margin: 20px 0 0;
+:root {
+  --fav-drawer-w: min(420px, calc(100vw - 44px));
 }
 
-.favorites-section summary {
-  cursor: pointer;
-  font-weight: 700;
-  padding: 10px 14px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-base);
+.fav-tabs {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  z-index: 96;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transform: translateY(-50%);
+  transition: right 0.22s ease;
+}
+
+body.fav-drawer-open .fav-tabs {
+  right: var(--fav-drawer-w);
+}
+
+.fav-tab {
+  writing-mode: vertical-rl;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 14px 7px;
+  border: 1px solid var(--color-ink);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
   background-color: var(--color-card-bg);
-  list-style: none;
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  letter-spacing: 2px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: -2px 2px 6px rgba(36, 33, 25, 0.15);
 }
 
-.favorites-section summary::-webkit-details-marker {
-  display: none;
+.fav-tab:hover {
+  background-color: #efece3;
 }
 
-.favorites-section summary::before {
-  content: "▸";
-  display: inline-block;
-  margin-right: 8px;
-  color: var(--color-seal);
+.fav-tab:focus-visible {
+  outline: 2px solid var(--color-seal);
+  outline-offset: 2px;
 }
 
-.favorites-section[open] summary::before {
-  content: "▾";
+.fav-tab.active {
+  background-color: var(--color-ink);
+  color: var(--color-bg);
 }
 
-.favorites-section .favorites-body {
-  padding: 18px 2px 4px;
+.fav-tab-count {
+  writing-mode: horizontal-tb;
+  min-width: 20px;
+  padding: 0 5px;
+  border-radius: 10px;
+  background-color: var(--color-seal);
+  color: #fdfcfa;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 20px;
+  text-align: center;
+}
+
+.fav-drawer-cross-note {
+  margin: 0 0 14px;
+  padding: 8px 12px;
+  border-left: 3px solid var(--color-seal);
+  background-color: var(--color-card-bg);
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}
+
+.fav-drawer-cross-note a {
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+.fav-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 94;
+  background-color: rgba(36, 33, 25, 0.35);
+}
+
+.fav-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 95;
+  width: var(--fav-drawer-w);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+  border-left: 1px solid var(--color-border);
+  box-shadow: -4px 0 16px rgba(36, 33, 25, 0.15);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 0.22s ease, visibility 0s linear 0.22s;
+}
+
+.fav-drawer.open {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.22s ease, visibility 0s;
+}
+
+.fav-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.fav-drawer-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.fav-drawer-close {
+  border: none;
+  background: none;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-ink);
+  padding: 0 4px;
+}
+
+.fav-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+}
+
+.fav-drawer-body .candidate-grid {
+  grid-template-columns: 1fr;
 }
 
 .favorites-empty-hint {
   font-size: 13px;
   color: var(--color-ink-soft);
+}
+
+/* ---------- 分享連結專屬視圖（網址帶 ?shared= / ?sharedAll= 時，分享區塊排在表單上方） ---------- */
+
+.shared-section {
+  margin: 4px 0 24px;
+}
+
+.shared-start-btn {
+  margin-top: 20px;
+}
+
+/* ---------- 鎖定單字（候選卡「鎖定」按鈕＋選字列、結果區鎖定狀態列，見 NOTES.md 第二十五節） ---------- */
+
+.icon-btn.locked {
+  border-color: var(--color-seal);
+  color: var(--color-seal);
+  background-color: #f8ecea;
+}
+
+.lock-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--color-border);
+}
+
+.lock-panel-hint {
+  font-size: 12px;
+  color: var(--color-ink-soft);
+}
+
+.lock-status {
+  margin: 18px 0 0;
+  font-size: 14px;
+  color: var(--color-seal);
+}
+
+.link-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 14px;
+  color: var(--color-ink-soft);
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: var(--font-sans);
 }
 
 /* ---------- 結果頁 ---------- */
@@ -586,6 +763,7 @@ textarea {
 
 .candidate-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 6px;
 }
@@ -644,34 +822,82 @@ textarea {
   display: none;
 }
 
-/* ---------- 分享選單（LINE／Facebook／X／Threads／複製連結） ---------- */
+/* ---------- 頁尾「分享這個網站」（LINE／Facebook／X／Threads） ----------
+   平常是跟頁尾文字同色的單色圖示，避免四個品牌色塊破壞全站素雅配色；
+   滑鼠移上/鍵盤聚焦時才填入該平台的品牌色，讓人一眼認出是哪個平台。
+   取名結果的分享（候選卡「分享」、分享全部）只負責複製連結，不放社群按鈕。 */
 
-.share-menu {
+.footer-share {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
+  align-items: center;
+  gap: 8px 14px;
+  margin-bottom: 14px;
 }
 
-.share-menu[hidden] {
-  display: none;
+.footer-share-label {
+  font-family: var(--font-serif);
 }
 
-.share-menu-item {
-  display: inline-block;
-  font-size: 12px;
-  padding: 5px 10px;
+.footer-share-icons {
+  display: flex;
+  gap: 8px;
+}
+
+.footer-share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-base);
-  background-color: var(--color-bg);
-  color: var(--color-ink);
+  background-color: var(--color-card-bg);
+  color: var(--color-ink-soft);
   text-decoration: none;
-  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
 }
 
-.share-menu-item:hover {
-  border-color: var(--color-seal);
-  color: var(--color-seal);
+.footer-share-btn svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* LINE 圖示裡的文字是「挖空」效果：顏色跟按鈕底色一致 */
+.footer-share-icon-cut {
+  fill: var(--color-card-bg);
+  transition: fill 0.15s;
+}
+
+.footer-share-btn:hover,
+.footer-share-btn:focus-visible {
+  color: #fff;
+}
+
+.footer-share-line:hover,
+.footer-share-line:focus-visible {
+  background-color: #06C755;
+  border-color: #06C755;
+}
+
+.footer-share-line:hover .footer-share-icon-cut,
+.footer-share-line:focus-visible .footer-share-icon-cut {
+  fill: #06C755;
+}
+
+.footer-share-facebook:hover,
+.footer-share-facebook:focus-visible {
+  background-color: #1877F2;
+  border-color: #1877F2;
+}
+
+.footer-share-x:hover,
+.footer-share-x:focus-visible,
+.footer-share-threads:hover,
+.footer-share-threads:focus-visible {
+  background-color: #000;
+  border-color: #000;
 }
 
 /* ---------- 動態連動提示（小說取名：小說分類 -> 身分） ---------- */
@@ -803,6 +1029,98 @@ textarea {
   color: var(--color-ink-soft);
 }
 
+/* ---------- 收藏側邊標籤＋抽屜：較窄螢幕（<1100px）改貼畫面底邊／改成 bottom sheet
+   （標籤第二十四輪，見 NOTES.md 第三十節；抽屜滑入方向第二十五輪改成底部，見 NOTES.md 第三十二節） ----------
+   放在 .toast 基本規則之後、手機版區塊之前，才能依來源順序蓋過 toast 預設位置，又被 ≤700px 的規則再蓋過。 */
+
+@media (max-width: 1099px) {
+  .fav-tabs {
+    top: auto;
+    bottom: 0;
+    right: 16px;
+    flex-direction: row;
+    gap: 4px;
+    transform: none;
+    transition: none;
+  }
+
+  .fav-tab {
+    writing-mode: horizontal-tb;
+    padding: 9px 12px 10px;
+    border-right: 1px solid var(--color-ink);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    font-size: 13px;
+    letter-spacing: 1px;
+    box-shadow: 0 -2px 6px rgba(36, 33, 25, 0.15);
+  }
+
+  /* 抽屜開著（第二十五輪改成底部滑出的 bottom sheet，見 NOTES.md 第三十二節）：
+     標籤維持關閉時的橫式／貼底邊樣式（繼續沿用上面 .fav-tabs／.fav-tab 的規則），
+     只把整組往上移到抽屜上緣之上，這樣抽屜打開後標籤仍然可見、可以直接點它切換工具或關閉。 */
+  body.fav-drawer-open .fav-tabs {
+    right: 16px;
+    bottom: var(--fav-sheet-h);
+  }
+
+  /* 標籤貼在底邊，頁面最底部（頁尾最後一行）要留出標籤高度，捲到底時不會被蓋住 */
+  body:has(.fav-tabs) {
+    padding-bottom: 44px;
+  }
+
+  .toast {
+    bottom: 56px;
+  }
+
+  /* 收藏抽屜在較窄螢幕／手機改成從底部滑出的 bottom sheet，不再從右側滑入
+     （第二十五輪，見 NOTES.md 第三十二節）：貼齊底邊、寬度佔滿螢幕、高度固定為
+     --fav-sheet-h（視窗高度的 80%，但不超過 100vh − 48px，避免在較矮的視窗溢出）。
+     第二輪回歸測試發現用 max-height 會讓收藏少時抽屜縮小、標籤（用固定 bottom 定位）
+     跟抽屜實際上緣之間空出一截，所以改用固定的 height，讓標籤的 bottom 定位永遠對齊
+     抽屜上緣；內容不足時抽屜底部留白，內容過多時交給 .fav-drawer-body 原有的
+     overflow-y: auto 捲動（見 NOTES.md 第三十三節後的記錄）。 */
+  :root {
+    --fav-sheet-h: min(80vh, calc(100vh - 48px));
+  }
+
+  .fav-drawer {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: var(--fav-sheet-h);
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -6px 20px rgba(36, 33, 25, 0.18);
+    overflow: hidden;
+    transform: translateY(100%);
+  }
+
+  .fav-drawer.open {
+    transform: translateY(0);
+  }
+
+  /* 仿常見 App bottom sheet 的頂部把手，暗示「這塊可以往下滑掉」 */
+  .fav-drawer-header {
+    position: relative;
+    padding-top: 22px;
+  }
+
+  .fav-drawer-header::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 36px;
+    height: 4px;
+    margin-left: -18px;
+    border-radius: 2px;
+    background-color: var(--color-border);
+  }
+}
+
 /* ---------- 手機版適配（設計文件第十二節） ---------- */
 
 @media (max-width: 700px) {
@@ -829,6 +1147,24 @@ textarea {
 
   .form-card {
     padding: 20px;
+  }
+
+  /* 第十九輪：手機版工具頁上方留白再收一點，讓表單更快出現在第一個畫面裡 */
+  .form-page {
+    padding-top: 4px;
+  }
+
+  .form-page .breadcrumb {
+    margin: 10px 0;
+  }
+
+  .form-page h1 {
+    font-size: 26px;
+  }
+
+  /* 手機版 toast 跟底邊的收藏標籤（第二十四輪前是右下角懸浮按鈕）會疊在一起，toast 往上移開 */
+  .toast {
+    bottom: 76px;
   }
 
   /* 觸控拖曳容易與滾動手勢衝突，改用上下箭頭按鈕排序 */

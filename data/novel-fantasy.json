@@ -4,7 +4,8 @@
     "identityNote": "身分選項「貴族／騎士／法師／傭兵‧冒險者」對應設計文件 5.2 定案。「騎士」為 2026-09 改版新增（原本漏掉高頻的騎士），見 NOTES.md。",
     "personalityNote": "性格標籤沿用與古風武俠/現代都市相同的 16 個標籤（含新增的「毒舌」），方便各風格共用同一套表單邏輯。這份姓名庫目前沒有任何一筆資料標「毒舌」，選了該標籤在西方奇幻風格下暫時不會加分，但不影響候選數量保證（加分項，非篩選）。",
     "qualityTagsNote": "第五輪改版（2026-09）新增。「身分」欄位改角色氣質後，音譯姓名庫也需要 qualityTags 才能被新評分邏輯比對到。做法：identities 依角色概念對應一個主要氣質（noble→尊貴雅致／knight→剛猛豪邁／mage→神秘莫測／mercenary→市井草根），再用「性格標籤定義跟氣質定義字面很接近」這條規則疊加少數幾個標籤（wen_ya文雅→scholarly文雅書卷、jiao_xia狡黠→cunning_scheming精明權謀、chun_zhen純真→innocent_young純真青澀、hao_mai豪邁→fierce_bold剛猛豪邁、shen_mi神秘→mysterious_dark神秘莫測，皆取自 7.2 節文字本來就高度重疊的配對，不是憑感覺硬湊）。覆蓋結果（擴充前）：精明權謀全庫只有 1 筆（Nyssa，因為只有她標了 jiao_xia）；理性精密全庫 0 筆，因為西方奇幻的四個身分概念都跟『邏輯技術分析』無關，也沒有對應的性格標籤訊號，老實記錄零覆蓋，沒有為了湊數勉強分配。",
-    "expansionNote": "第七輪擴充（2026-11）：27 筆擴充到 65 筆，新增 38 筆，判斷依據與覆蓋率統計詳見 NOTES.md 第十二節。重點：這次刻意新增了幾個『宮廷謀士型法師／心機貴族／狡詐傭兵』的角色（Konrad、Silas、Beatrix、Katarina），讓精明權謀從 1 筆補到 5 筆；新增兩個『鑽研符文理論的學者型法師』（Caspian、Lysandra）讓理性精密從 0 筆補到 2 筆，這兩個都是藉由『法師』身分裡本來就存在的『鑽研/analytical』子類型去合理延伸，不是硬湊；毒舌（Ferran、Sabine）、陰鬱（Marek）這幾個先前零覆蓋或低覆蓋的性格標籤也各補了 1～2 筆。"
+    "expansionNote": "第七輪擴充（2026-11）：27 筆擴充到 65 筆，新增 38 筆，判斷依據與覆蓋率統計詳見 NOTES.md 第十二節。重點：這次刻意新增了幾個『宮廷謀士型法師／心機貴族／狡詐傭兵』的角色（Konrad、Silas、Beatrix、Katarina），讓精明權謀從 1 筆補到 5 筆；新增兩個『鑽研符文理論的學者型法師』（Caspian、Lysandra）讓理性精密從 0 筆補到 2 筆，這兩個都是藉由『法師』身分裡本來就存在的『鑽研/analytical』子類型去合理延伸，不是硬湊；毒舌（Ferran、Sabine）、陰鬱（Marek）這幾個先前零覆蓋或低覆蓋的性格標籤也各補了 1～2 筆。",
+    "surnamesNote": "第二十一輪（2026-11）新增 surnames 陣列：西方奇幻家族姓氏庫，供姓氏「隨機」模式抽選。顯示順序為「名 姓」（例如「Elowen Blackwood」，中間半形空格），跟自訂輸入姓氏的既有語序一致。採「家族姓氏」而非「the＋稱號」（如 the Bold）：稱號依附角色事蹟與性格，隨機抽一個不相干的稱號容易跟使用者選的氣質/性格打架（溫柔的角色被配上 the Ruthless），而且這個欄位語意是「姓氏」；家族姓氏則是中性的身分標記，任何角色都套得上。收錄的 40 個都是真實存在的英語姓氏（多為英格蘭地名或古英語詞根衍生，如 Ashford、Blackwood、Ravenscroft、Winterbourne），選字偏向有古堡、森林、冬日意象、讀起來有中世紀/奇幻感的姓氏；刻意不收 Stormwind 這類知名遊戲/作品的專有地名，避免看起來像抄特定作品。來源為一般常識，未逐一查證族譜資料，詳見 NOTES.md 第二十七節。不設計氣質/性別標籤：姓氏是家族名，不帶個人性別與性格語意。"
   },
   "identities": [
     {
@@ -23,6 +24,18 @@
       "id": "mercenary",
       "label": "傭兵／冒險者"
     }
+  ],
+  "surnames": [
+    { "surname": "Blackwood" }, { "surname": "Ashford" }, { "surname": "Ravenscroft" }, { "surname": "Thornton" },
+    { "surname": "Whitmore" }, { "surname": "Hawthorne" }, { "surname": "Fairfax" }, { "surname": "Lockwood" },
+    { "surname": "Montague" }, { "surname": "Pembroke" }, { "surname": "Aldridge" }, { "surname": "Beaumont" },
+    { "surname": "Crowley" }, { "surname": "Darrow" }, { "surname": "Everhart" }, { "surname": "Fenwick" },
+    { "surname": "Galloway" }, { "surname": "Harrow" }, { "surname": "Kingsley" }, { "surname": "Langley" },
+    { "surname": "Marlowe" }, { "surname": "Northcott" }, { "surname": "Prescott" }, { "surname": "Redfern" },
+    { "surname": "Sterling" }, { "surname": "Thorne" }, { "surname": "Underhill" }, { "surname": "Vance" },
+    { "surname": "Wolfe" }, { "surname": "Winterbourne" }, { "surname": "Ashdown" }, { "surname": "Blackthorne" },
+    { "surname": "Holloway" }, { "surname": "Merriweather" }, { "surname": "Ironside" }, { "surname": "Greyson" },
+    { "surname": "Wycliffe" }, { "surname": "Ravensworth" }, { "surname": "Stanhope" }, { "surname": "Wilder" }
   ],
   "names": [
     { "name": "Aldric", "gender": "male", "identities": ["noble"], "personalities": ["ba_qi", "jian_yi"], "qualityTags": ["noble_elegant"] },

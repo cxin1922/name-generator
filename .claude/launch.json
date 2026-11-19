@@ -6,6 +6,36 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8934"],
       "port": 8934
+    },
+    {
+      "name": "name-generator-wrangler",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["wrangler", "dev", "--port", "8956"],
+      "port": 8956
+    },
+    {
+      "name": "name-generator-wrangler-9071",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["wrangler", "dev", "--port", "9071"],
+      "port": 9071
+    },
+    {
+      "name": "name-generator-static-9032",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "9032"],
+      "port": 9032
+    },
+    {
+      "name": "name-generator-wrangler-9097",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["wrangler", "dev", "--port", "9097"],
+      "port": 9097
+    },
+    {
+      "name": "name-generator-static-9123",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "9123"],
+      "port": 9123
     }
   ]
 }

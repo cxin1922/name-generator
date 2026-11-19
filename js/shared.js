@@ -20,6 +20,130 @@ const NG = (function () {
     return COMMON_SURNAMES[Math.floor(Math.random() * COMMON_SURNAMES.length)];
   }
 
+  // ---------- 姓氏羅馬拼音對照（2026-11 新增，見 NOTES.md 第二十四節） ----------
+  // 單字拆開存，一個字查一次：COMPOUND_SURNAMES（定義在 novel-name.js）是兩個字組成，
+  // 這裡不用整個複姓當 key，是因為同一個字（例如「司」「公」「孫」）會在好幾個複姓裡重複
+  // 出現，拆成單字查表可以共用、不用為每個複姓整體各寫一次。py 是漢語拼音（含聲調，
+  // 跟 chars-base.json 的 pinyin 欄位同一種寫法），wg 是威妥瑪拼音（使用者確認用「簡化式」：
+  // 不帶送氣撇號、不帶變音符號，一般英文文件/護照常見的寫法）。只收錄 COMMON_SURNAMES
+  // 跟 COMPOUND_SURNAMES 裡實際會用到的字，使用者自訂輸入的姓氏查不到屬預期行為
+  // （自訂輸入是任意文字，沒有查表依據，不臆測）。
+  const SURNAME_ROMANIZATION = {
+    "陳": { py: "chén", wg: "Chen" },
+    "林": { py: "lín", wg: "Lin" },
+    "黃": { py: "huáng", wg: "Huang" },
+    "張": { py: "zhāng", wg: "Chang" },
+    "李": { py: "lǐ", wg: "Li" },
+    "王": { py: "wáng", wg: "Wang" },
+    "吳": { py: "wú", wg: "Wu" },
+    "劉": { py: "liú", wg: "Liu" },
+    "蔡": { py: "cài", wg: "Tsai" },
+    "楊": { py: "yáng", wg: "Yang" },
+    "許": { py: "xǔ", wg: "Hsu" },
+    "鄭": { py: "zhèng", wg: "Cheng" },
+    "謝": { py: "xiè", wg: "Hsieh" },
+    "郭": { py: "guō", wg: "Kuo" },
+    "洪": { py: "hóng", wg: "Hung" },
+    "曾": { py: "zēng", wg: "Tseng" },
+    "邱": { py: "qiū", wg: "Chiu" },
+    "廖": { py: "liào", wg: "Liao" },
+    "賴": { py: "lài", wg: "Lai" },
+    "徐": { py: "xú", wg: "Hsu" },
+    "周": { py: "zhōu", wg: "Chou" },
+    "葉": { py: "yè", wg: "Yeh" },
+    "蘇": { py: "sū", wg: "Su" },
+    "莊": { py: "zhuāng", wg: "Chuang" },
+    "呂": { py: "lǚ", wg: "Lu" },
+    "江": { py: "jiāng", wg: "Chiang" },
+    "何": { py: "hé", wg: "Ho" },
+    "蕭": { py: "xiāo", wg: "Hsiao" },
+    "羅": { py: "luó", wg: "Lo" },
+    "高": { py: "gāo", wg: "Kao" },
+    "歐": { py: "ōu", wg: "Ou" },
+    "陽": { py: "yáng", wg: "Yang" },
+    "司": { py: "sī", wg: "Ssu" },
+    "馬": { py: "mǎ", wg: "Ma" },
+    "諸": { py: "zhū", wg: "Chu" },
+    "葛": { py: "gě", wg: "Ko" },
+    "上": { py: "shàng", wg: "Shang" },
+    "官": { py: "guān", wg: "Kuan" },
+    "皇": { py: "huáng", wg: "Huang" },
+    "甫": { py: "fǔ", wg: "Fu" },
+    "令": { py: "lìng", wg: "Ling" },
+    "狐": { py: "hú", wg: "Hu" },
+    "宇": { py: "yǔ", wg: "Yu" },
+    "文": { py: "wén", wg: "Wen" },
+    "長": { py: "zhǎng", wg: "Chang" },
+    "孫": { py: "sūn", wg: "Sun" },
+    "尉": { py: "yù", wg: "Yu" },
+    "遲": { py: "chí", wg: "Chih" },
+    "公": { py: "gōng", wg: "Kung" },
+    "東": { py: "dōng", wg: "Tung" },
+    "方": { py: "fāng", wg: "Fang" },
+    "夏": { py: "xià", wg: "Hsia" },
+    "侯": { py: "hóu", wg: "Hou" },
+    "徒": { py: "tú", wg: "Tu" },
+    "慕": { py: "mù", wg: "Mu" },
+    "容": { py: "róng", wg: "Jung" },
+    "赫": { py: "hè", wg: "Ho" },
+    "連": { py: "lián", wg: "Lien" },
+    "万": { py: "mò", wg: "Mo" },
+    "俟": { py: "qí", wg: "Chi" },
+    "澹": { py: "tán", wg: "Tan" },
+    "臺": { py: "tái", wg: "Tai" },
+    "鍾": { py: "zhōng", wg: "Chung" },
+    "離": { py: "lí", wg: "Li" },
+    "軒": { py: "xuān", wg: "Hsuan" },
+    "轅": { py: "yuán", wg: "Yuan" },
+    "端": { py: "duān", wg: "Tuan" },
+    "木": { py: "mù", wg: "Mu" },
+    "申": { py: "shēn", wg: "Shen" },
+    "屠": { py: "tú", wg: "Tu" },
+    "賀": { py: "hè", wg: "Ho" },
+    "蘭": { py: "lán", wg: "Lan" },
+    "完": { py: "wán", wg: "Wan" },
+    "顏": { py: "yán", wg: "Yan" },
+    "冶": { py: "yě", wg: "Yeh" },
+    "宗": { py: "zōng", wg: "Tsung" },
+    "政": { py: "zhèng", wg: "Cheng" },
+    "濮": { py: "pú", wg: "Pu" },
+    "淳": { py: "chún", wg: "Chun" },
+    "于": { py: "yú", wg: "Yu" },
+    "空": { py: "kōng", wg: "Kung" },
+    "巫": { py: "wū", wg: "Wu" },
+    "南": { py: "nán", wg: "Nan" },
+    "宮": { py: "gōng", wg: "Kung" },
+  };
+
+  // 傳入完整姓氏字串（1 或 2 個字），逐字查表、逐字拼起來；只要姓氏裡有任何一個字查不到
+  // 就整個回傳 null，不要「查到一半」的拼音（例如只有複姓裡其中一個字有資料，顯示出來
+  // 會比完全不顯示更誤導）。
+  function surnameRomanization(surname) {
+    if (!surname) return null;
+    const chars = Array.from(surname);
+    const entries = chars.map((ch) => SURNAME_ROMANIZATION[ch]);
+    if (entries.some((e) => !e)) return null;
+    return {
+      pinyin: entries.map((e) => e.py).join(" "),
+      wadeGiles: entries.map((e) => e.wg).join(" "),
+    };
+  }
+
+  // 組出「姓氏＋名字」的完整拼音／威妥瑪拼音字串，供候選卡顯示（10.5 節候選卡呈現內容）。
+  // charInfos 是名字部分（不含姓氏）逐字查過 chars-base.json 的結果，每筆物件要有
+  // pinyin／wadeGiles 欄位（charInfo 查不到的字，兩個欄位都會是空字串，這裡會自然略過，
+  // 不會顯示 undefined 或空白字）。姓氏查不到羅馬拼音時（自訂輸入姓氏，或姓氏未收錄）
+  // 就只顯示名字部分，不是整個不顯示——跟既有「部分字查不到拼音」的既有限制一致，
+  // 使用者已經知道、接受這個限制（見 FAQ）。
+  function buildRomanizedName(surname, charInfos) {
+    const surnameRoman = surnameRomanization(surname);
+    const givenPinyin = charInfos.map((i) => i.pinyin).filter(Boolean).join(" ");
+    const givenWG = charInfos.map((i) => i.wadeGiles).filter(Boolean).join(" ");
+    const pinyin = [surnameRoman ? surnameRoman.pinyin : "", givenPinyin].filter(Boolean).join(" ");
+    const wadeGiles = [surnameRoman ? surnameRoman.wadeGiles : "", givenWG].filter(Boolean).join(" ");
+    return { pinyin, wadeGiles };
+  }
+
   function hexToRgb(hex) {
     const h = hex.replace("#", "");
     return {
@@ -104,6 +228,23 @@ const NG = (function () {
   }
 
   // ---------- 收藏（localStorage，見 10.5） ----------
+  // 兩個工具的收藏仍各自一把 key（ng_favorites_baby／ng_favorites_novel），資料不合併。
+  // 第二十四輪起兩個工具頁都能透過側邊標籤讀寫「兩把 key」（同源 localStorage 本來就讀得到），見 NOTES.md 第三十節。
+  const FAV_TOOLS = {
+    baby: {
+      label: "寶寶取名",
+      dir: "baby-name",
+      meaningFallback: "（字輩用字不在字庫收錄範圍內，暫無字義說明）",
+    },
+    novel: {
+      label: "小說取名",
+      dir: "novel-name",
+      meaningFallback: "",
+    },
+  };
+  // pageTool：目前所在的工具頁；viewTool：抽屜目前顯示哪個工具的收藏（由側邊標籤切換）。
+  const favState = { pageTool: null, viewTool: null };
+
   function favKey(tool) {
     return "ng_favorites_" + tool;
   }
@@ -143,10 +284,16 @@ const NG = (function () {
   // ---------- 分享（把單一候選編碼進網址參數，見 10.5） ----------
   // 注意：payload 是 base64 字串本身（未手動 encodeURIComponent），
   // URLSearchParams.set / .get 已自動處理網址層級的編碼/解碼，不需要再手動包一層。
-  function buildShareUrl(candidate) {
+  // 第二十四輪（側邊標籤跨工具收藏）：tool 選填。在 A 工具頁分享 B 工具的收藏時，連結要指向 B 工具頁
+  // （分享區要用 B 工具的卡片渲染），所以 tool 不是目前頁面的工具時改用 "../<B 的資料夾>/" 當網址基底；
+  // 沒傳或就是目前工具時維持原本「目前網址去掉參數」的做法。
+  function buildShareUrl(candidate, tool) {
     const payload = btoa(unescape(encodeURIComponent(JSON.stringify(candidate))));
-    const url = new URL(window.location.href);
+    const url = tool && favState.pageTool && tool !== favState.pageTool && FAV_TOOLS[tool]
+      ? new URL("../" + FAV_TOOLS[tool].dir + "/", window.location.href)
+      : new URL(window.location.href);
     url.search = "";
+    url.hash = "";
     url.searchParams.set("shared", payload);
     return url.toString();
   }
@@ -189,6 +336,8 @@ const NG = (function () {
 
   // ---------- 分享到社群平台（LINE／Facebook／X／Threads） ----------
   // 用各平台公開的分享 intent 網址，不需要串接任何平台的 API/SDK、不需要帳號權限。
+  // 社群分享只用在頁尾「分享這個網站」（分享工具本身，不分享取名結果）。頁尾連結是寫死在
+  // 各頁 HTML 裡的靜態網址（多數頁面沒載入本檔），組法與本函式一致；之後要改網址格式時兩邊要一起改。
   function buildPlatformShareLinks(url, text) {
     const encodedUrl = encodeURIComponent(url);
     const encodedText = encodeURIComponent(text || "");
@@ -199,42 +348,6 @@ const NG = (function () {
       // Threads 目前沒有獨立的 url 參數，照官方 intent 用法把文字跟網址併在同一個 text 參數裡。
       threads: "https://www.threads.net/intent/post?text=" + encodeURIComponent((text ? text + " " : "") + url),
     };
-  }
-
-  // 建立一個預設隱藏的分享選單（複製連結＋4 個平台），呼叫端自己決定要插在哪裡、
-  // 用哪個按鈕觸發開關（見 baby-name.js／novel-name.js 的候選卡分享按鈕、分享全部按鈕）。
-  function createShareMenu(url, text, copyMessage) {
-    const links = buildPlatformShareLinks(url, text);
-    const menu = document.createElement("div");
-    menu.className = "share-menu";
-    menu.hidden = true;
-
-    const copyBtn = document.createElement("button");
-    copyBtn.type = "button";
-    copyBtn.className = "share-menu-item";
-    copyBtn.textContent = "複製連結";
-    copyBtn.addEventListener("click", () => {
-      copyText(url, copyMessage);
-      menu.hidden = true;
-    });
-    menu.appendChild(copyBtn);
-
-    [
-      { label: "LINE", href: links.line },
-      { label: "Facebook", href: links.facebook },
-      { label: "X", href: links.x },
-      { label: "Threads", href: links.threads },
-    ].forEach((item) => {
-      const a = document.createElement("a");
-      a.className = "share-menu-item";
-      a.href = item.href;
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.textContent = item.label;
-      menu.appendChild(a);
-    });
-
-    return menu;
   }
 
   // ---------- 已選標籤排序元件 ----------
@@ -372,19 +485,492 @@ const NG = (function () {
     };
   }
 
-  // ---------- 收藏查看區塊渲染（見 NOTES.md：判斷用「每個工具頁一個可展開區塊」而非獨立頁面） ----------
-  // renderCardFn 由呼叫端（baby-name.js / novel-name.js）傳入，因為候選卡片的渲染方式
-  // 兩個工具略有不同（欄位、標籤文字），這裡只負責「取收藏清單、決定要不要顯示空狀態」的共用邏輯。
-  function renderFavoritesSection(tool, gridEl, emptyHintEl, countEl, renderCardFn) {
-    const favs = getFavorites(tool).slice().reverse(); // 最近收藏的排前面
-    if (countEl) countEl.textContent = String(favs.length);
-    gridEl.innerHTML = "";
-    if (favs.length === 0) {
-      if (emptyHintEl) emptyHintEl.hidden = false;
-      return;
+  // ---------- 收藏抽屜＋側邊標籤（第二十四輪，見 NOTES.md 第三十節；取代第十九輪的懸浮按鈕） ----------
+  // 兩個工具頁用同一組 DOM：#fav-tabs（兩個側邊標籤 [data-fav-tab="baby|novel"]）、#fav-drawer（抽屜本體）、
+  // #fav-drawer-overlay（遮罩）、#fav-drawer-close、#fav-drawer-tool／#fav-drawer-count（抽屜標題）、
+  // #fav-drawer-cross-note（看的是另一個工具時的說明）、#favorites-empty-hint、#favorites-grid。
+  // 點標籤＝打開抽屜並顯示「那個標籤的工具」的收藏；抽屜已開著時點同一個標籤＝關閉，點另一個＝切換。
+  // 點遮罩、按 Esc、點 × 都會關，開著時鎖住頁面捲動。
+  //
+  // 抽屜裡的收藏卡一律由這裡的 renderFavoriteCard 渲染（不再用各工具的 renderCandidateCard），
+  // 因為在 A 工具頁要能渲染 B 工具的收藏，而 A 頁沒有載入 B 的 js。兩個工具的卡片在「沒有鎖定」時
+  // 欄位完全一樣（姓名、拼音、字義、標籤、複製／收藏／分享），差別只有字義為空時的替代文字，放在 FAV_TOOLS。
+  function renderFavoriteCard(tool, c) {
+    const card = document.createElement("div");
+    card.className = "candidate-card";
+
+    const name = document.createElement("div");
+    name.className = "candidate-name";
+    name.textContent = c.fullName;
+    card.appendChild(name);
+
+    if (c.pinyin) {
+      const py = document.createElement("div");
+      py.className = "candidate-pinyin";
+      py.textContent = c.wadeGiles ? c.pinyin + " ・ " + c.wadeGiles : c.pinyin;
+      card.appendChild(py);
     }
-    if (emptyHintEl) emptyHintEl.hidden = true;
-    favs.forEach((c) => gridEl.appendChild(renderCardFn(c)));
+
+    const meaning = document.createElement("div");
+    meaning.className = "candidate-meaning";
+    const meaningText = c.meaningSummary || FAV_TOOLS[tool].meaningFallback;
+    meaningText.split("\n").forEach((line, idx) => {
+      if (idx > 0) meaning.appendChild(document.createElement("br"));
+      meaning.appendChild(document.createTextNode(line));
+    });
+    card.appendChild(meaning);
+
+    if (c.matchedTags && c.matchedTags.length > 0) {
+      const tags = document.createElement("div");
+      tags.className = "candidate-tags";
+      c.matchedTags.forEach((t) => {
+        const tag = document.createElement("span");
+        tag.className = "candidate-tag";
+        tag.textContent = t;
+        tags.appendChild(tag);
+      });
+      card.appendChild(tags);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "candidate-actions";
+
+    const copyBtn = document.createElement("button");
+    copyBtn.type = "button";
+    copyBtn.className = "icon-btn";
+    copyBtn.textContent = "複製";
+    copyBtn.addEventListener("click", () => copyText(c.fullName));
+    actions.appendChild(copyBtn);
+
+    const favBtn = document.createElement("button");
+    favBtn.type = "button";
+    favBtn.className = "icon-btn" + (isFavorited(tool, c.id) ? " favorited" : "");
+    favBtn.dataset.favId = c.id;
+    favBtn.dataset.favTool = tool; // 讓 syncFavoriteButtons 知道這顆按鈕要對照哪一把 key
+    favBtn.textContent = isFavorited(tool, c.id) ? "已收藏" : "收藏";
+    favBtn.addEventListener("click", () => {
+      const nowFav = toggleFavorite(tool, c);
+      toast(nowFav ? "已加入收藏" : "已取消收藏");
+      refreshFavorites();
+    });
+    actions.appendChild(favBtn);
+
+    const shareBtn = document.createElement("button");
+    shareBtn.type = "button";
+    shareBtn.className = "icon-btn";
+    shareBtn.textContent = "分享";
+    shareBtn.addEventListener("click", () => {
+      copyText(buildShareUrl(c, tool), "分享連結已複製，貼給朋友就能看到「" + c.fullName + "」");
+    });
+    actions.appendChild(shareBtn);
+
+    card.appendChild(actions);
+    return card;
+  }
+
+  // 收藏狀態一變（任何一邊新增/移除）就呼叫：更新兩個標籤的數字、抽屜標題、同步頁面上所有收藏按鈕、
+  // 重畫抽屜目前顯示的那個工具的收藏列表。各工具頁的結果卡收藏後也呼叫這個（見 baby-name.js／novel-name.js）。
+  function refreshFavorites() {
+    Object.keys(FAV_TOOLS).forEach((tool) => {
+      const n = String(getFavorites(tool).length);
+      document.querySelectorAll('[data-fav-count="' + tool + '"]').forEach((el) => { el.textContent = n; });
+    });
+    if (favState.pageTool) syncFavoriteButtons(favState.pageTool);
+
+    const tool = favState.viewTool;
+    const gridEl = document.getElementById("favorites-grid");
+    if (!tool || !gridEl) return;
+    const favs = getFavorites(tool).slice().reverse(); // 最近收藏的排前面
+    const toolEl = document.getElementById("fav-drawer-tool");
+    const countEl = document.getElementById("fav-drawer-count");
+    if (toolEl) toolEl.textContent = FAV_TOOLS[tool].label;
+    if (countEl) countEl.textContent = String(favs.length);
+
+    const note = document.getElementById("fav-drawer-cross-note");
+    if (note) {
+      const isOther = tool !== favState.pageTool;
+      note.hidden = !isOther;
+      note.innerHTML = "";
+      if (isOther) {
+        note.appendChild(document.createTextNode(
+          "這是「" + FAV_TOOLS[tool].label + "」的收藏，跟目前頁面的收藏分開存放；分享連結會開啟" + FAV_TOOLS[tool].label + "頁面。"));
+        const a = document.createElement("a");
+        a.href = "/" + FAV_TOOLS[tool].dir + "/";
+        a.textContent = "前往" + FAV_TOOLS[tool].label + " →";
+        note.appendChild(a);
+      }
+    }
+
+    const emptyHintEl = document.getElementById("favorites-empty-hint");
+    gridEl.innerHTML = "";
+    if (emptyHintEl) emptyHintEl.hidden = favs.length > 0;
+    favs.forEach((c) => gridEl.appendChild(renderFavoriteCard(tool, c)));
+  }
+
+  // 候選卡的收藏按鈕帶 data-fav-id，收藏狀態一變就把頁面上所有同一個 id 的按鈕同步成最新狀態。
+  // 第二十四輪：抽屜裡可能是另一個工具的卡，那些按鈕帶 data-fav-tool；沒帶的（結果區、分享區的卡）
+  // 屬於目前頁面的工具，用參數 tool 對照。
+  function syncFavoriteButtons(tool) {
+    document.querySelectorAll("button[data-fav-id]").forEach((btn) => {
+      const fav = isFavorited(btn.dataset.favTool || tool, btn.dataset.favId);
+      btn.classList.toggle("favorited", fav);
+      btn.textContent = fav ? "已收藏" : "收藏";
+    });
+  }
+
+  function initFavoritesDrawer(pageTool) {
+    favState.pageTool = pageTool;
+    favState.viewTool = pageTool;
+    const drawer = document.getElementById("fav-drawer");
+    const overlay = document.getElementById("fav-drawer-overlay");
+    const closeBtn = document.getElementById("fav-drawer-close");
+    const tabs = Array.from(document.querySelectorAll("[data-fav-tab]"));
+    if (!drawer || !overlay || tabs.length === 0) return;
+    let lastTrigger = null;
+
+    function isOpen() {
+      return drawer.classList.contains("open");
+    }
+    function markTabs() {
+      tabs.forEach((t) => {
+        const active = isOpen() && t.dataset.favTab === favState.viewTool;
+        t.classList.toggle("active", active);
+        t.setAttribute("aria-expanded", String(active));
+      });
+    }
+    function open(tool, trigger) {
+      favState.viewTool = tool;
+      lastTrigger = trigger || null;
+      refreshFavorites();
+      drawer.classList.add("open");
+      drawer.setAttribute("aria-hidden", "false");
+      overlay.hidden = false;
+      document.body.classList.add("fav-drawer-open");
+      document.body.style.overflow = "hidden";
+      markTabs();
+      drawer.querySelector(".fav-drawer-body").scrollTop = 0;
+      if (closeBtn) closeBtn.focus();
+    }
+    function close() {
+      if (!isOpen()) return;
+      drawer.classList.remove("open");
+      drawer.setAttribute("aria-hidden", "true");
+      overlay.hidden = true;
+      document.body.classList.remove("fav-drawer-open");
+      document.body.style.overflow = "";
+      markTabs();
+      if (lastTrigger) lastTrigger.focus();
+    }
+    tabs.forEach((t) => {
+      t.addEventListener("click", () => {
+        const tool = t.dataset.favTab;
+        if (isOpen() && favState.viewTool === tool) close();
+        else open(tool, t);
+      });
+    });
+    overlay.addEventListener("click", close);
+    if (closeBtn) closeBtn.addEventListener("click", close);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+    // 同一個瀏覽器的其他分頁（例如另一個工具頁）改了收藏時，storage 事件會通知這一頁，數字跟列表即時同步。
+    window.addEventListener("storage", (e) => {
+      if (e.key === null || (e.key && e.key.indexOf("ng_favorites_") === 0)) refreshFavorites();
+    });
+  }
+
+  // ---------- 分享連結專屬視圖（見 NOTES.md 第二十五節；第三十五節改版） ----------
+  // 網址帶 ?shared= / ?sharedAll= 時，分享區塊在 HTML 裡排在表單上方。
+  // 第三十五節起改成「顯示/隱藏」一個開關，由各工具的 showView 依目前畫面呼叫，不再自己綁按鈕事件：
+  // - active=true（分享視圖）：分享區塊＋「我也要自己取名」顯示，表單（.form-card、.step-indicator）收起。
+  // - active=false（使用者自己取名中：表單步驟 1/2 或自己的結果）：分享區塊整個 hidden（不移除 DOM，
+  //   瀏覽器上一頁回到分享視圖時還要再顯示）。表單/結果區的顯示由呼叫端決定。
+  // 「我也要自己取名」按鈕的點擊由各工具綁（要推一筆瀏覽紀錄，見 createViewHistory）。
+  function setSharedViewActive(active) {
+    const shared = document.getElementById("shared-section");
+    const formCard = document.querySelector(".form-card");
+    const indicator = document.querySelector(".step-indicator");
+    const startBtn = document.getElementById("btn-start-own");
+    if (!shared) return;
+    shared.hidden = !active;
+    if (startBtn) startBtn.hidden = !active;
+    if (active) {
+      if (formCard) formCard.hidden = true;
+      if (indicator) indicator.hidden = true;
+    }
+  }
+
+  // ---------- 表單步驟的瀏覽器上一頁／下一頁（見 NOTES.md 第三十五節） ----------
+  // 工具頁的畫面依序是：分享視圖（只有網址帶分享參數時才有）→ 步驟 1 → 步驟 2 → 結果。
+  // 每往前一步 pushState 一筆紀錄，網址加 ?step=1|2|result 標記（保留 ?shared= / ?sharedAll= 等其他參數，
+  // 兩套參數互不干擾；沒有分享參數時步驟 1 不加 step，維持乾淨的原始網址）。紀錄的 state 存
+  // { ngView, ngDepth }：ngDepth＝這筆紀錄底下還有幾筆「本頁自己推的」紀錄，用來判斷頁內按鈕
+  // （上一步、修改條件）能不能直接 history.go(-n) 退回去，而不是再推一筆新的（再推會讓步驟 1 上面
+  // 疊著舊的結果頁，到了步驟 1 按上一頁反而跑回結果，違反「步驟 1 再按上一頁就離開」）。
+  // 步驟 1（或分享視圖）是 ngDepth 0 的那一筆，再按上一頁就是瀏覽器原本的上一個網頁，不會卡住。
+  // opts.hasShared：這次載入有沒有分享內容；opts.render(view)：只負責畫面切換，不碰 history。
+  const VIEW_ORDER = ["shared", "step1", "step2", "result"];
+
+  function createViewHistory(opts) {
+    let pendingTarget = null;
+    // sid：這次頁面實例（一次新開的瀏覽）的識別碼，寫進每筆紀錄的 state，sessionStorage 的還原資料也用它分開存。
+    // 同一個分頁可能先後開過好幾次同一個工具頁（例如自己的結果頁→點進別人的分享連結），不分開存的話，
+    // 按上一頁回到前一次的頁面時會讀到後一次的資料。重新整理／上一頁回到同一筆紀錄時 state 還在，sid 不變。
+    const initial = window.history.state;
+    const sid = initial && initial.ngView && initial.ngSid
+      ? initial.ngSid
+      : Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+
+    function viewFromUrl() {
+      const step = new URLSearchParams(window.location.search).get("step");
+      if (step === "1") return "step1";
+      if (step === "2") return "step2";
+      if (step === "result") return "result";
+      return opts.hasShared ? "shared" : "step1";
+    }
+    function urlFor(view) {
+      const url = new URL(window.location.href);
+      if (view === "shared" || (view === "step1" && !opts.hasShared)) url.searchParams.delete("step");
+      else url.searchParams.set("step", view === "result" ? "result" : view.replace("step", ""));
+      return url.pathname + url.search + url.hash;
+    }
+    function current() {
+      const s = window.history.state;
+      return s && s.ngView ? s : null;
+    }
+    function replace(view, depth) {
+      window.history.replaceState({ ngView: view, ngDepth: depth, ngSid: sid }, "", urlFor(view));
+    }
+    function forward(view) {
+      const cur = current();
+      window.history.pushState({ ngView: view, ngDepth: cur ? cur.ngDepth + 1 : 1, ngSid: sid }, "", urlFor(view));
+    }
+    // 頁內按鈕要退回前面的畫面：底下的紀錄夠退就用 history.go 退（popstate 會畫面切換）；
+    // 不夠退（例如直接用帶 ?step=2 的網址進來、底下沒有步驟 1 的紀錄）就先退到最底那筆，再把它改寫成目標畫面。
+    function backTo(view) {
+      const cur = current();
+      if (!cur) { replace(view, 0); opts.render(view); return; }
+      const stepsBack = VIEW_ORDER.indexOf(cur.ngView) - VIEW_ORDER.indexOf(view);
+      if (stepsBack <= 0) { replace(view, cur.ngDepth); opts.render(view); return; }
+      if (stepsBack <= cur.ngDepth) { window.history.go(-stepsBack); return; }
+      if (cur.ngDepth === 0) { replace(view, 0); opts.render(view); return; }
+      pendingTarget = view;
+      window.history.go(-cur.ngDepth);
+    }
+    window.addEventListener("popstate", (e) => {
+      let view = e.state && e.state.ngView ? e.state.ngView : viewFromUrl();
+      if (pendingTarget) {
+        view = pendingTarget;
+        pendingTarget = null;
+        replace(view, 0);
+      }
+      opts.render(view);
+    });
+    return {
+      viewFromUrl,
+      current,
+      replace,
+      forward,
+      backTo,
+      sid,
+    };
+  }
+
+  // ---------- 重新整理時還原表單（sessionStorage，見 NOTES.md 第三十五節） ----------
+  // 只在「這筆瀏覽紀錄本來就有本頁 state」（重新整理、上一頁回到本頁）時讀回，新開的瀏覽一律從空白表單開始。
+  // key 帶 sid（見 createViewHistory），每次新開的頁面實例各存一份。sessionStorage 只活在這個分頁，
+  // 關掉分頁就清掉；不可用（隱私模式等）時就退回空白表單，不報錯。
+  function saveSession(tool, sid, data) {
+    try { sessionStorage.setItem("ng_session_" + tool + "_" + sid, JSON.stringify(data)); } catch (e) { /* 不可用時略過 */ }
+  }
+  function loadSession(tool, sid) {
+    try {
+      const raw = sessionStorage.getItem("ng_session_" + tool + "_" + sid);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // 分享區塊顯示中時，換頁／產生結果不要捲回頁面最頂端（頂端是別人分享的卡片，使用者會以為沒反應），
+  // 改捲到自己正在操作的區塊。沒有分享區塊時維持原本的捲回頂端行為。
+  function scrollToWorkArea(el) {
+    const shared = document.getElementById("shared-section");
+    if (shared && !shared.hidden && el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  // ---------- 抽樣：排除本次瀏覽已看過的名字（見 NOTES.md 第二十五節、設計文件 10.3） ----------
+  // sorted：已依分數排好、且已套用鎖定條件的候選清單；keyOf：取出「名字組合」的比對 key
+  // （不含姓氏，因為隨機姓氏每批會換，同一個名字配不同姓氏仍算看過）；seen：呼叫端持有的 Set，
+  // 只活在記憶體裡（分頁關掉/重新整理就清空），不寫 localStorage。
+  // 做法：先只從「沒看過」的候選裡取分數前 topPoolSize 筆洗牌抽 count 個；沒看過的不夠 count 個時
+  // （池子窮盡），先把剩下沒看過的全部放進來，不足的再從看過的候選補滿，回傳 exhausted=true，
+  // 並把 seen 清空重新起算一輪（只留這一批），避免之後每次都在重複名字裡打轉。
+  function sampleExcludingSeen(sorted, keyOf, seen, topPoolSize, count) {
+    const picked = [];
+    const pickedKeys = new Set();
+    function take(list) {
+      const head = list.slice(0, topPoolSize);
+      shuffleInPlace(head);
+      const ordered = head.concat(list.slice(topPoolSize));
+      for (const item of ordered) {
+        if (picked.length >= count) break;
+        const k = keyOf(item);
+        if (pickedKeys.has(k)) continue;
+        pickedKeys.add(k);
+        picked.push(item);
+      }
+    }
+    take(sorted.filter((it) => !seen.has(keyOf(it))));
+    let exhausted = false;
+    if (picked.length < count) {
+      exhausted = true;
+      take(sorted.filter((it) => !pickedKeys.has(keyOf(it))));
+      seen.clear();
+    }
+    picked.forEach((it) => seen.add(keyOf(it)));
+    return { chosen: picked, exhausted };
+  }
+
+  // ---------- 名字固定、只剩姓氏能變時，一次抽多個不同姓氏（見 NOTES.md 第三十五節） ----------
+  // 情境：寶寶取名單字名鎖住那個字、小說取名西方奇幻／日系輕小說鎖住整個名字，且姓氏是「隨機」又沒鎖姓。
+  // 名字部分只剩一個組合，改用姓氏本身的隨機性撐出 count 張卡：從 pool 抽 count 個「不重複」的姓氏。
+  // 排除已看過比對的是完整姓名（姓氏|名字 key），seenFull 是呼叫端另外持有的 Set（每批結果的完整姓名
+  // 都會由呼叫端記進去，包含使用者鎖定前看到的那一批），所以同一批不會重複姓氏、下一批也不會再出現
+  // 看過的「姓＋這個名字」。沒看過的姓氏不足 count 個時，比照 sampleExcludingSeen：先放沒看過的，
+  // 不足的從看過的補、回傳 exhausted=true 並重新起算一輪。pool 本身不重複的姓氏就少於 count 個時
+  // （目前三個姓氏池都 ≥30，理論上不會發生）才允許重複，依序輪流補，讓重複盡量分散。
+  function pickSurnamesForFixedName(pool, givenKey, seenFull, count) {
+    const unique = Array.from(new Set(pool));
+    const { chosen, exhausted } = sampleExcludingSeen(
+      unique, (s) => fullNameKey(s, givenKey), seenFull, unique.length, count
+    );
+    const surnames = chosen.slice();
+    for (let i = 0; surnames.length < count && chosen.length > 0; i++) surnames.push(chosen[i % chosen.length]);
+    return { surnames, exhausted };
+  }
+
+  function fullNameKey(surname, givenKey) {
+    return (surname || "") + "|" + givenKey;
+  }
+
+  function shuffleInPlace(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+
+  // ---------- 鎖定單字（見 NOTES.md 第二十五節、設計文件 10.3） ----------
+  // 鎖定是「整批」層級的條件，不是某張卡自己的狀態：鎖住某張卡的某個字之後，下一次「再產生一次」
+  // 整批 5 個候選在同一個位置都會是這個字（跟寶寶取名「固定字輩」同一種機制：先篩出符合的組合，
+  // 再照原本的分數＋抽樣挑 5 個）。locks 物件由呼叫端持有：
+  //   { surname: "陳" 或 null, given: { pos: 0/1, char: "宇" } 或 null }
+  // 姓氏可以另外鎖（只在隨機/複姓模式有意義），名字裡同一時間只鎖一個字（鎖兩個字＝整個名字固定，
+  // 等於只剩一個組合，用收藏就好），鎖新的字會取代舊的。
+  // units：這張卡可鎖定的單位，[{type:"surname", value}, {type:"given", pos, char}]，由呼叫端依工具規則決定。
+  // 第二十三輪新增 {type:"given_pool", value}：小說取名西方奇幻／日系輕小說的名字是整筆從姓名庫抽出來的、
+  // 不是逐字組合，所以把「整個名字」當一個單位鎖，鎖住時 locks.given = { pool: "名字" }（跟逐字鎖的
+  // { pos, char } 共用 given 欄位：一個分類只會是其中一種，而且同樣「名字部分同一時間只鎖一個」）。
+  function lockUnitLabel(unit, givenLength) {
+    if (unit.type === "surname") return "姓「" + unit.value + "」";
+    if (unit.type === "given_pool") return "名字「" + unit.value + "」";
+    if (givenLength <= 1) return "名字「" + unit.char + "」";
+    return (unit.pos === 0 ? "名字首字" : "名字末字") + "「" + unit.char + "」";
+  }
+
+  function isUnitLocked(locks, unit) {
+    if (unit.type === "surname") return locks.surname === unit.value;
+    if (unit.type === "given_pool") return !!locks.given && locks.given.pool === unit.value;
+    return !!locks.given && locks.given.pool === undefined && locks.given.pos === unit.pos && locks.given.char === unit.char;
+  }
+
+  function toggleLockUnit(locks, unit) {
+    if (unit.type === "surname") {
+      locks.surname = locks.surname === unit.value ? null : unit.value;
+      return locks.surname !== null;
+    }
+    if (isUnitLocked(locks, unit)) {
+      locks.given = null;
+      return false;
+    }
+    locks.given = unit.type === "given_pool" ? { pool: unit.value } : { pos: unit.pos, char: unit.char };
+    return true;
+  }
+
+  // 建立候選卡上的「鎖定」按鈕＋展開的選字列。回傳 { button, panel, refresh }，refresh 讓呼叫端
+  // 在任何一張卡改了鎖定後，把整批卡片的按鈕狀態一起更新（因為鎖定是整批層級的）。
+  // 第二十三輪：這張卡原本有鎖定、refresh 後變成沒有任何鎖定（使用者在這張卡點掉、在別張卡改鎖而取代掉、
+  // 或按「全部解除」），展開的選字列自動收合，回到跟沒展開過的卡一樣的外觀。只看「有→沒有」的轉變，
+  // 不是「沒鎖就收合」：使用者剛展開、還沒選任何單位時，別張卡的鎖定變動不應該把它關掉。
+  function buildLockControl(units, givenLength, locks, onChange) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "icon-btn";
+    const panel = document.createElement("div");
+    panel.className = "lock-panel";
+    panel.hidden = true;
+
+    const hint = document.createElement("span");
+    hint.className = "lock-panel-hint";
+    // 可鎖單位裡有「整個名字」（西方奇幻／日系輕小說）時，「字」不貼切，改說「部分」。
+    hint.textContent = units.some((u) => u.type === "given_pool") ? "選要保留的部分：" : "選要保留的字：";
+    panel.appendChild(hint);
+
+    const unitBtns = units.map((unit) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "icon-btn";
+      b.addEventListener("click", () => {
+        const nowLocked = toggleLockUnit(locks, unit);
+        toast(nowLocked
+          ? "已鎖定" + lockUnitLabel(unit, givenLength) + "，按「再產生一次」時新一批都會保留"
+          : "已取消鎖定" + lockUnitLabel(unit, givenLength));
+        onChange();
+      });
+      panel.appendChild(b);
+      return { unit, b };
+    });
+
+    button.addEventListener("click", () => {
+      panel.hidden = !panel.hidden;
+      button.setAttribute("aria-expanded", String(!panel.hidden));
+    });
+    button.setAttribute("aria-expanded", "false");
+
+    let wasLocked = null; // 第一次 refresh 前未知，不觸發收合
+    function refresh() {
+      let any = false;
+      unitBtns.forEach(({ unit, b }) => {
+        const locked = isUnitLocked(locks, unit);
+        if (locked) any = true;
+        b.classList.toggle("locked", locked);
+        b.textContent = lockUnitLabel(unit, givenLength) + (locked ? " 已鎖" : "");
+        b.setAttribute("aria-pressed", String(locked));
+      });
+      button.classList.toggle("locked", any);
+      button.textContent = any ? "已鎖定" : "鎖定";
+      if (wasLocked && !any && !panel.hidden) {
+        panel.hidden = true;
+        button.setAttribute("aria-expanded", "false");
+      }
+      wasLocked = any;
+    }
+    refresh();
+    return { button, panel, refresh };
+  }
+
+  // 結果區下方的鎖定狀態列文字（沒有任何鎖定時回傳空字串，呼叫端據此隱藏）。
+  // givenLength 選填：呼叫端確定名字固定是單字時傳 1（寶寶取名單字名，第二十二輪），顯示「名字「X」」而不是「名字首字」；
+  // 小說取名的漢字組合混著單字/雙字名，鎖住的字確實是「首字」，不傳維持原本說法。
+  function describeLocks(locks, givenLength) {
+    const parts = [];
+    if (locks.surname) parts.push("姓「" + locks.surname + "」");
+    if (locks.given && locks.given.pool !== undefined) parts.push("名字「" + locks.given.pool + "」");
+    else if (locks.given) parts.push((givenLength === 1 ? "名字" : (locks.given.pos === 0 ? "名字首字" : "名字末字")) + "「" + locks.given.char + "」");
+    return parts.join("、");
   }
 
   return {
@@ -400,10 +986,23 @@ const NG = (function () {
     buildShareAllUrl,
     readSharedAllFromUrl,
     buildPlatformShareLinks,
-    createShareMenu,
-    renderFavoritesSection,
+    refreshFavorites,
+    syncFavoriteButtons,
+    initFavoritesDrawer,
+    setSharedViewActive,
+    createViewHistory,
+    saveSession,
+    loadSession,
+    scrollToWorkArea,
+    sampleExcludingSeen,
+    pickSurnamesForFixedName,
+    fullNameKey,
+    buildLockControl,
+    describeLocks,
     createTagSorter,
     COMMON_SURNAMES,
     randomSurname,
+    surnameRomanization,
+    buildRomanizedName,
   };
 })();
