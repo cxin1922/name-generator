@@ -974,3 +974,78 @@
 - 小說取名古風武俠（姓氏同時鎖「完顏」方便比對）：只鎖「麗」10 批 50 個全部含「麗」，首字 19、末字 31；升級「也固定在首字」後 50 個全部首字「麗」。西方奇幻 `given_pool` 鎖整個名字仍正常（5 個不同姓氏配同一個名字）。
 - 收藏／取消收藏、分享、全部解除（狀態列隱藏、選字列自動收合）、全部清空、兩個工具產生 5 個候選的完整流程都正常；console 無錯誤。
 - 使用者要求 commit 前伺服器留著手動測，沒有關閉 9583。全程沒有執行任何 `git` 指令。
+
+## 四十五、E-E-A-T 稽核報告（`docs/specs/eeat-seo-audit.md`）優先清單第一批落地
+
+背景：上一輪委託 Opus agent 產出 E-E-A-T 查證報告，使用者確認報告範圍是全站（不是只有關於頁），核對報告第四節優先清單後，使用者批准第 2、4、5、6 項先做（第 3 項文章署名/日期待確認，見下）。
+
+218. **T-2 首頁事實錯誤修正**：`index.html` 小說角色取名卡片原寫「依小說分類、身分、性格標籤」，但「身分」欄位第五輪就改成「角色氣質」了，使用者點進工具會發現講的跟實際欄位不一樣。改成「依小說分類、角色氣質、性格標籤」，一個詞的事。
+
+219. **X-1 新增 `methodology.html`（字庫與考據方式頁，乾淨網址 `/methodology`）**：比照 `about.html` 的頁面樣板（head／頁首／麵包屑／`article-body`／廣告版位／頁尾）。內容五節：字庫有多大（寫之前重新用 `data/chars-base.json`、三份音譯姓名庫、`COMPOUND_SURNAMES` 清點過實際數字：210 字、65/65/66 筆音譯姓名、31 個複姓，不是憑記憶寫舊數字）、字源怎麼查的（《說文解字》、漢典、教育部異體字字典、dong-chinese.com）、老實說的限制（28 字字源不詳的原因、本義與常用義落差大的字照實寫、寓意/氣質標籤是語感判斷不是文獻查證）、看兩個例子（直接貼「悠」「安」兩個字在 `chars-base.json` 裡實際的 `meaning`／`etymology` 欄位內容，不是另外編範例）、發現問題怎麼辦（聯絡信箱＋最後更新日期）。寫完才發現稿子裡有 4 處破折號「——」，使用者 SKILL.md／NOTES 多次提過的禁用標點，全部改成句號或拿掉重寫，之後寫新內容要先自己 grep 一次「——」再定稿。
+
+220. **X-2／X-3 FAQ 補寫＋工具頁連到考據頁**：`faq.html`「這個工具的取名邏輯是什麼？」原本只有兩句話（配對字庫、僅供參考），太薄，補成講清楚「評分排序＋從高分組合抽」的邏輯，並連到 `/methodology`。`about.html`「字庫和選字邏輯是怎麼來的」那段也補一句連到 `/methodology`（提供更完整版本，首頁那段維持簡短）。兩個工具頁（`baby-name/index.html`、`novel-name/index.html`）引言下方各加一行 `<p class="field-hint">`「字庫怎麼查證的？」連到 `/methodology`，沿用既有 `.field-hint` 樣式，沒有另外新增 CSS class。
+
+221. **T-4 寶寶取名補戶政用字提醒**：先查證《姓名條例》現行條文（`law.moj.gov.tw`，113 年 05 月 29 日最後修正版）第 2 條：中文姓名須使用辭源、辭海、康熙等通用字典或教育部國語辭典收錄的字，沒收錄的字戶政機關不予登記。`faq.html` 新增一題「寶寶取名產生的名字，正式報戶口時一定能用嗎？」，誠實講本站字庫沒有逐字比對這幾本辭典、大致不容易踩到但建議正式報戶口前自行確認，不是照抄 AI 摘要或憑印象寫法條內容。
+
+222. **sitemap.xml 用 `scripts/build_sitemap.py` 重新產生**：新增 `methodology.html` 後網址數從 23 變 24，腳本自動抓到，不用手動加。
+
+223. **其他兩件使用者這輪提出、順手一起處理的事**：
+    - **「候選名字」斷行的規則文件化**：之前只在兩個工具頁的引言包了「候選名字」四字，使用者指出首頁跟其他地方換行一樣醜（例如「古風武俠」斷在中間），要求訂一套規矩供日後新工具沿用。在 `css/style.css` 的 `.no-break` 規則上方寫清楚三條：①只包本站專有名詞（兩個工具正式名稱、小說七大分類、候選名字／取名靈感／寓意祝福／角色氣質／性格標籤這幾個反覆出現的固定詞組，新工具要把自己的名稱／分類加進這份清單）；②只用在短文案（h1/lead/卡片說明/`.form-intro`），不用在長文章內文（成本划不來、之後編輯容易漏）；③同一句話裡只在實測真的斷在詞中間的地方包，不是見詞就包。照這套規則補了 `index.html` 的 h1 lead（寶寶取名、取名靈感）跟兩張工具卡片（寓意祝福、角色氣質、性格標籤），以及 `novel-name/index.html` 引言裡列舉的三個分類名（古風武俠、現代都市、西方奇幻）。
+    - **〈小說命名常見雷區〉結尾補軟性導流**：使用者指出這篇文章內文结束後直接跳「延伸閱讀」＋一條乾巴巴的「回到小說角色取名工具 →」連結，沒有像〈小說取名工具怎麼挑？〉那篇有一段自然收尾再帶到工具。檢查過其他幾篇文章（`novel-character-name-growth`、`novel-villain-name-impact`、`zhufu-zenmexuan`）也是同樣「內文結束直接接延伸閱讀區塊」的寫法，研判是全部 16 篇文章共通的既有模式，不是這篇特例，但使用者這輪只點名這一篇，所以只改了這篇，沒有自己擴大範圍去改其他 15 篇（這點之後要跟使用者確認要不要比照辦理）。補的段落呼應前面八個雷區，收斂成「雷區大多是回頭檢查才發現、不是靈感一次到位」，再軟性帶到小說角色取名工具，不是硬塞推銷句。
+
+224. **待確認：E-2／T-3 文章署名＋日期**。使用者原本傾向「加日期不加署名」（頁尾已有全站統一署名，日期對讀者/Google 判斷內容新舊有用、成本低），但後來提出疑慮：如果現在一次給 16 篇文章都補同一個日期（今天），會被看出是「一口氣補齊、之後很久沒再更新」，不夠自然。這題還沒有最終定案，先不動手，待使用者確認要不要做、怎麼做（例如用各篇文章原本在 `docs/specs/name-generator-design.md` 第八節寫的規劃發布順序去反推大概日期，而不是全部填今天）。
+
+**驗證**（`npx wrangler dev --port 9701`，Claude Browser 實測；測完已確認關閉，port 釋放）：
+- `methodology.html` 直接訪問 `/methodology` 正常顯示五節內容，console 無錯誤。
+- 首頁、`faq.html`、`baby-name/index.html`、`novel-name/index.html`、`about.html` 裡新增的 `/methodology` 連結都指向正確網址並能點開。
+- 375px 手機寬，首頁「寶寶取名」「取名靈感」四字／五字詞確認不再斷在詞中間。
+- `novel-naming-common-pitfalls.html` 新增段落正確顯示，裡面的「小說角色取名工具」字樣跟既有「回到小說角色取名工具 →」連結都在。
+- `sitemap.xml` 24 筆網址，含 `/methodology`。
+- 全程沒有執行任何 `git` 指令。
+
+## 四十六、寶寶取名「自訂姓氏」「固定字輩」用中文輸入法打不進去（IME 組字被即時過濾清空）
+
+背景：使用者回報 Mac 瀏覽器用注音在寶寶取名的「自訂輸入姓氏」（`#surname-custom`）、「固定字輩」（`#generation-char`）完全打不出字。
+
+225. **根因**：這兩個欄位的 `input` 事件每次都立刻跑 `filterToChineseChars()`（只留 `一-鿿`）。中文輸入法（注音、拼音等）組字期間瀏覽器會連續觸發 `input`，欄位值是「ㄔㄣˊ」這種還沒選字的中間狀態；注音符號不在範圍內，被當場濾成空字串，組字被打斷，永遠選不到字。屬於「即時字元過濾沒考慮 IME（Input Method Editor，輸入法編輯器）組字狀態」的典型 bug，不是過濾規則本身錯。直接打中文（不經組字）不會出事，所以之前用一般鍵盤輸入測不出來。
+
+226. **修法**（`js/baby-name.js` 新增 `bindChineseOnlyInput(input, maxChars, onChange)`，兩個欄位共用）：
+    - `compositionstart` 設 `composing = true`；`compositionend` 設回 `false` 並**當下**跑一次完整過濾＋寫 state——這時輸入法剛把選定的字交出來，不延後到下一次 `input`（有些瀏覽器選字後不一定再送一次 `input`）。
+    - `input`：組字中直接 `return` 不過濾；不在組字中照舊立刻過濾。打英文、貼上、刪除沒有 composition 事件，維持原本「打了／貼了立刻濾掉」的即時回饋。
+    - **為什麼用 composition 事件、不用其他做法**：(1) 只看 `InputEvent.isComposing`：各瀏覽器最後一次 `input` 與 `compositionend` 的先後順序不同（Chrome 是 `input` 再 `compositionend`；Safari 歷來有 `compositionend` 先、再送一次 `input` 的情況），單靠 `isComposing` 可能錯過選定字的那一刻，用自己的 flag＋`compositionend` 補跑過濾，兩種順序都能涵蓋。(2) 改成 `blur`／`change` 才過濾：會失去「打英文立刻被擋」的即時回饋，違反當初使用者要的行為。(3) 過濾規則放寬讓注音符號通過：注音可能殘留進 state，還要另外處理。
+    - **`maxlength` 拿掉、改由 JS `slice(0, maxChars)` 控制**（姓氏 4、字輩 1）：`maxlength` 算的是欄位裡的字元數，組字中的注音符號也可能被算進去（「ㄐㄧㄚ」就 3 個字元），上限 1 的字輩欄位有被瀏覽器原生截斷、破壞組字的風險（各瀏覽器實作不一，這點是推斷，沒有在真的 Mac Safari 上查證）。改成選定字之後才由同一個函式先過濾再截斷，兩者順序固定、不會互相蓋掉。
+    - `js/novel-name.js` 的 `#novel-surname-custom` 確認只有 `trim()`、沒有字元過濾（也要接受英文姓氏），`maxlength="30"` 遠大於組字長度，不受影響、沒有動。
+
+**驗證**（`npx wrangler dev --port 9617`，`.claude/launch.json` 新增 `name-generator-wrangler-9617`；Claude Browser 實測）：
+- **怎麼模擬真正的輸入法組字**（之後遇到類似 bug 可照抄）：瀏覽器自動化的 `type` 只會直接插入最終字，不會觸發 composition 事件，測不出這類 bug。改用 `javascript_tool` 手動 dispatch 完整序列：`el.dispatchEvent(new CompositionEvent('compositionstart'))` → 每個中間狀態先 `el.value = 'ㄔㄣ'`、再 dispatch `compositionupdate` 與 `new InputEvent('input', { inputType: 'insertCompositionText', isComposing: true })` → 最後 `el.value = '陳'`，依兩種瀏覽器順序送出（Chrome：`input` 再 `compositionend`；Safari：`compositionend` 再 `input`，`isComposing: false`）。每一步記錄 `el.value`，state 則是 dispatch `pagehide` 觸發 `saveSession` 後讀 sessionStorage 確認。
+- **對照組**：在暫時建立的 `<input>` 掛上舊版過濾邏輯跑同一序列，中間狀態每一步都被清成空字串，重現使用者回報的 bug；新版同序列中間狀態「ㄐ」「ㄐㄧ」「ㄐㄧㄚ」完整保留。
+- 姓氏：「ㄔ→ㄔㄣ→ㄔㄣˊ→陳」兩種事件順序都得到「陳」、state `surnameCustom` 為「陳」；接著再組「歐陽」得到「陳歐陽」；組字最後交出「ab林」→ 濾成「陳林」；組「司馬上官」後再組「東」→ 截在 4 字「司馬上官」。
+- 字輩：「ㄐㄧㄚ→家」「ㄔㄥˊ→承」（Safari 順序）都正確、state `generationChar` 同步；組字交出「家族」→ 截成「家」。
+- 非組字情境：貼上「陳abc123」→「陳」、貼上 5 個字 →截成 4 個、刪除字元正常；字輩打「x」→ 空、貼「德ab」→「德」。一般 `type` 動作：姓氏打「abc歐陽x1」→「歐陽」、字輩打「q家族」→「家」，state 同步。
+- 完整流程：寶寶取名（姓氏「歐陽」、字輩「家」）產生 5 個候選、收藏、鎖定「名字首字『家』」後再產生 3 批，首字全是「家」；小說取名自訂姓氏組字「林」不受影響，古風武俠產生 5 個候選、收藏／取消收藏正常。console 全程無錯誤。
+- 限制：以上是事件模擬，**沒有在真的 Mac＋注音輸入法上實測**，請使用者在 Mac 上手動確認一次。伺服器 9617 留著沒關。
+
+## 四十七、其餘 15 篇文章逐篇檢查軟性收尾（接續第四十四節的待辦）
+
+背景：第四十四節幫〈小說命名常見雷區〉補完收尾段落時提到，其餘 15 篇文章可能也是同樣「內文結束直接接延伸閱讀」的既有模式，但當時使用者只點名那一篇，沒有擴大範圍去改其他篇。這輪委託逐篇讀完 15 篇全文（不是只看結尾），判斷是不是真的需要補收尾：只在最後一段仍停留在最後一個小標題的細節、完全沒有拉回整篇主旨時才補，不是每篇都硬塞。
+
+過程中途收到使用者修正：原本補在〈小說命名常見雷區〉的那句收尾只用純文字寫「小說角色取名工具」，沒有包超連結，使用者已自行修正成 `<a href="/novel-name/" target="_blank" rel="noopener">小說角色取名工具</a>` 這種格式（比照 `novel-naming-tool-pitfalls.html` 既有寫法），之後新增的收尾段落一律照這個格式，提到工具名稱的地方要包連結、加 `target="_blank" rel="noopener"`。
+
+227. **逐篇判斷結果**：
+
+改了 2 篇（最後一段只是前一個小標題的細節延伸，沒有收斂整篇主旨）：
+- `novel-character-name-growth.html`：最後一段停留在「事先想過角色未來可能的新稱呼」這個單一細節上，沒有呼應開頭「名字會不會跟著角色長大」的主旨，補一段收斂＋連到 `<a href="/novel-name/">小說角色取名工具</a>`。
+- `novel-pen-name-guide.html`：最後一段是「筆名定案後盡量別常換」的實務提醒，沒有回扣開頭「筆名跟角色名字是兩件不同的事」這個主旨，補一段收斂＋連到 `/novel-name/`（這篇講的是筆名不是角色名，但文章本身歸在小說類延伸閱讀、既有「回到小說角色取名工具」連結也指向 `/novel-name/`，判斷依據是文章脈絡，不是機械式照檔名判斷該連哪個工具）。
+
+跳過 13 篇（逐篇列原因，不是只寫「檢查過都處理了」）：
+- `caishichang-ming.html`、`diezi-xiaoming.html`、`xiaoming-huying-daming.html`、`xinshoubama-changwen-wenti.html`、`zhufu-zenmexuan.html`、`zibei-jiazu-chuancheng.html`、`shijing-chuci-qiming.html`：最後一段本身就是收斂全文主旨的句子（例如菜市場名那篇結尾「…每一代父母的心意，其實比想像中更接近彼此」，新手爸媽那篇結尾「取名這件事，沒有一套公式能保證萬無一失…」），已經有自然收尾感，不需要再加。其中 `xinshoubama-changwen-wenti.html`、`zhufu-zenmexuan.html`、`zibei-jiazu-chuancheng.html`、`shijing-chuci-qiming.html` 文中段落本來就已經自然提到寶寶取名工具（`xinshoubama-changwen-wenti.html` 已是正確連結格式），結尾不需要再重複帶一次工具。
+- `fuxing-xiaoshuo-shijia.html`、`novel-character-quality-by-genre.html`、`novel-genre-naming-logic-compared.html`、`novel-protagonist-name-memorable.html`、`novel-villain-name-impact.html`：最後一段都有明確的收斂句（例如「歸結起來，其實只有一個核心判斷」「這些差異正說明了為什麼『取名邏輯』不能一套公式套所有類型」），把全文主旨收攏成一個結論，符合「不需要改」的標準；判斷依據是「有沒有收斂主旨」，不是單純「有沒有提到工具」。
+- `novel-naming-tool-pitfalls.html`：參考範例本身，重新完整讀過一次確認，結尾「挑好之後，還是要自己把關」段落本來就是軟性收斂＋帶到工具，維持原狀不動。
+
+228. **發現但不在本次任務範圍內、建議使用者之後覆核的問題**：`fuxing-xiaoshuo-shijia.html` 最後一段原文裡有一處「——」（「讀者連記住這個角色的理由都少了一個——這大概就是複姓在小說裡…」），是既有內容、不是這次新增的，依任務範圍只檢查軟性收尾、沒有動它；但網站明確禁用這個標點，建議之後找時間一併修掉。
+
+**驗證**（`npx wrangler dev --port 9733`，`.claude/launch.json` 新增 `name-generator-wrangler-9733`；Claude Browser 實測）：
+- `novel-character-name-growth.html`、`novel-pen-name-guide.html` 兩篇新增段落渲染後文字正確顯示，連結都是 `<a href="/novel-name/" target="_blank" rel="noopener">小說角色取名工具</a>`，連結樣式跟既有內文連結一致，排版沒有跑掉，廣告版位位置正常。
+- 兩篇 console 皆無錯誤。
+- 兩篇新增段落都 grep 過「——」，確認沒有殘留。
+- 伺服器 9733 留著沒關，全程沒有執行任何 `git` 指令。

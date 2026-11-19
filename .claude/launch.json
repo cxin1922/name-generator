@@ -117,6 +117,28 @@
         "9583"
       ],
       "port": 9583
+    },
+    {
+      "name": "name-generator-wrangler-9617",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--port",
+        "9617"
+      ],
+      "port": 9617
+    },
+    {
+      "name": "name-generator-wrangler-9733",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--port",
+        "9733"
+      ],
+      "port": 9733
     }
   ]
 }
