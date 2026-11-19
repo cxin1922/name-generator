@@ -47,15 +47,21 @@
   let meaningSorter = null;
   let currentStep = 1;
   let lastCandidates = [];
-  let shareAllMenu = null; // 分享全部的選單，跟 lastCandidates 綁在一起，換一批候選就要重建（見 runGeneration）
-
-  function resetShareAllMenu() {
-    if (shareAllMenu) {
-      shareAllMenu.remove();
-      shareAllMenu = null;
-    }
-  }
-
+  // 第十九輪（NOTES.md 第二十五節）：鎖定單字＋排除已看過。兩者都只存在記憶體，不寫 localStorage。
+  // locks 是整批層級的條件（見 shared.js buildLockControl 說明）；lastLockMeta 跟 lastCandidates
+  // 一一對應，記錄每張結果卡的字組成與可鎖定單位，不塞進候選物件本身（候選物件會被收藏/分享序列化）。
+  const locks = { surname: null, given: null };
+  const seenNames = new Set();
+  // 第三十五節：完整姓名（姓氏|名字）層級的已看過紀錄，只給「名字固定、只換姓氏」情境抽姓氏時比對用
+  // （NG.pickSurnamesForFixedName）。每批結果的完整姓名都記進來，包含鎖定前看到的那一批。
+  const seenFullNames = new Set();
+  let lastLockMeta = [];
+  let lockControls = [];
+  // 第三十五節：瀏覽器上一頁／下一頁對應表單步驟（NG.createViewHistory）。currentView 是目前畫面：
+  // "shared"（分享視圖）／"step1"／"step2"／"result"。
+  let viewHistory = null;
+  let currentView = "step1";
+  let hasSharedContent = false;
   function $(sel) { return document.querySelector(sel); }
   function $all(sel) { return Array.from(document.querySelectorAll(sel)); }
 
@@ -74,26 +80,121 @@
     bindMeaningField();
     bindStepNav();
     bindResultActions();
+    NG.initFavoritesDrawer("baby");
     refreshFavoritesSection();
 
+    let sharedList = null;
     const sharedAll = NG.readSharedAllFromUrl();
     if (sharedAll && sharedAll.length > 0) {
-      renderSharedCandidates(sharedAll);
+      sharedList = sharedAll;
     } else {
       const shared = NG.readSharedFromUrl();
-      if (shared) renderSharedCandidates([shared]);
+      if (shared) sharedList = [shared];
     }
+    if (sharedList) renderSharedCandidates(sharedList);
+    hasSharedContent = !!sharedList;
+    $("#btn-start-own").addEventListener("click", () => {
+      viewHistory.forward("step1");
+      showView("step1");
+    });
+
+    initViewHistory();
+  }
+
+  // 第三十五節：決定載入時要顯示哪個畫面。重新整理／上一頁回到本頁（紀錄上已有本頁 state）時，
+  // 從 sessionStorage 還原表單與上一批結果，回到原本的畫面；新開的瀏覽一律從頭（分享視圖或步驟 1），
+  // 網址上殘留的 ?step= 會被改寫掉。還原不了的畫面往前退（結果→步驟 2；沒有分享內容的分享視圖→步驟 1），
+  // 退的時候 ngDepth 歸零，避免底下紀錄跟畫面順序對不上。
+  function initViewHistory() {
+    viewHistory = NG.createViewHistory({ hasShared: hasSharedContent, render: showView });
+    window.addEventListener("pagehide", saveSession);
+    let view = hasSharedContent ? "shared" : "step1";
+    let depth = 0;
+    const cur = viewHistory.current();
+    if (cur) {
+      const session = NG.loadSession("baby", viewHistory.sid);
+      if (session) {
+        restoreSession(session);
+        view = cur.ngView;
+        depth = cur.ngDepth;
+      }
+    }
+    let fallback = view;
+    if (fallback === "result" && lastCandidates.length === 0) fallback = "step2";
+    if (fallback === "shared" && !hasSharedContent) fallback = "step1";
+    if (fallback !== view) { view = fallback; depth = 0; }
+    viewHistory.replace(view, depth);
+    showView(view);
+  }
+
+  function saveSession() {
+    NG.saveSession("baby", viewHistory.sid, {
+      state,
+      meaningOrder: meaningSorter.getOrder(),
+      meaningFreeText: $("#meaning-free-text").value,
+      lastCandidates,
+      lastLockMeta,
+    });
+  }
+
+  // 把 sessionStorage 的表單內容寫回 state 與畫面（按鈕 active、輸入框、下拉選單、寓意排序）。
+  // 鎖定與「已看過」依原本設計只活在記憶體（第二十五節），重新整理後不還原。
+  function restoreSession(s) {
+    Object.assign(state, s.state || {});
+    $all("#baby-form .option-row").forEach((row) => {
+      const v = String(state[row.dataset.field]);
+      row.querySelectorAll(".option-btn").forEach((b) => b.classList.toggle("active", b.dataset.value === v));
+    });
+    $("#surname-custom").value = state.surnameCustom || "";
+    $("#surname-custom").hidden = state.surnameMode !== "custom";
+    $("#generation-field").hidden = state.nameLength !== 2;
+    $("#generation-toggle").checked = !!state.useGenerationChar;
+    $("#generation-char").value = state.generationChar || "";
+    $("#generation-char").hidden = !state.useGenerationChar;
+    $("#birth-month").value = state.birthMonth || "";
+    $("#zodiac").value = state.zodiacId || "";
+    const items = (s.meaningOrder || [])
+      .map((k) => MEANING_CATEGORIES.find((c) => c.key === k))
+      .filter(Boolean)
+      .map((c) => ({ key: c.key, label: c.label }));
+    meaningSorter.setItems(items);
+    $("#meaning-free-text").value = s.meaningFreeText || "";
+    lastCandidates = Array.isArray(s.lastCandidates) ? s.lastCandidates : [];
+    lastLockMeta = Array.isArray(s.lastLockMeta) ? s.lastLockMeta : [];
+    if (lastCandidates.length > 0) renderCandidates(lastCandidates);
+  }
+
+  // 只負責畫面切換，不碰 history（history 由呼叫端或 popstate 處理）。
+  function showView(view) {
+    if (view === "result" && lastCandidates.length === 0) view = "step2";
+    if (view === "shared" && !hasSharedContent) view = "step1";
+    currentView = view;
+    if (view === "shared") {
+      NG.setSharedViewActive(true);
+      $("#result-section").hidden = true;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    // 使用者已經在自己取名（表單或自己的結果），分享區塊整個隱藏（第三十五節）。
+    NG.setSharedViewActive(false);
+    if (view === "result") {
+      $(".form-card").hidden = true;
+      $(".step-indicator").hidden = true;
+      $("#result-section").hidden = false;
+      NG.scrollToWorkArea($("#result-section"));
+      return;
+    }
+    $("#result-section").hidden = true;
+    $(".form-card").hidden = false;
+    $(".step-indicator").hidden = false;
+    hideStepError();
+    goToStep(view === "step2" ? 2 : 1);
   }
 
   // 收藏查看區塊（5.：候選卡收藏/取消收藏時都要呼叫，讓區塊即時同步）。
+  // 第二十四輪：抽屜與兩個側邊標籤（寶寶取名／小說取名）由 shared.js 統一渲染，見 NOTES.md 第三十節。
   function refreshFavoritesSection() {
-    NG.renderFavoritesSection(
-      "baby",
-      $("#favorites-grid"),
-      $("#favorites-empty-hint"),
-      $("#fav-count"),
-      renderCandidateCard
-    );
+    NG.refreshFavorites();
   }
 
   function populateZodiacSelect() {
@@ -141,9 +242,18 @@
     });
 
     $("#surname-custom").addEventListener("input", (e) => {
-      state.surnameCustom = e.target.value.trim();
+      const filtered = filterToChineseChars(e.target.value);
+      if (filtered !== e.target.value) e.target.value = filtered;
+      state.surnameCustom = filtered.trim();
       refreshStepErrorIfShown();
     });
+  }
+
+  // 使用者要求：「自訂輸入姓氏」「固定字輩」這兩個欄位只接受中文字（繁簡皆可），
+  // 輸入當下就把不合法字元（英文、數字、符號、emoji 等）濾掉，不是等送出才擋。
+  // 只用常用的中日韓統一表意文字範圍 \u4e00-\u9fff，不做生僻字擴展區，這個專案場景夠用。
+  function filterToChineseChars(text) {
+    return text.replace(/[^\u4e00-\u9fff]/g, "");
   }
 
   function bindGenerationField() {
@@ -155,7 +265,9 @@
       refreshStepErrorIfShown();
     });
     input.addEventListener("input", (e) => {
-      state.generationChar = e.target.value.trim().slice(0, 1);
+      const filtered = filterToChineseChars(e.target.value).slice(0, 1);
+      if (filtered !== e.target.value) e.target.value = filtered;
+      state.generationChar = filtered;
       refreshStepErrorIfShown();
     });
   }
@@ -267,16 +379,19 @@
       const errors = validateStep1();
       if (errors.length > 0) { showStepError(errors); return; }
       hideStepError();
-      goToStep(2);
+      viewHistory.forward("step2");
+      showView("step2");
     });
-    $("#btn-prev").addEventListener("click", () => { hideStepError(); goToStep(1); });
+    // 上一步：退回步驟 1 那筆瀏覽紀錄（不是再推一筆），跟瀏覽器上一頁同一個效果。
+    $("#btn-prev").addEventListener("click", () => { hideStepError(); viewHistory.backTo("step1"); });
     $("#baby-form").addEventListener("submit", (e) => {
       e.preventDefault();
       // 第 1 頁必填已經在「下一步」擋過一次，這裡是防呆（例如瀏覽器上一頁/下一頁回到第 2 頁的情境）。
       const errors = validateStep1();
       if (errors.length > 0) { showStepError(errors); return; }
       hideStepError();
-      runGeneration();
+      // 從表單送出＝條件可能變了，舊的鎖定字可能已經不符合新條件（例如改了性別、字數），一律清掉。
+      runGeneration({ fromForm: true });
     });
   }
 
@@ -290,28 +405,25 @@
     $("#step-indicator").textContent = step === 1
       ? "第 1 頁／共 2 頁：基本條件"
       : "第 2 頁／共 2 頁：寓意/祝福";
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    NG.scrollToWorkArea($("#step-indicator"));
   }
 
   function bindResultActions() {
-    $("#btn-regenerate").addEventListener("click", () => runGeneration());
-    $("#btn-edit-form").addEventListener("click", () => {
-      $("#result-section").hidden = true;
-      $(".form-card").hidden = false;
-      $(".step-indicator").hidden = false;
-      goToStep(1);
+    $("#btn-regenerate").addEventListener("click", () => runGeneration({ fromForm: false }));
+    $("#btn-clear-locks").addEventListener("click", () => {
+      locks.surname = null;
+      locks.given = null;
+      onLocksChanged();
+      NG.toast("已解除全部鎖定");
     });
-    const shareAllBtn = $("#btn-share-all");
-    shareAllBtn.addEventListener("click", () => {
+    // 修改條件：退回步驟 1 那筆瀏覽紀錄（第三十五節），之後再往前走會覆蓋掉舊的步驟 2／結果紀錄。
+    $("#btn-edit-form").addEventListener("click", () => viewHistory.backTo("step1"));
+    // 分享全部：點下去直接複製整批結果的連結（不展開選單）。
+    // 社群平台分享改放在頁尾的「分享這個網站」，分享的是工具本身而不是取名結果。
+    $("#btn-share-all").addEventListener("click", () => {
       if (lastCandidates.length === 0) return;
-      if (shareAllMenu) {
-        shareAllMenu.hidden = !shareAllMenu.hidden;
-        return;
-      }
       const url = NG.buildShareAllUrl(lastCandidates);
-      shareAllMenu = NG.createShareMenu(url, "幫我看看這 " + lastCandidates.length + " 個名字", "分享連結已複製，貼給朋友就能看到這 " + lastCandidates.length + " 個名字");
-      shareAllBtn.insertAdjacentElement("afterend", shareAllMenu);
-      shareAllMenu.hidden = false;
+      NG.copyText(url, "分享連結已複製，貼給朋友就能看到這 " + lastCandidates.length + " 個名字");
     });
   }
 
@@ -351,8 +463,12 @@
     return score;
   }
 
+  // 寓意分類（tags）留空的字不進寶寶取名候選池：第七輪字庫擴充時為小說取名灰色調角色補的那批字
+  // （暗、詭、冥、謀、府…，見 NOTES.md 第十二節／第三十二節），刻意不標任何祝福寓意，不適合新生兒命名。
+  // 原本靠低 popularity 壓在排序後段，但「排除已看過」會一路往後抽，連按再產生一次就會抽到，所以改成直接排除。
+  // 小說取名（novel-name.js）有自己的候選邏輯，不受影響。
   function buildCandidatePool() {
-    return charsBase.chars.filter((c) => genderCompatible(c.gender));
+    return charsBase.chars.filter((c) => c.tags.length > 0 && genderCompatible(c.gender));
   }
 
   function generateCombos(pool) {
@@ -384,10 +500,42 @@
   function pickSurname() {
     if (state.surnameMode === "none") return "";
     if (state.surnameMode === "custom") return state.surnameCustom || "";
+    // 隨機模式下使用者鎖住了某一批的姓氏：再產生一次時沿用，不重抽（10.4 的例外，見 NOTES.md 第二十五節）。
+    if (locks.surname) return locks.surname;
     return NG.randomSurname();
   }
 
-  function runGeneration() {
+  // 這張卡可以鎖哪些單位（規則見 NOTES.md 第二十五節）：
+  // - 姓氏：只有「隨機」模式需要鎖（自訂輸入本來就固定、不需要則沒有姓氏）。
+  // - 名字的字：雙字名、單字名都開放（第二十二輪，使用者要求拿掉原本「單字名不開放」的限制，見 NOTES.md 第二十八節）。
+  //   單字名鎖住那個字＝名字固定：姓氏隨機時只剩「換姓」這個變化（第三十五節起一次出 5 張卡、各配不同姓氏），
+  //   姓氏自訂/不需要/已鎖時每批都是同一個名字（1 張），這是數學上必然的結果，不是錯誤；狀態列會另外說明（見 onLocksChanged）。
+  //   開啟「固定字輩」時（只有雙字名有），另一個字跟字輩字只會組成 1 個名字，所以只開放鎖「字輩字所在的位置」，
+  //   效果是指定字輩放第一字或第二字（generateCombos 兩種位置都會生成）。
+  function lockUnitsFor(chars, surname) {
+    const units = [];
+    if (state.surnameMode === "random" && surname) units.push({ type: "surname", value: surname });
+    if (chars.length >= 1) {
+      chars.forEach((ch, pos) => {
+        // 字輩只對雙字名生效（generateCombos 單字名不看字輩），切回單字名時 state 可能還留著字輩設定，要排除。
+        if (state.nameLength === 2 && state.useGenerationChar && state.generationChar && ch !== state.generationChar) return;
+        units.push({ type: "given", pos, char: ch });
+      });
+    }
+    return units;
+  }
+
+  function matchesLock(chars) {
+    if (!locks.given) return true;
+    return chars[locks.given.pos] === locks.given.char;
+  }
+
+  function runGeneration(opts) {
+    const fromForm = !!(opts && opts.fromForm);
+    if (fromForm) {
+      locks.surname = null;
+      locks.given = null;
+    }
     const meaningOrder = meaningSorter.getOrder();
     const pool = buildCandidatePool();
     let combos = generateCombos(pool);
@@ -408,47 +556,79 @@
       combos.sort((a, b) => b.score - a.score);
     }
 
-    // 取分數前段做隨機抽樣，讓「再產生一次」在維持相關性的前提下仍有變化（10.3）。
-    const topPool = combos.slice(0, Math.max(30, Math.min(60, combos.length)));
-    shuffle(topPool);
-    const chosen = dedupeByName(topPool).slice(0, 5);
+    // 鎖定的字先當硬性條件篩一次（跟字輩同一種做法），再照分數排序結果抽樣。
+    combos = combos.filter((c) => matchesLock(c.chars));
 
-    const surname = pickSurname();
-    lastCandidates = chosen.map((combo, i) => buildCandidateObject(combo.chars, surname, i));
-    resetShareAllMenu(); // 候選換了一批，舊的分享全部選單網址已經過期，清掉讓下次點擊重建
+    // 取分數前段做隨機抽樣，讓「再產生一次」在維持相關性的前提下仍有變化（10.3）。
+    // 第十九輪起改成「只從本次瀏覽還沒看過的名字裡抽」，池子用完才允許重複（NG.sampleExcludingSeen）。
+    const topPoolSize = Math.max(30, Math.min(60, combos.length));
+    const { chosen, exhausted } = NG.sampleExcludingSeen(
+      combos, (c) => c.chars.join(""), seenNames, topPoolSize, 5
+    );
+    // 單字名鎖住那個字之後只剩 1 個組合，每次再產生一次都會「看完一輪」，這句提示會每次都跳、反而像出錯；
+    // 這個情境改由鎖定狀態列說明（見 onLocksChanged），這裡不跳。
+    if (exhausted && !fromForm && !isSingleNameLocked()) {
+      NG.toast("符合目前條件的名字都看過一輪了，接下來可能會出現看過的名字");
+    }
+
+    // 第三十五節：單字名鎖字＋隨機姓氏沒鎖＝名字固定、只剩姓氏能變，改成一次出 5 張卡、每張各抽一個不同姓氏
+    // （取代第二十二輪「每批只剩 1 張、只換姓」）。其他情況維持整批同一個姓氏（10.4）。
+    let picked = chosen;
+    let surnames;
+    if (isSurnameOnlyVarying() && chosen.length > 0) {
+      const r = NG.pickSurnamesForFixedName(NG.COMMON_SURNAMES, chosen[0].chars.join(""), seenFullNames, 5);
+      surnames = r.surnames;
+      picked = surnames.map(() => chosen[0]);
+      if (r.exhausted) NG.toast("這個名字能搭配的姓氏都看過一輪了，接下來可能會出現看過的姓名");
+    } else {
+      const surname = pickSurname();
+      surnames = chosen.map(() => surname);
+    }
+    lastCandidates = picked.map((combo, i) => buildCandidateObject(combo.chars, surnames[i], i));
+    lastLockMeta = picked.map((combo, i) => ({ chars: combo.chars, units: lockUnitsFor(combo.chars, surnames[i]) }));
+    picked.forEach((combo, i) => seenFullNames.add(NG.fullNameKey(surnames[i], combo.chars.join(""))));
 
     renderCandidates(lastCandidates);
-    $(".form-card").hidden = true;
-    $(".step-indicator").hidden = true;
-    $("#result-section").hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // 從步驟 2 產生結果＝往前一步，推一筆瀏覽紀錄；在結果頁按「再產生一次」不推（第三十五節）。
+    if (currentView !== "result") viewHistory.forward("result");
+    showView("result");
+    saveSession();
   }
 
-  function dedupeByName(list) {
-    const seen = new Set();
-    const out = [];
-    list.forEach((item) => {
-      const key = item.chars.join("");
-      if (!seen.has(key)) {
-        seen.add(key);
-        out.push(item);
-      }
-    });
-    return out;
+  // 任何一張卡改了鎖定：整批卡片的鎖定按鈕狀態、結果區下方的狀態列一起更新。
+  function isSingleNameLocked() {
+    return state.nameLength === 1 && !!locks.given;
   }
 
-  function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+  // 名字固定、只剩姓氏能變（第三十五節）：單字名鎖字、姓氏隨機、姓氏沒鎖。
+  function isSurnameOnlyVarying() {
+    return isSingleNameLocked() && state.surnameMode === "random" && !locks.surname;
+  }
+
+  // 單字名鎖字（第二十二輪）：名字只剩這一個字。狀態列多補一句說明，讓使用者知道這是鎖定造成的。
+  // 第三十五節：姓氏隨機沒鎖時改成一次出 5 個不同姓氏，說明文字跟著改；姓氏也固定時仍是每批同一個名字（1 張）。
+  function onLocksChanged() {
+    lockControls.forEach((ctrl) => ctrl.refresh());
+    const text = NG.describeLocks(locks, state.nameLength === 1 ? 1 : undefined);
+    let msg = text ? "已鎖定：" + text + "。按「再產生一次」，新一批都會保留。" : "";
+    if (text && isSingleNameLocked()) {
+      msg += isSurnameOnlyVarying()
+        ? "單字名鎖住這個字後名字固定，再產生一次會一次給 5 個不同的隨機姓氏搭配這個名字；想看其他名字請按「全部解除」。"
+        : "單字名鎖住這個字、姓氏又不是隨機（或已鎖定），姓名完全固定，再產生一次每批都只會是同一個名字；想看其他名字請按「全部解除」。";
     }
+    $("#lock-status").hidden = !text;
+    $("#lock-status-text").textContent = msg;
   }
 
   function buildCandidateObject(chars, surname, index) {
     const infos = chars.map((ch) => charInfo(ch));
     const givenName = chars.join("");
     const fullName = surname + givenName;
-    const pinyin = infos.map((i) => i.pinyin).filter(Boolean).join(" ");
+    // 拼音／威妥瑪拼音含姓氏（2026-11 新增，見 NOTES.md 第二十四節）：以前這裡只拼給名字部分，
+    // 使用者實測發現「自訂輸入」姓氏以外的隨機姓氏完全沒有拼音，只有給名字字庫裡的字才有。
+    // NG.buildRomanizedName 會先查姓氏羅馬拼音表，查不到（例如自訂輸入）就只回傳給名字部分，
+    // 不是整個留空。
+    const { pinyin, wadeGiles } = NG.buildRomanizedName(surname, infos);
     const meaningSummary = infos
       .filter((i) => i.meaning)
       .map((i) => i.char + "：" + i.meaning)
@@ -462,6 +642,7 @@
       surname,
       givenName,
       pinyin,
+      wadeGiles,
       meaningSummary,
       matchedTags,
     };
@@ -470,10 +651,17 @@
   function renderCandidates(candidates) {
     const grid = $("#candidate-grid");
     grid.innerHTML = "";
-    candidates.forEach((c) => grid.appendChild(renderCandidateCard(c)));
+    lockControls = [];
+    candidates.forEach((c, i) => grid.appendChild(renderCandidateCard(c, lastLockMeta[i])));
+    // 按鈕文字跟著實際數量，不寫死「5 個」（第二十二輪；第三十五節起只有姓名完全固定時才會是 1 個）。
+    // 第二十三輪：結果區標題（HTML 預設寫死「5 個」）也一併依實際數量更新。
+    $("#result-title").textContent = "為你找到的 " + candidates.length + " 個名字";
+    $("#btn-share-all").textContent = "分享全部 " + candidates.length + " 個名字";
+    onLocksChanged();
   }
 
-  function renderCandidateCard(c) {
+  // lockMeta 只有結果區的卡片會傳（收藏抽屜、分享區的卡片不能鎖定，因為它們不屬於「下一次再產生」的那一批）。
+  function renderCandidateCard(c, lockMeta) {
     const card = document.createElement("div");
     card.className = "candidate-card";
 
@@ -485,7 +673,9 @@
     if (c.pinyin) {
       const py = document.createElement("div");
       py.className = "candidate-pinyin";
-      py.textContent = c.pinyin;
+      // 威妥瑪拼音（簡化式）跟在漢語拼音後面用「・」分隔；查不到威妥瑪拼音時
+      // （例如自訂輸入姓氏、字輩用字不在字庫裡）就只顯示漢語拼音，不留空白或寫 undefined。
+      py.textContent = c.wadeGiles ? c.pinyin + " ・ " + c.wadeGiles : c.pinyin;
       card.appendChild(py);
     }
 
@@ -523,6 +713,7 @@
     const favBtn = document.createElement("button");
     favBtn.type = "button";
     favBtn.className = "icon-btn" + (NG.isFavorited("baby", c.id) ? " favorited" : "");
+    favBtn.dataset.favId = c.id;
     favBtn.textContent = NG.isFavorited("baby", c.id) ? "已收藏" : "收藏";
     favBtn.addEventListener("click", () => {
       const nowFav = NG.toggleFavorite("baby", c);
@@ -537,16 +728,21 @@
     shareBtn.type = "button";
     shareBtn.className = "icon-btn";
     shareBtn.textContent = "分享";
+    shareBtn.addEventListener("click", () => {
+      NG.copyText(NG.buildShareUrl(c), "分享連結已複製，貼給朋友就能看到「" + c.fullName + "」");
+    });
     actions.appendChild(shareBtn);
 
-    card.appendChild(actions);
+    let lockPanel = null;
+    if (lockMeta && lockMeta.units.length > 0) {
+      const ctrl = NG.buildLockControl(lockMeta.units, lockMeta.chars.length, locks, onLocksChanged);
+      actions.appendChild(ctrl.button);
+      lockPanel = ctrl.panel;
+      lockControls.push(ctrl);
+    }
 
-    const url = NG.buildShareUrl(c);
-    const shareMenu = NG.createShareMenu(url, "幫我看看這個名字：「" + c.fullName + "」", "分享連結已複製，貼給朋友就能看到「" + c.fullName + "」");
-    shareBtn.addEventListener("click", () => {
-      shareMenu.hidden = !shareMenu.hidden;
-    });
-    card.appendChild(shareMenu);
+    card.appendChild(actions);
+    if (lockPanel) card.appendChild(lockPanel);
 
     return card;
   }
@@ -560,8 +756,7 @@
       : "有人跟你分享了這個名字";
     grid.innerHTML = "";
     candidates.forEach((c) => grid.appendChild(renderCandidateCard(c)));
-    section.hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // 分享區塊的顯示/隱藏與表單收合改由 showView("shared") 負責（第三十五節），這裡只填內容。
   }
 
   init();

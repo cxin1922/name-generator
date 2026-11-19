@@ -25,6 +25,16 @@
   缺口與理由見 NOTES.md 第十三節第 56 點），並新增複姓資料池 COMPOUND_SURNAMES 供「隨機」模式使用
   （只對 HANZI_STYLES 生效，POOL_STYLES 見 updateSurnameRandomHint 說明）。查證來源、抽選比例判斷、
   實測結果見 NOTES.md 第十三節。
+
+  2026-11 第二十一輪：西方奇幻／日系輕小說新增各自的姓氏庫（novel-fantasy.json／novel-japanese.json 的
+  surnames 陣列），「隨機」模式改成可以選這兩類、從各自的姓氏庫抽姓，依文化慣例組合：日系「姓 名」、
+  西幻「名 姓」（見 finalizeCandidate）。科幻不加姓氏庫（人類角色本來就是完整中文姓名、AI 是代號），
+  「隨機」下維持停用；「複姓」是中文姓氏概念，三類都維持停用。判斷理由見 NOTES.md 第二十七節。
+
+  2026-11 第二十二輪：上一段科幻的處理已改。novel-scifi.json 的人類條目拆成 surname＋given 兩個欄位，
+  科幻改跟漢字類共用中文姓氏池（CHINESE_SURNAME_STYLES），隨機／複姓／自訂輸入／不需要四種模式都能選；
+  AI/仿生人代號條目（只有 name 欄位）任何模式都不加姓（isSplitHumanEntry／candidateTakesSurname）。
+  見 NOTES.md 第二十八節。
 */
 
 (function () {
@@ -40,6 +50,35 @@
 
   const HANZI_STYLES = ["gufeng", "modern", "campus", "mystery"];
   const POOL_STYLES = ["fantasy", "japanese", "scifi"];
+  // 有自己姓氏庫（資料檔 surnames 陣列）的音譯/日系分類，「隨機」模式從這裡抽姓（第二十一輪，見 NOTES.md 第二十七節）。
+  // 科幻刻意不在內：novel-scifi.json 的人類角色本來就是含姓的完整中文姓名（沈知微、顧星遙），
+  // AI/仿生人是代號（凱－零七），兩種都不該再加姓。（第二十二輪起此理由已過時，見下方 CHINESE_SURNAME_STYLES。）
+  const SURNAME_POOL_STYLES = ["fantasy", "japanese"];
+  // 第二十二輪（NOTES.md 第二十八節）：科幻人類角色拆成 surname＋given 後，姓氏改跟漢字類共用中文姓氏池
+  // （隨機抽 COMMON_SURNAMES＋25% 複姓、複姓模式抽 COMPOUND_SURNAMES）。上面 SURNAME_POOL_STYLES 註解裡
+  // 「科幻不該再加姓」的前提已不成立，但科幻仍不在 SURNAME_POOL_STYLES 內，因為它用的是中文姓氏、沒有自己的姓氏庫。
+  // AI/仿生人代號條目（沒有 given 欄位）不論哪種模式都不加姓，見 candidateTakesSurname。
+  const CHINESE_SURNAME_STYLES = HANZI_STYLES.concat(["scifi"]);
+
+  // 科幻人類條目：有 given 欄位（姓名分開存）；代號條目只有 name、整串不可拆。
+  function isSplitHumanEntry(entry) {
+    return typeof entry.given === "string";
+  }
+
+  // 這張候選卡會不會套用姓氏：漢字類一定會；西方奇幻／日系輕小說的整筆名字都會；
+  // 科幻只有人類條目會，代號條目永遠不加姓（不論隨機/複姓/自訂輸入）。
+  function candidateTakesSurname(c) {
+    if (c.kind === "hanzi") return true;
+    if (state.style === "scifi") return isSplitHumanEntry(c.entry);
+    return true;
+  }
+
+  // 各姓氏模式下第 2 頁要停用的分類：隨機不停用任何分類（第二十二輪起科幻也開放）；
+  // 複姓是中文姓氏概念，停用西方奇幻／日系輕小說（科幻人類角色是中文姓名，第二十二輪起開放）。
+  function disabledStylesFor(mode) {
+    if (mode === "compound") return POOL_STYLES.filter((s) => !CHINESE_SURNAME_STYLES.includes(s));
+    return [];
+  }
 
   const ORIENTATION_LABELS = {
     yanqing: "言情",
@@ -119,15 +158,17 @@
 
   let currentStep = 1;
   let lastCandidates = [];
-  let shareAllMenu = null; // 分享全部的選單，跟 lastCandidates 綁在一起，換一批候選就要重建（見 runGeneration）
-
-  function resetShareAllMenu() {
-    if (shareAllMenu) {
-      shareAllMenu.remove();
-      shareAllMenu = null;
-    }
-  }
-
+  // 第十九輪（NOTES.md 第二十五節）：鎖定單字＋排除已看過，做法跟 baby-name.js 一致，只存在記憶體。
+  const locks = { surname: null, given: null };
+  const seenNames = new Set();
+  // 第三十五節：完整姓名（姓氏|名字）層級的已看過紀錄，給「名字固定、只換姓氏」情境抽姓氏時比對（同 baby-name.js）。
+  const seenFullNames = new Set();
+  let lastLockMeta = [];
+  let lockControls = [];
+  // 第三十五節：瀏覽器上一頁／下一頁對應表單步驟（NG.createViewHistory），做法同 baby-name.js。
+  let viewHistory = null;
+  let currentView = "step1";
+  let hasSharedContent = false;
   function $(sel) { return document.querySelector(sel); }
   function $all(sel) { return Array.from(document.querySelectorAll(sel)); }
 
@@ -184,25 +225,109 @@
 
     bindStepNav();
     bindResultActions();
+    NG.initFavoritesDrawer("novel");
     refreshFavoritesSection();
 
+    let sharedList = null;
     const sharedAll = NG.readSharedAllFromUrl();
     if (sharedAll && sharedAll.length > 0) {
-      renderSharedCandidates(sharedAll);
+      sharedList = sharedAll;
     } else {
       const shared = NG.readSharedFromUrl();
-      if (shared) renderSharedCandidates([shared]);
+      if (shared) sharedList = [shared];
     }
+    if (sharedList) renderSharedCandidates(sharedList);
+    hasSharedContent = !!sharedList;
+    $("#btn-start-own").addEventListener("click", () => {
+      viewHistory.forward("step1");
+      showView("step1");
+    });
+
+    initViewHistory();
   }
 
+  // 第三十五節：載入時決定畫面、重新整理時還原表單，邏輯同 baby-name.js 的 initViewHistory。
+  function initViewHistory() {
+    viewHistory = NG.createViewHistory({ hasShared: hasSharedContent, render: showView });
+    window.addEventListener("pagehide", saveSession);
+    let view = hasSharedContent ? "shared" : "step1";
+    let depth = 0;
+    const cur = viewHistory.current();
+    if (cur) {
+      const session = NG.loadSession("novel", viewHistory.sid);
+      if (session) {
+        restoreSession(session);
+        view = cur.ngView;
+        depth = cur.ngDepth;
+      }
+    }
+    let fallback = view;
+    if (fallback === "result" && lastCandidates.length === 0) fallback = "step2";
+    if (fallback === "shared" && !hasSharedContent) fallback = "step1";
+    if (fallback !== view) { view = fallback; depth = 0; }
+    viewHistory.replace(view, depth);
+    showView(view);
+  }
+
+  function saveSession() {
+    NG.saveSession("novel", viewHistory.sid, { state, lastCandidates, lastLockMeta });
+  }
+
+  // 把 sessionStorage 的表單內容寫回 state 與畫面。鎖定與「已看過」只活在記憶體，不還原（同 baby-name.js）。
+  function restoreSession(s) {
+    const saved = s.state || {};
+    Object.keys(state).forEach((k) => {
+      if (saved[k] === undefined) return;
+      state[k] = Array.isArray(state[k]) ? (Array.isArray(saved[k]) ? saved[k].slice() : []) : saved[k];
+    });
+    ["gender", "ageTier", "surnameMode", "style", "orientation"].forEach((field) => {
+      const row = document.querySelector('.option-row[data-field="' + field + '"]');
+      if (!row) return;
+      row.querySelectorAll(".option-btn").forEach((b) => b.classList.toggle("active", b.dataset.value === String(state[field])));
+    });
+    $("#novel-surname-custom").value = state.surnameCustom || "";
+    $("#novel-surname-custom").hidden = state.surnameMode !== "custom";
+    $("#special-request").value = state.specialRequest || "";
+    renderQualityRow();
+    $all("#personality-row .option-btn").forEach((b) => b.classList.toggle("active", state.personalities.includes(b.dataset.value)));
+    updateSurnameRandomHint();
+    updateStyleAvailability();
+    updateSpecialRequestHint();
+    lastCandidates = Array.isArray(s.lastCandidates) ? s.lastCandidates : [];
+    lastLockMeta = Array.isArray(s.lastLockMeta) ? s.lastLockMeta : [];
+    if (lastCandidates.length > 0) renderCandidates(lastCandidates);
+  }
+
+  // 只負責畫面切換，不碰 history（同 baby-name.js）。
+  function showView(view) {
+    if (view === "result" && lastCandidates.length === 0) view = "step2";
+    if (view === "shared" && !hasSharedContent) view = "step1";
+    currentView = view;
+    if (view === "shared") {
+      NG.setSharedViewActive(true);
+      $("#result-section").hidden = true;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    // 使用者已經在自己取名（表單或自己的結果），分享區塊整個隱藏（第三十五節）。
+    NG.setSharedViewActive(false);
+    if (view === "result") {
+      $(".form-card").hidden = true;
+      $(".step-indicator").hidden = true;
+      $("#result-section").hidden = false;
+      NG.scrollToWorkArea($("#result-section"));
+      return;
+    }
+    $("#result-section").hidden = true;
+    $(".form-card").hidden = false;
+    $(".step-indicator").hidden = false;
+    hideStepError();
+    goToStep(view === "step2" ? 2 : 1);
+  }
+
+  // 第二十四輪：抽屜與兩個側邊標籤（寶寶取名／小說取名）由 shared.js 統一渲染，見 NOTES.md 第三十節。
   function refreshFavoritesSection() {
-    NG.renderFavoritesSection(
-      "novel",
-      $("#favorites-grid"),
-      $("#favorites-empty-hint"),
-      $("#fav-count"),
-      renderCandidateCard
-    );
+    NG.refreshFavorites();
   }
 
   function bindSingleSelect(field, onChange) {
@@ -237,14 +362,26 @@
   // 「提前告知選了這個模式、下一頁這三類會不能選」，不再需要等 state.style 已經是這三類之一
   // 才顯示，只要姓氏模式是隨機/複姓就先講清楚。此函式同時被「切換小說分類」與「切換姓氏模式」
   // 呼叫，因為姓氏欄位在表單第 1 頁、小說分類在第 2 頁，兩者任一變動都可能需要更新提示狀態。
+  // （第二十一輪更新：上面「三類在隨機模式不加姓」已不成立，西方奇幻／日系輕小說改抽自己的姓氏庫，
+  // 只剩科幻在隨機模式停用，見 SURNAME_POOL_STYLES。）
+  // 第二十一輪起西方奇幻／日系輕小說在「隨機」模式有自己的姓氏庫，提示文字改成依模式切換兩種說法
+  // （隨機只停用科幻、複姓停用三類），文字放在這裡而不是寫死在 HTML，避免兩個模式共用一句話講不清楚。
+  const SURNAME_MODE_HINTS = {
+    random: "隨機姓氏會依小說分類換一套姓氏庫：古風武俠／現代都市／校園青春／懸疑驚悚／科幻抽中文姓氏，日系輕小說抽日本姓氏（如佐藤 美咲），西方奇幻抽西式家族姓氏（如 Elowen Blackwood）。科幻的 AI／仿生人角色是代號（如凱－零七），不論選哪種姓氏模式都不加姓。",
+    compound: "複姓是中文姓氏才有的概念，只套用在古風武俠／現代都市／校園青春／懸疑驚悚／科幻（科幻的 AI／仿生人代號不加姓），選「複姓」時下一頁西方奇幻／日系輕小說會停用無法點選，想要這兩類請改選「隨機」「自訂輸入」或「不需要」。",
+  };
+
   function updateSurnameRandomHint() {
     const hint = $("#novel-surname-random-hint");
     const compoundHint = $("#novel-surname-compound-hint");
     const isRandomOrCompound = state.surnameMode === "random" || state.surnameMode === "compound";
-    if (hint) hint.hidden = !isRandomOrCompound;
+    if (hint) {
+      hint.hidden = !isRandomOrCompound;
+      if (isRandomOrCompound) hint.textContent = SURNAME_MODE_HINTS[state.surnameMode];
+    }
     // 複姓說明只在「複姓」模式、且小說分類真的會套用姓氏（HANZI_STYLES）時顯示；
     // POOL_STYLES 已經由上面那句提示涵蓋，兩句同時顯示會互相矛盾。
-    if (compoundHint) compoundHint.hidden = !(state.surnameMode === "compound" && HANZI_STYLES.includes(state.style));
+    if (compoundHint) compoundHint.hidden = !(state.surnameMode === "compound" && CHINESE_SURNAME_STYLES.includes(state.style));
   }
 
   // 「隨機」「複姓」兩個模式對 POOL_STYLES（西方奇幻／日系輕小說／科幻）完全沒有效果（見
@@ -255,11 +392,11 @@
   function updateStyleAvailability() {
     const row = document.querySelector('.option-row[data-field="style"]');
     if (!row) return;
-    const disablePoolStyles = state.surnameMode === "random" || state.surnameMode === "compound";
+    // 第二十一輪：停用範圍改由 disabledStylesFor 依模式決定（隨機只停用科幻、複姓停用三類）。
+    const disabledStyles = disabledStylesFor(state.surnameMode);
     let activeCleared = false;
     row.querySelectorAll(".option-btn").forEach((btn) => {
-      const isPoolStyle = POOL_STYLES.includes(btn.dataset.value);
-      btn.disabled = disablePoolStyles && isPoolStyle;
+      btn.disabled = disabledStyles.includes(btn.dataset.value);
       if (btn.disabled && btn.classList.contains("active")) {
         btn.classList.remove("active");
         activeCleared = true;
@@ -270,8 +407,8 @@
       renderQualityRow();
       updateSpecialRequestHint();
       updateSurnameRandomHint();
-      const modeLabel = state.surnameMode === "compound" ? "複姓" : "隨機";
-      NG.toast("「" + modeLabel + "」不支援西方奇幻／日系輕小說／科幻這三類音譯姓名庫，已清空小說分類，請重新選擇");
+      // 第二十二輪起只有「複姓」會停用分類（西方奇幻／日系輕小說），隨機不再停用科幻。
+      NG.toast("「複姓」不支援西方奇幻／日系輕小說這兩類，已清空小說分類，請重新選擇");
     }
   }
 
@@ -412,16 +549,19 @@
       const errors = validateStep1();
       if (errors.length > 0) { showStepError(errors); return; }
       hideStepError();
-      goToStep(2);
+      viewHistory.forward("step2");
+      showView("step2");
     });
-    $("#btn-prev").addEventListener("click", () => { hideStepError(); goToStep(1); });
+    // 上一步：退回步驟 1 那筆瀏覽紀錄（不是再推一筆），跟瀏覽器上一頁同一個效果。
+    $("#btn-prev").addEventListener("click", () => { hideStepError(); viewHistory.backTo("step1"); });
     $("#novel-form").addEventListener("submit", (e) => {
       e.preventDefault();
       // 第 1 頁的必填已經在「下一步」擋過，這裡只補第 2 頁（小說分類）跟防呆重複檢查。
       const errors = validateCurrentStep();
       if (errors.length > 0) { showStepError(errors); return; }
       hideStepError();
-      runGeneration();
+      // 從表單送出＝條件可能變了（例如換了小說分類），舊的鎖定一律清掉，跟 baby-name.js 一致。
+      runGeneration({ fromForm: true });
     });
   }
 
@@ -438,28 +578,25 @@
     $("#step-indicator").textContent = step === 1
       ? "第 1 頁／共 2 頁：角色基本資料"
       : "第 2 頁／共 2 頁：小說分類與角色設定";
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    NG.scrollToWorkArea($("#step-indicator"));
   }
 
   function bindResultActions() {
-    $("#btn-regenerate").addEventListener("click", () => runGeneration());
-    $("#btn-edit-form").addEventListener("click", () => {
-      $("#result-section").hidden = true;
-      $(".form-card").hidden = false;
-      $(".step-indicator").hidden = false;
-      goToStep(1);
+    $("#btn-regenerate").addEventListener("click", () => runGeneration({ fromForm: false }));
+    $("#btn-clear-locks").addEventListener("click", () => {
+      locks.surname = null;
+      locks.given = null;
+      onLocksChanged();
+      NG.toast("已解除全部鎖定");
     });
-    const shareAllBtn = $("#btn-share-all");
-    shareAllBtn.addEventListener("click", () => {
+    // 修改條件：退回步驟 1 那筆瀏覽紀錄（第三十五節）。
+    $("#btn-edit-form").addEventListener("click", () => viewHistory.backTo("step1"));
+    // 分享全部：點下去直接複製整批結果的連結（不展開選單）。
+    // 社群平台分享改放在頁尾的「分享這個網站」，分享的是工具本身而不是取名結果。
+    $("#btn-share-all").addEventListener("click", () => {
       if (lastCandidates.length === 0) return;
-      if (shareAllMenu) {
-        shareAllMenu.hidden = !shareAllMenu.hidden;
-        return;
-      }
       const url = NG.buildShareAllUrl(lastCandidates);
-      shareAllMenu = NG.createShareMenu(url, "幫我看看這 " + lastCandidates.length + " 個角色名字", "分享連結已複製，貼給朋友就能看到這 " + lastCandidates.length + " 個名字");
-      shareAllBtn.insertAdjacentElement("afterend", shareAllMenu);
-      shareAllMenu.hidden = false;
+      NG.copyText(url, "分享連結已複製，貼給朋友就能看到這 " + lastCandidates.length + " 個名字");
     });
   }
 
@@ -505,13 +642,69 @@
   function pickSurname() {
     if (state.surnameMode === "none") return "";
     if (state.surnameMode === "custom") return state.surnameCustom || "";
-    // random／compound 都只對 HANZI_STYLES 套用中文姓氏池，POOL_STYLES 見 updateSurnameRandomHint 說明。
-    if (!HANZI_STYLES.includes(state.style)) return "";
+    // 使用者鎖住了某一批的隨機／複姓姓氏：再產生一次時沿用（10.4 的例外，見 NOTES.md 第二十五節）。
+    // 鎖定一定來自同一個分類的上一批（從表單送出會清空鎖定），不會出現中文姓配到日系名的情況。
+    const isHanzi = HANZI_STYLES.includes(state.style);
+    const hasOwnSurnamePool = SURNAME_POOL_STYLES.includes(state.style);
+    // 隨機：漢字類抽中文姓氏池，西方奇幻／日系輕小說抽各自資料檔的姓氏庫（第二十一輪）。
+    // 複姓：只對中文姓氏分類生效。
+    // 第二十二輪：科幻跟漢字類共用中文姓氏池（CHINESE_SURNAME_STYLES）；整批抽一個姓，代號條目在
+    // finalizeCandidate 不套用（candidateTakesSurname），所以同一批裡人類有姓、代號維持原樣。
+    if (state.surnameMode === "random" && hasOwnSurnamePool) {
+      if (locks.surname) return locks.surname;
+      const pool = namePoolByStyle[state.style].surnames;
+      return pool[Math.floor(Math.random() * pool.length)].surname;
+    }
+    if (!isHanzi && state.style !== "scifi") return "";
+    if (locks.surname) return locks.surname;
     if (state.surnameMode === "compound") return randomCompoundSurname();
     return randomNovelSurname();
   }
 
-  function runGeneration() {
+  // 這張卡可以鎖哪些單位（規則見 NOTES.md 第二十五節）：
+  // - 姓氏：只有「隨機」「複姓」模式、而且這批真的有套姓氏（漢字類分類）才需要鎖。
+  // - 名字的字：只有漢字類分類（候選是逐字組合出來的）。小說取名的漢字組合本來就混著單字名與雙字名，
+  //   單字名鎖住那個字之後，新一批會是「這個字」或「這個字開頭的雙字名」，仍有足夠組合，所以單字名也開放。
+  // - 西方奇幻／日系輕小說／科幻是整筆姓名庫，名字不是逐字組合出來的，沒有「字位」可鎖，不顯示鎖定按鈕。
+  // 第二十一輪：西方奇幻／日系輕小說在「隨機」模式也會抽姓，比照 10.3「隨機姓氏可以鎖」開放只鎖姓氏
+  // （名字仍是整筆條目、沒有字位可鎖），所以這兩類在隨機模式下卡片會出現只有「姓「佐藤」」一個選項的鎖定按鈕。
+  // 第二十二輪：科幻人類卡在隨機/複姓模式也會出現只有「姓」一個選項的鎖定按鈕；代號卡沒有套姓，不顯示鎖定按鈕。
+  // 第二十三輪：西方奇幻／日系輕小說的名字開放「整個名字」當一個單位鎖（{type:"given_pool", value: entry.name}，
+  // 兩份姓名庫內 name 都不重複，可直接當比對值）。比照寶寶取名單字名鎖字：名字固定後，
+  // 姓氏隨機時只換姓（第三十五節起一次出 5 張、各配不同姓氏）、姓氏不隨機或已鎖時每批都是同一張（見 isSurnameOnlyVarying／onLocksChanged）。
+  // 姓氏自訂/不需要時也開放（跟寶寶取名單字名一致），所以這兩類每張卡都會有鎖定按鈕。科幻不在此範圍。
+  function lockUnitsFor(c, surname) {
+    const units = [];
+    if ((state.surnameMode === "random" || state.surnameMode === "compound") && surname && candidateTakesSurname(c)) {
+      units.push({ type: "surname", value: surname });
+    }
+    if (c.kind === "pool" && SURNAME_POOL_STYLES.includes(state.style)) {
+      units.push({ type: "given_pool", value: c.entry.name });
+      return units;
+    }
+    if (c.kind !== "hanzi") return units;
+    c.chars.forEach((ch, pos) => units.push({ type: "given", pos, char: ch }));
+    return units;
+  }
+
+  function matchesLock(c) {
+    if (!locks.given) return true;
+    if (locks.given.pool !== undefined) return c.kind === "pool" && c.entry.name === locks.given.pool;
+    if (c.kind !== "hanzi") return true;
+    return c.chars[locks.given.pos] === locks.given.char;
+  }
+
+  // 西方奇幻／日系輕小說鎖住整個名字：只剩這一筆條目，每批必然只有 1 張卡、每次都「看完一輪」。
+  function isPoolNameLocked() {
+    return !!locks.given && locks.given.pool !== undefined;
+  }
+
+  function runGeneration(opts) {
+    const fromForm = !!(opts && opts.fromForm);
+    if (fromForm) {
+      locks.surname = null;
+      locks.given = null;
+    }
     let candidates;
     if (HANZI_STYLES.includes(state.style)) {
       candidates = generateHanziCandidates();
@@ -535,22 +728,66 @@
     //   抓 10 筆讓洗牌池明顯大於 5（保留重新產生時的變化），又明顯小於 26~28 筆全池（分數排序才有篩選力）。
     // - 候選數量被「特殊需求」排除邏輯削減到比下限還少時，slice 會自然回傳剩下全部，不影響候選數量保證。
     const topPoolSize = Math.max(10, Math.min(60, Math.ceil(candidates.length * 0.3)));
-    const topPool = candidates.slice(0, topPoolSize);
-    shuffle(topPool);
-    const chosen = dedupe(topPool).slice(0, 5);
+    // 鎖定的字先當硬性條件篩一次；抽樣池大小沿用上一行以「鎖定前」候選總數算出的值，篩選強度不因鎖定而改變。
+    candidates = candidates.filter(matchesLock);
+    // 第十九輪起改成「只從本次瀏覽還沒看過的名字裡抽」，池子用完才允許重複（NG.sampleExcludingSeen）。
+    // 比對 key 沿用原本 dedupe 的 kind:rawText（不含姓氏）。
+    const { chosen, exhausted } = NG.sampleExcludingSeen(
+      candidates, (c) => c.kind + ":" + c.rawText, seenNames, topPoolSize, 5
+    );
+    // 鎖住整個名字時每次都會窮盡，這句提示會每按一次就跳、像出錯，改由鎖定狀態列說明（同寶寶取名單字名）。
+    if (exhausted && !fromForm && !isPoolNameLocked()) {
+      NG.toast("符合目前條件的名字都看過一輪了，接下來可能會出現看過的名字");
+    }
 
     // 整批 5 個候選用同一個隨機姓氏（10.4 節：不是每個候選各自隨機不同姓氏），
-    // 這裡每次呼叫 runGeneration（含「再產生一次」）都重新抽一次，符合 10.4 節規則。
-    const surname = pickSurname();
-    const finalCandidates = chosen.map((c, i) => finalizeCandidate(c, i, surname));
+    // 這裡每次呼叫 runGeneration（含「再產生一次」）都重新抽一次，符合 10.4 節規則（姓氏被鎖定時除外）。
+    // 第三十五節：西方奇幻／日系輕小說鎖整個名字＋隨機姓氏沒鎖＝名字固定、只剩姓氏能變，
+    // 改成一次出 5 張卡、每張從該分類的姓氏庫各抽一個不同姓氏（取代第二十三輪「每批只剩 1 張、只換姓」）。
+    const givenKeyOf = (c) => c.kind + ":" + c.rawText;
+    let picked = chosen;
+    let surnames;
+    if (isSurnameOnlyVarying() && chosen.length > 0) {
+      const pool = namePoolByStyle[state.style].surnames.map((s) => s.surname);
+      const r = NG.pickSurnamesForFixedName(pool, givenKeyOf(chosen[0]), seenFullNames, 5);
+      surnames = r.surnames;
+      picked = surnames.map(() => chosen[0]);
+      if (r.exhausted) NG.toast("這個名字能搭配的姓氏都看過一輪了，接下來可能會出現看過的姓名");
+    } else {
+      const surname = pickSurname();
+      surnames = chosen.map(() => surname);
+    }
+    const finalCandidates = picked.map((c, i) => finalizeCandidate(c, i, surnames[i]));
     lastCandidates = finalCandidates;
-    resetShareAllMenu(); // 候選換了一批，舊的分享全部選單網址已經過期，清掉讓下次點擊重建
+    lastLockMeta = picked.map((c, i) => ({ chars: c.chars || [], units: lockUnitsFor(c, surnames[i]) }));
+    picked.forEach((c, i) => seenFullNames.add(NG.fullNameKey(surnames[i], givenKeyOf(c))));
 
     renderCandidates(finalCandidates);
-    $(".form-card").hidden = true;
-    $(".step-indicator").hidden = true;
-    $("#result-section").hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // 從步驟 2 產生結果＝往前一步，推一筆瀏覽紀錄；在結果頁按「再產生一次」不推（第三十五節）。
+    if (currentView !== "result") viewHistory.forward("result");
+    showView("result");
+    saveSession();
+  }
+
+  // 名字固定、只剩姓氏能變（第三十五節）：西方奇幻／日系輕小說鎖整個名字、姓氏隨機、姓氏沒鎖。
+  function isSurnameOnlyVarying() {
+    return isPoolNameLocked() && state.surnameMode === "random" && !locks.surname &&
+      SURNAME_POOL_STYLES.includes(state.style);
+  }
+
+  // 任何一張卡改了鎖定：整批卡片的鎖定按鈕狀態、結果區下方的狀態列一起更新。
+  function onLocksChanged() {
+    lockControls.forEach((ctrl) => ctrl.refresh());
+    const text = NG.describeLocks(locks);
+    let msg = text ? "已鎖定：" + text + "。按「再產生一次」，新一批都會保留。" : "";
+    if (text && isPoolNameLocked()) {
+      // 第三十五節：姓氏隨機沒鎖時一次出 5 個不同姓氏；姓氏也固定時姓名完全固定，仍是每批 1 張。
+      msg += isSurnameOnlyVarying()
+        ? "鎖住整個名字後名字固定，再產生一次會一次給 5 個不同的隨機姓氏搭配這個名字；想看其他名字請按「全部解除」。"
+        : "鎖住整個名字、姓氏又不是隨機（或已鎖定），姓名完全固定，再產生一次每批都只會是同一個名字；想看其他名字請按「全部解除」。";
+    }
+    $("#lock-status").hidden = !text;
+    $("#lock-status-text").textContent = msg;
   }
 
   // 氣質/性格評分改為直接比對逐字標註欄位（設計文件 7.2 節定案，第五輪改版拿掉「身分→氣質」
@@ -604,33 +841,17 @@
         if (entry.personalities.includes(pId)) score += 2;
       });
       score += Math.random() * 0.5;
+      // 科幻人類條目（第二十二輪拆成 surname＋given）：rawText 只用名字部分，跟漢字類一致
+      // （「排除已看過」key 與特殊需求排除都不含姓）。同名不同姓的條目（例如江澈／聞澈／蕭澈）
+      // 會共用同一個 key，sampleExcludingSeen 會自動去重，同一批不會出現兩個「陳澈」。
+      const displayName = isSplitHumanEntry(entry) ? entry.given : entry.name;
       return {
         kind: "pool",
         entry,
-        rawText: entry.name + (entry.reading || ""),
+        rawText: displayName + (entry.reading || ""),
         score,
       };
     });
-  }
-
-  function dedupe(list) {
-    const seen = new Set();
-    const out = [];
-    list.forEach((item) => {
-      const key = item.kind + ":" + item.rawText;
-      if (!seen.has(key)) {
-        seen.add(key);
-        out.push(item);
-      }
-    });
-    return out;
-  }
-
-  function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
   }
 
   function finalizeCandidate(c, index, surname) {
@@ -639,7 +860,10 @@
       const infos = c.chars.map((ch) => charInfo(ch));
       const givenName = c.chars.join("");
       const fullName = (surname || "") + givenName;
-      const pinyin = infos.map((i) => i.pinyin).filter(Boolean).join(" ");
+      // 拼音／威妥瑪拼音含姓氏（2026-11 新增，見 NOTES.md 第二十四節）：只對漢字類分類
+      // （古風武俠／現代都市／校園青春／懸疑驚悚）有意義，西方奇幻/日系輕小說/科幻用的是
+      // 音譯姓名庫（entry.reading），不是漢語拼音系統，不適用，那個分支維持原樣不動。
+      const { pinyin, wadeGiles } = NG.buildRomanizedName(surname, infos);
       const meaningSummary = infos.filter((i) => i.meaning).map((i) => i.char + "：" + i.meaning).join("\n");
       const extra = extraByStyle[state.style];
       const matchedTags = [];
@@ -659,15 +883,33 @@
         tool: "novel",
         fullName,
         pinyin,
+        wadeGiles,
         meaningSummary: meaningSummary || "（" + styleLabel + " ・ " + fullName + "）",
         matchedTags,
       };
     }
 
     const entry = c.entry;
-    const fullName = state.style === "fantasy"
-      ? entry.name + (surname ? " " + surname : "")
-      : (surname || "") + entry.name;
+    // 姓名順序依文化慣例（第二十一輪，見 NOTES.md 第二十七節）：
+    // - 西方奇幻：「名 姓」，半形空格（Elowen Blackwood），跟原本自訂輸入的語序一致。
+    // - 日系輕小說：「姓 名」，半形空格（佐藤 美咲）；原本自訂輸入是中文式緊貼（佐藤美咲），一併改成有空格，
+    //   讓隨機與自訂兩種來源的日系姓名長得一樣。讀音同樣依「姓 名」順序組成「Sato Misaki」。
+    // - 科幻（第二十二輪）：人類條目是「姓氏模式給的姓＋given」，中文式緊貼（陳知微）；資料裡原本的
+    //   surname 欄位不顯示，「不需要」時只顯示名字（跟漢字類一致）。代號條目整串照原樣，永遠不加姓。
+    let fullName;
+    let reading = entry.reading || "";
+    if (state.style === "scifi") {
+      fullName = isSplitHumanEntry(entry) ? (surname || "") + entry.given : entry.name;
+    } else if (state.style === "fantasy") {
+      fullName = entry.name + (surname ? " " + surname : "");
+    } else if (state.style === "japanese") {
+      fullName = surname ? surname + " " + entry.name : entry.name;
+      const found = surname ? (namePoolByStyle.japanese.surnames || []).find((s) => s.surname === surname) : null;
+      // 自訂輸入的姓氏查不到讀音時，只顯示名字的讀音（跟漢字類自訂姓氏查無拼音的降級方式一致）。
+      if (found && reading) reading = found.reading + " " + reading;
+    } else {
+      fullName = (surname || "") + entry.name;
+    }
     const identityLabels = entry.identities.map((id) => {
       const found = namePoolByStyle[state.style].identities.find((x) => x.id === id);
       return found ? found.label : id;
@@ -687,7 +929,7 @@
       id: "novel-" + fullName + "-" + Date.now() + "-" + index,
       tool: "novel",
       fullName,
-      pinyin: entry.reading || "",
+      pinyin: reading,
       meaningSummary: styleLabel + " ・ " + identityLabels.join("、"),
       matchedTags: personalityLabels,
     };
@@ -696,10 +938,16 @@
   function renderCandidates(candidates) {
     const grid = $("#candidate-grid");
     grid.innerHTML = "";
-    candidates.forEach((c) => grid.appendChild(renderCandidateCard(c)));
+    lockControls = [];
+    candidates.forEach((c, i) => grid.appendChild(renderCandidateCard(c, lastLockMeta[i])));
+    // 第二十三輪：標題與分享按鈕依實際數量顯示，不寫死「5 個」（第三十五節起只有姓名完全固定時才會是 1 個）。
+    $("#result-title").textContent = "為你找到的 " + candidates.length + " 個名字";
+    $("#btn-share-all").textContent = "分享全部 " + candidates.length + " 個名字";
+    onLocksChanged();
   }
 
-  function renderCandidateCard(c) {
+  // lockMeta 只有結果區的卡片會傳（收藏抽屜、分享區的卡片不能鎖定）。
+  function renderCandidateCard(c, lockMeta) {
     const card = document.createElement("div");
     card.className = "candidate-card";
 
@@ -711,7 +959,9 @@
     if (c.pinyin) {
       const py = document.createElement("div");
       py.className = "candidate-pinyin";
-      py.textContent = c.pinyin;
+      // 威妥瑪拼音只有漢字類分類（古風武俠/現代都市/校園青春/懸疑驚悚）才會有值，
+      // 音譯姓名庫（西方奇幻/日系/科幻）的 c.pinyin 本來就是 entry.reading，沒有 c.wadeGiles。
+      py.textContent = c.wadeGiles ? c.pinyin + " ・ " + c.wadeGiles : c.pinyin;
       card.appendChild(py);
     }
 
@@ -749,6 +999,7 @@
     const favBtn = document.createElement("button");
     favBtn.type = "button";
     favBtn.className = "icon-btn" + (NG.isFavorited("novel", c.id) ? " favorited" : "");
+    favBtn.dataset.favId = c.id;
     favBtn.textContent = NG.isFavorited("novel", c.id) ? "已收藏" : "收藏";
     favBtn.addEventListener("click", () => {
       const nowFav = NG.toggleFavorite("novel", c);
@@ -763,16 +1014,21 @@
     shareBtn.type = "button";
     shareBtn.className = "icon-btn";
     shareBtn.textContent = "分享";
+    shareBtn.addEventListener("click", () => {
+      NG.copyText(NG.buildShareUrl(c), "分享連結已複製，貼給朋友就能看到「" + c.fullName + "」");
+    });
     actions.appendChild(shareBtn);
 
-    card.appendChild(actions);
+    let lockPanel = null;
+    if (lockMeta && lockMeta.units.length > 0) {
+      const ctrl = NG.buildLockControl(lockMeta.units, lockMeta.chars.length, locks, onLocksChanged);
+      actions.appendChild(ctrl.button);
+      lockPanel = ctrl.panel;
+      lockControls.push(ctrl);
+    }
 
-    const url = NG.buildShareUrl(c);
-    const shareMenu = NG.createShareMenu(url, "幫我看看這個角色名字：「" + c.fullName + "」", "分享連結已複製，貼給朋友就能看到「" + c.fullName + "」");
-    shareBtn.addEventListener("click", () => {
-      shareMenu.hidden = !shareMenu.hidden;
-    });
-    card.appendChild(shareMenu);
+    card.appendChild(actions);
+    if (lockPanel) card.appendChild(lockPanel);
 
     return card;
   }
@@ -786,8 +1042,7 @@
       : "有人跟你分享了這個名字";
     grid.innerHTML = "";
     candidates.forEach((c) => grid.appendChild(renderCandidateCard(c)));
-    section.hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // 分享區塊的顯示/隱藏與表單收合改由 showView("shared") 負責（第三十五節），這裡只填內容。
   }
 
   init();
