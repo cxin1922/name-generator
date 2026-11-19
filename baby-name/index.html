@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>寶寶取名 · 姓名產生器｜取個好名</title>
-<meta name="description" content="免費寶寶取名工具，依性別、字數、寓意祝福、出生月份、生肖，產生 5 個候選姓名，純瀏覽器運算不需註冊。">
+<title>寶寶取名 · 新生兒命名、姓名產生器｜取個好名 NameChop</title>
+<meta name="description" content="取個好名 NameChop 的免費寶寶取名工具，依性別、字數、寓意祝福、出生月份、生肖，產生 5 個候選姓名，當作幫新生兒命名的取名靈感，純瀏覽器運算不需註冊。">
 <link rel="canonical" href="https://getnamechop.com/baby-name/">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="取個好名">
+<meta property="og:site_name" content="取個好名 NameChop">
 <meta property="og:url" content="https://getnamechop.com/baby-name/">
-<meta property="og:title" content="寶寶取名 · 姓名產生器｜取個好名">
-<meta property="og:description" content="免費寶寶取名工具，依性別、字數、寓意祝福、出生月份、生肖，產生 5 個候選姓名，純瀏覽器運算不需註冊。">
+<meta property="og:title" content="寶寶取名 · 新生兒命名、姓名產生器｜取個好名 NameChop">
+<meta property="og:description" content="取個好名 NameChop 的免費寶寶取名工具，依性別、字數、寓意祝福、出生月份、生肖，產生 5 個候選姓名，當作幫新生兒命名的取名靈感，純瀏覽器運算不需註冊。">
 <meta property="og:image" content="../assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="寶寶取名 · 姓名產生器｜取個好名">
-<meta name="twitter:description" content="免費寶寶取名工具，依性別、字數、寓意祝福、出生月份、生肖，產生 5 個候選姓名，純瀏覽器運算不需註冊。">
+<meta name="twitter:title" content="寶寶取名 · 新生兒命名、姓名產生器｜取個好名 NameChop">
+<meta name="twitter:description" content="取個好名 NameChop 的免費寶寶取名工具，依性別、字數、寓意祝福、出生月份、生肖，產生 5 個候選姓名，當作幫新生兒命名的取名靈感，純瀏覽器運算不需註冊。">
 <meta name="twitter:image" content="../assets/og-image.png">
 
 <link rel="stylesheet" href="../css/style.css">
@@ -28,7 +28,7 @@
   <div class="container">
     <a href="/" class="site-logo">
       <span class="seal-mark">名</span>
-      <span>取個好名</span>
+      <span>取個好名 NameChop</span>
     </a>
     <nav class="site-nav">
       <a href="/baby-name/">寶寶取名</a>
@@ -45,7 +45,11 @@
   </nav>
 
   <h1>寶寶取名</h1>
-  <p class="form-intro">依性別、字數、寓意祝福、出生月份與生肖分兩頁選填，整理出 5 個兼顧音韻與寓意的候選名字，再交給你和家人一起拍板。</p>
+  <p class="form-intro">依性別、字數、寓意祝福、出生月份與生肖分兩頁選填，整理出 5 個兼顧音韻與寓意的候選名字，當作幫寶寶命名的取名靈感，再交給你和家人一起拍板。</p>
+
+  <div class="form-toolbar">
+    <button type="button" id="btn-reset-form" class="link-btn reset-form-btn">清空重填</button>
+  </div>
 
   <section id="shared-section" class="shared-section" hidden>
     <h2>有人跟你分享了這個名字</h2>
@@ -135,7 +139,7 @@
           <input type="text" id="meaning-free-text" placeholder="輸入你想到的詞，例如：希望孩子開朗、有出息">
           <p class="free-text-hint" id="meaning-free-text-hint"></p>
 
-          <p class="selected-tags-label">已選擇（可拖曳排序，滑鼠拖曳最前面的優先度最高）：</p>
+          <p class="selected-tags-label">已選擇（<span class="hint-mouse">可拖曳排序，滑鼠拖曳最前面的優先度最高</span><span class="hint-touch">長按並拖曳排序，最前面的優先度最高</span>）：</p>
           <div class="selected-tags-row empty" id="meaning-selected"></div>
           <p class="field-hint" id="meaning-empty-hint">還沒選寓意/祝福嗎？選幾個能讓結果更貼近你的心意（留空也可以產生，會依常用度為你挑選）。</p>
         </div>

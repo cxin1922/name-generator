@@ -1,7 +1,7 @@
 /*
   全站共用工具函式：
   - 排序色階公式（設計文件第六節：深端錨點 #9E2020、淺端錨點 #E0A9A3 線性插值）
-  - 已選標籤拖曳排序元件（桌面用滑鼠事件，手機用上下箭頭按鈕，見第十二節）
+  - 已選標籤拖曳排序元件（桌面用滑鼠事件；觸控裝置長按拖曳，手機寬度另有上下箭頭按鈕，見第十二節、NOTES.md 第四十節）
   - 候選卡複製 / 收藏（localStorage）/ 分享（網址參數）（見 10.5 節）
 */
 
@@ -351,10 +351,15 @@ const NG = (function () {
   }
 
   // ---------- 已選標籤排序元件 ----------
-  // items: [{key, label}]；桌面用滑鼠事件拖曳（見設計文件指示：滑鼠事件即可），
-  // 手機（CSS 判斷）改用箭頭按鈕上下移動，兩者共用同一份 order 陣列與 onChange callback。
+  // items: [{key, label}]；桌面用滑鼠事件拖曳；觸控裝置用「長按後拖曳」（NOTES.md 第四十節），
+  // 手機寬度（CSS 判斷）另外保留箭頭按鈕上下移動當備援，三者共用同一份 order 陣列與 onChange callback。
+  // 觸控長按：手指按住不動 TOUCH_HOLD_MS 才進入拖曳；在那之前手指移動超過 TOUCH_SLOP_PX 就當成捲動頁面、放棄拖曳，
+  // 所以標籤上不設 touch-action: none（否則在標籤上滑動就捲不動頁面），改成進入拖曳後才在 touchmove 裡 preventDefault 擋捲動。
+  const TOUCH_HOLD_MS = 350;
+  const TOUCH_SLOP_PX = 10;
   function createTagSorter(container, onChange) {
     let order = []; // array of keys, index 0 = 最高優先
+    let draggingIndex = -1; // 拖曳中的項目位置，render 後重新標上 .dragging
 
     function render() {
       container.innerHTML = "";
@@ -408,9 +413,30 @@ const NG = (function () {
         chip.appendChild(remove);
 
         chip.addEventListener("mousedown", (e) => startDrag(e, i));
+        chip.addEventListener("touchstart", (e) => startTouchDrag(e, i), { passive: true });
+        // Android 長按會跳出系統選單（contextmenu），拖曳用的長按要擋掉
+        chip.addEventListener("contextmenu", (e) => e.preventDefault());
+        if (i === draggingIndex) chip.classList.add("dragging");
 
         container.appendChild(chip);
       });
+    }
+
+    // 依指標（滑鼠/手指）目前位置，把拖曳中的項目移到指標下方那個標籤的位置；回傳新位置。
+    function reorderAt(x, y, currentIndex) {
+      const target = document.elementFromPoint(x, y);
+      const chip = target ? target.closest(".selected-tag-chip") : null;
+      if (chip && container.contains(chip)) {
+        const hoverIndex = Array.from(container.children).indexOf(chip);
+        if (hoverIndex !== -1 && hoverIndex !== currentIndex) {
+          const [moved] = order.splice(currentIndex, 1);
+          order.splice(hoverIndex, 0, moved);
+          draggingIndex = hoverIndex;
+          render();
+          return hoverIndex;
+        }
+      }
+      return currentIndex;
     }
 
     function moveItem(from, to) {
@@ -422,23 +448,11 @@ const NG = (function () {
     }
 
     function startDrag(e, index) {
+      if (e.button !== 0) return;
       e.preventDefault();
-      const chips = Array.from(container.children);
       let currentIndex = index;
       const onMove = (moveEvt) => {
-        const x = moveEvt.clientX;
-        const y = moveEvt.clientY;
-        const target = document.elementFromPoint(x, y);
-        const chip = target ? target.closest(".selected-tag-chip") : null;
-        if (chip && container.contains(chip)) {
-          const hoverIndex = Array.from(container.children).indexOf(chip);
-          if (hoverIndex !== -1 && hoverIndex !== currentIndex) {
-            const [moved] = order.splice(currentIndex, 1);
-            order.splice(hoverIndex, 0, moved);
-            currentIndex = hoverIndex;
-            render();
-          }
-        }
+        currentIndex = reorderAt(moveEvt.clientX, moveEvt.clientY, currentIndex);
       };
       const onUp = () => {
         document.removeEventListener("mousemove", onMove);
@@ -447,6 +461,57 @@ const NG = (function () {
       };
       document.addEventListener("mousemove", onMove);
       document.addEventListener("mouseup", onUp);
+    }
+
+    // 觸控版：長按 TOUCH_HOLD_MS 後才開始拖曳。注意 touchmove/touchend 一律派送到 touchstart 當下的那個元素，
+    // 即使它在拖曳途中被 render() 換掉、已經不在 DOM 裡；這時事件不會冒泡到 document，
+    // 所以監聽器要直接掛在那個起始元素上（掛 document 的話第一次換位後就收不到後續事件）。
+    function startTouchDrag(e, index) {
+      if (e.touches.length !== 1) return;
+      // 箭頭按鈕、× 移除鈕維持原本點按行為，不從這裡起拖
+      if (e.target.closest("button, .remove-tag")) return;
+      const el = e.target;
+      const startX = e.touches[0].clientX;
+      const startY = e.touches[0].clientY;
+      let currentIndex = index;
+      let active = false;
+      const timer = setTimeout(() => {
+        active = true;
+        draggingIndex = currentIndex;
+        container.classList.add("touch-dragging");
+        const chip = container.children[currentIndex];
+        if (chip) chip.classList.add("dragging");
+      }, TOUCH_HOLD_MS);
+
+      const cleanup = () => {
+        clearTimeout(timer);
+        el.removeEventListener("touchmove", onMove);
+        el.removeEventListener("touchend", onEnd);
+        el.removeEventListener("touchcancel", onEnd);
+      };
+      const onMove = (moveEvt) => {
+        const t = moveEvt.touches[0];
+        if (!active) {
+          // 還沒長按到時間就移動＝使用者要捲動頁面，放棄這次拖曳
+          if (Math.abs(t.clientX - startX) > TOUCH_SLOP_PX || Math.abs(t.clientY - startY) > TOUCH_SLOP_PX) cleanup();
+          return;
+        }
+        moveEvt.preventDefault(); // 拖曳中不要捲動頁面
+        currentIndex = reorderAt(t.clientX, t.clientY, currentIndex);
+      };
+      const onEnd = (endEvt) => {
+        cleanup();
+        if (!active) return; // 一般點按，交給原本的 click 行為
+        // 擋掉手指放開後瀏覽器補發的模擬滑鼠事件（mousedown/click），避免再觸發一次滑鼠拖曳
+        if (endEvt.cancelable) endEvt.preventDefault();
+        draggingIndex = -1;
+        container.classList.remove("touch-dragging");
+        render();
+        onChange(order.map((o) => o.key));
+      };
+      el.addEventListener("touchmove", onMove, { passive: false });
+      el.addEventListener("touchend", onEnd);
+      el.addEventListener("touchcancel", onEnd);
     }
 
     return {
@@ -689,13 +754,68 @@ const NG = (function () {
     const formCard = document.querySelector(".form-card");
     const indicator = document.querySelector(".step-indicator");
     const startBtn = document.getElementById("btn-start-own");
+    // 「清空重填」（第三十八節）：分享視圖本來就還沒有自己的表單內容，跟「我也要自己取名」
+    // 功能重疊，分享視圖顯示中時一起收起，使用者進自己的表單/結果後才看得到。
+    const resetBtn = document.getElementById("btn-reset-form");
     if (!shared) return;
-    shared.hidden = !active;
-    if (startBtn) startBtn.hidden = !active;
+    if (resetBtn) resetBtn.hidden = active;
     if (active) {
+      cancelSharedCollapse(shared);
+      shared.hidden = false;
+      if (startBtn) startBtn.hidden = false;
       if (formCard) formCard.hidden = true;
       if (indicator) indicator.hidden = true;
+      return;
     }
+    // NOTES.md 第四十節：從分享視圖切到自己取名時，分享區塊不再瞬間 hidden，改成先淡出再收合高度，
+    // 動畫結束才真的 hidden；下方表單同時淡入，scrollToWorkArea 會捲到表單「收合完成後」的位置。
+    if (shared.hidden || shared.classList.contains("is-collapsing")) return;
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      shared.hidden = true;
+      if (startBtn) startBtn.hidden = true;
+      return;
+    }
+    // 先量好「分享區塊收合後，後面的內容會往上移多少」，給 scrollToWorkArea 算捲動終點用。
+    // 不用「暫時 hidden 再量」：這時表單也還 hidden，頁面會瞬間變短、捲動位置被瀏覽器夾住，量出來會錯。
+    // 改用算的：收合前，後面內容的起點＝分享區塊底邊＋它的下 margin；收合後＝前一個元素（清空重填列）
+    // 底邊＋它的下 margin（上下相鄰 margin 會疊成較大的那個；後面的步驟指示上 margin 為 0，不列入）。
+    const prev = shared.previousElementSibling;
+    const sharedRect = shared.getBoundingClientRect();
+    const mb = (el) => parseFloat(getComputedStyle(el).marginBottom) || 0;
+    const beforeTop = sharedRect.bottom + mb(shared);
+    const afterTop = prev ? prev.getBoundingClientRect().bottom + mb(prev) : sharedRect.top;
+    sharedCollapseShift = Math.max(0, beforeTop - afterTop);
+    shared.style.maxHeight = shared.scrollHeight + "px";
+    void shared.offsetHeight; // 強制重排，讓 max-height 從目前高度開始過渡
+    shared.classList.add("is-collapsing");
+    shared.style.maxHeight = "0px";
+    document.documentElement.classList.add("ng-shared-leaving");
+    if (formCard) formCard.classList.add("ng-fade-in");
+    if (indicator) indicator.classList.add("ng-fade-in");
+    const finish = () => {
+      if (!shared.classList.contains("is-collapsing")) return;
+      cancelSharedCollapse(shared);
+      shared.hidden = true;
+      if (startBtn) startBtn.hidden = true;
+    };
+    shared.addEventListener("transitionend", function onEnd(e) {
+      if (e.target !== shared || e.propertyName !== "max-height") return;
+      shared.removeEventListener("transitionend", onEnd);
+      finish();
+    });
+    sharedCollapseTimer = setTimeout(finish, 700); // transitionend 沒觸發時（例如分頁在背景）的保險
+  }
+
+  let sharedCollapseShift = 0;
+  let sharedCollapseTimer = null;
+  // 收合動畫中途被打斷（例如瀏覽器上一頁回到分享視圖）或正常結束時，清掉動畫用的 class 與行內樣式。
+  function cancelSharedCollapse(shared) {
+    clearTimeout(sharedCollapseTimer);
+    shared.classList.remove("is-collapsing");
+    shared.style.maxHeight = "";
+    document.documentElement.classList.remove("ng-shared-leaving");
+    document.querySelectorAll(".ng-fade-in").forEach((el) => el.classList.remove("ng-fade-in"));
   }
 
   // ---------- 表單步驟的瀏覽器上一頁／下一頁（見 NOTES.md 第三十五節） ----------
@@ -789,12 +909,22 @@ const NG = (function () {
       return null;
     }
   }
+  // 「清空重填」用（第三十八節）：直接刪掉這個頁面實例存的表單狀態，不是存一份空的進去，
+  // 避免跟 saveSession 的資料形狀耦合（之後欄位改了也不用兩邊同步改）。不可用時略過，跟 saveSession 一致。
+  function clearSession(tool, sid) {
+    try { sessionStorage.removeItem("ng_session_" + tool + "_" + sid); } catch (e) { /* 不可用時略過 */ }
+  }
 
   // 分享區塊顯示中時，換頁／產生結果不要捲回頁面最頂端（頂端是別人分享的卡片，使用者會以為沒反應），
   // 改捲到自己正在操作的區塊。沒有分享區塊時維持原本的捲回頂端行為。
+  // NOTES.md 第四十節：分享區塊正在收合（剛按「我也要自己取名」）時，捲到 el「收合完成後」的位置
+  // （目前位置扣掉 setSharedViewActive 事先量好的位移），讓捲動跟收合同時進行、終點剛好停在表單上緣。
   function scrollToWorkArea(el) {
     const shared = document.getElementById("shared-section");
-    if (shared && !shared.hidden && el) {
+    if (shared && el && shared.classList.contains("is-collapsing")) {
+      const top = el.getBoundingClientRect().top + window.scrollY - sharedCollapseShift - 8;
+      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    } else if (shared && !shared.hidden && el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -993,6 +1123,7 @@ const NG = (function () {
     createViewHistory,
     saveSession,
     loadSession,
+    clearSession,
     scrollToWorkArea,
     sampleExcludingSeen,
     pickSurnamesForFixedName,
