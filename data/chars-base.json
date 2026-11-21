@@ -20,9 +20,9 @@
     "popularityNote": "1（冷僻）～5（常見），用於寓意/祝福留空時的常用度優先排序（設計文件 10.2）",
     "personalityQualityNote": "personalityTags／qualityTags 為小說取名逐字直接標註欄位（設計文件 7.2 節），取代原本借用本檔 tags（9 類寓意標籤）間接推算的親和度對應表做法。personalityTags 對應 16 個性格標籤，qualityTags 對應「角色氣質」欄位（第五輪改版更名，原稱「身分氣質」），皆可能為空陣列（不確定/不明顯時不標，保守處理，不硬湊）。判斷依據同 tags：字義、部首意象、詩詞聯想，通俗語感判斷，非查證自特定文獻。",
     "qualityTagsNote": "第五輪改版（2026-09）：角色氣質從 6 個擴充為 8 個共通氣質（設計文件 7.2 節定案）。原 mysterious_dark 只改顯示名稱為「神秘莫測」（原「神秘陰暗」），語意不變，既有標記不動；文雅書卷（scholarly）的定義這輪收斂為「人文/談吐/氣質修養」，原本混雜的「邏輯/分析」語感拆出獨立的 rational_precise（理性精密），因此這輪逐一複查 19 個原 scholarly 字：智／聰／澄 語意偏純邏輯思辨、改標 rational_precise（移除 scholarly）；睿／明／思 兼具人文與理性兩面、雙標 scholarly＋rational_precise；其餘字維持 scholarly 不變。新增 cunning_scheming（精明權謀，字義偏心機/算計/城府，帶道德灰色地帶暗色語感）逐字複查後全庫零覆蓋：共用字庫延伸自寶寶取名的正向祝福用字，結構上不會出現這種灰色語感的字，跟先前 du_she/pi_shuai/yin_yu 三個性格標籤零覆蓋是同樣的結構性缺口，不硬湊，詳見 NOTES.md。",
-    "expansionNote": "第七輪字庫擴充（2026-11）：從 106 字擴充到 210 字（設計文件 7.1 節定案的 200~300 字目標範圍內）。新增 104 字分兩類：(1) 67 字為一般常用取名字，延續原有 9 個寓意分類與性格/氣質標註方式，並刻意補強原本覆蓋率偏薄的標籤（快樂、健康、堅毅三個寓意分類；gao_leng 高冷、jiao_xia 狡黠兩個性格標籤；folk_grassroots 市井草根、rational_precise 理性精密、mysterious_dark 神秘莫測三個角色氣質）。(2) 37 字刻意針對原本零覆蓋的四個缺口新增：痞帥 pi_shuai 8 字、陰鬱 yin_yu 12 字、毒舌 du_she 9 字、精明權謀 cunning_scheming 8 字，這批字多數不屬於傳統祝福用字、寓意分類（tags）留空，popularity 刻意設低（1~2），因為它們是為小說取名的中性/灰色調角色語感而補，不是常見的寶寶命名選字，詳見 NOTES.md 第十二節。",
-    "etymologyNote": "第十二輪（2026-11）新增 `etymology` 欄位，跟 `meaning`（自撰原創釋義，語氣偏溫馨祝福）性質不同：`etymology` 專放有實際出處的字源考據（主要引《說文解字》原文、漢典 zdic.net 轉引、段玉裁《說文解字注》等），目的是對標競品 inknomu.com 的考據嚴謹度（design.md 第十三節 G 組第 13 項）。遇到學界對《說文》傳統說法有爭議的字（如美、安、柔），誠實標註爭議而非只抄傳統版本當定論。查無可靠出處的字（預期多集中在第七輪為小說取名補的 37 個灰色調字：痞帥/陰鬱/毒舌/精明權謀）填 `\"字源不詳\"`，不硬湊。目前僅作內部資料庫用，尚未顯示於前端，之後要不要搬上網站、要不要先精簡文字再顯示，待之後討論，見 NOTES.md 第十六節第 76 點起。",
-    "wadeGilesNote": "第十八輪（2026-11）新增 wadeGiles 欄位：威妥瑪拼音（簡化式，無送氣撇號／變音符號），依 pinyin.info 收錄的威妥瑪-漢語拼音完整音節對照表，從既有 pinyin 欄位（含聲調）去聲調後查表換算，210 字全數換算成功，無缺漏。查證來源與換算方式見 NOTES.md 第二十四節。"
+    "expansionNote": "第七輪字庫擴充（2026-11）：從 106 字擴充到 210 字（設計文件 7.1 節定案的 200~300 字目標範圍內）。新增 104 字分兩類：(1) 67 字為一般常用取名字，延續原有 9 個寓意分類與性格/氣質標註方式，並刻意補強原本覆蓋率偏薄的標籤（快樂、健康、堅毅三個寓意分類；gao_leng 高冷、jiao_xia 狡黠兩個性格標籤；folk_grassroots 市井草根、rational_precise 理性精密、mysterious_dark 神秘莫測三個角色氣質）。(2) 37 字刻意針對原本零覆蓋的四個缺口新增：痞帥 pi_shuai 8 字、陰鬱 yin_yu 12 字、毒舌 du_she 9 字、精明權謀 cunning_scheming 8 字，這批字多數不屬於傳統祝福用字、寓意分類（tags）留空，popularity 刻意設低（1~2），因為它們是為小說取名的中性/灰色調角色語感而補，不是常見的寶寶命名選字，詳見 NOTES.md 第十二節。 2026-11 第三十批擴充（目標 550 字的第一批）：從 210 字擴充到 361 字，新增 151 字，優先補「常見但缺漏」的取名字（如「微」），候選來源為內政部《全國姓名統計分析》歷年公布的常見名字與單名、疊字名（依新聞稿與媒體轉述）、《詩經》《楚辭》常見取名字，以及常見取名字的人工盤點；新字全部有寓意分類（tags 非空），可進寶寶取名候選池。詳見 NOTES.md 第五十四節。 2026-11 第五十五節擴充（目標 550 字的第二批）：從 361 字擴充到 500 字，新增 139 字，其中 95 字直接取自內政部《全國姓名統計分析》（112 年版）統計表的名字拆字：表五十前一百大單名、表五十一前一百大常見名字、表五十二／五十三同姓同名、表五十四變更後名字、表五十六各出生年前十大名字；其餘 44 字為人工判斷的常見取名字（沒有統計表撐腰，照實記錄）。新字全部有寓意分類（tags 非空），可進寶寶取名候選池。詳見 NOTES.md 第五十五節。 2026-11 第五十六節擴充（目標 550 字的第三批，也是最後一批）：從 500 字擴充到 550 字，新增 50 字，其中 24 字取自內政部《全國姓名統計分析》統計表的名字拆字（112 年版表五十～五十六已大致用盡，另加讀同系列 107 年版的同一組表格補 7 字）；其餘 26 字為人工判斷的常見取名字（沒有統計表撐腰，照實記錄）。新字全部有寓意分類（tags 非空），可進寶寶取名候選池。字庫擴充工程（210→550，分三批）至此完成。詳見 NOTES.md 第五十六節。",
+    "etymologyNote": "第十二輪（2026-11）新增 `etymology` 欄位，跟 `meaning`（自撰原創釋義，語氣偏溫馨祝福）性質不同：`etymology` 專放有實際出處的字源考據（主要引《說文解字》原文、漢典 zdic.net 轉引、段玉裁《說文解字注》等），目的是對標競品 inknomu.com 的考據嚴謹度（design.md 第十三節 G 組第 13 項）。遇到學界對《說文》傳統說法有爭議的字（如美、安、柔），誠實標註爭議而非只抄傳統版本當定論。查無可靠出處的字（預期多集中在第七輪為小說取名補的 37 個灰色調字：痞帥/陰鬱/毒舌/精明權謀）填 `\"字源不詳\"`，不硬湊。目前僅作內部資料庫用，尚未顯示於前端，之後要不要搬上網站、要不要先精簡文字再顯示，待之後討論，見 NOTES.md 第十六節第 76 點起。 第五十四節擴充（2026-11）新增的 151 字沿用同一套查證方式：逐字讀取漢典（zdic.net）的《說文解字》大徐本原文與段玉裁《說文解字注》，再用東華漢語字典（dong-chinese.com）的《說文》欄位交叉核對（含判斷是否為《說文新附》字），有爭議的對應再用 WebSearch 查教育部異體字字典等來源；其中 11 字查無可靠出處填「字源不詳」。全庫 361 字合計 39 字為「字源不詳」（原 210 字的 28 字＋新增 11 字）。 第五十五節擴充（2026-11）新增的 139 字用同一套方式查證（漢典大徐本＋段注、東華漢語字典《說文》欄位交叉核對，漢典導向別字時另查《康熙字典》、段注原文確認關係，不直接照抄）；其中 12 字查無可靠出處填「字源不詳」，另有 5 字是《說文新附》字。同一輪重查既有字「熙」，確認《說文》火部有「熙，燥也」一條，已從字源不詳改為正式考據。全庫 500 字合計 50 字為「字源不詳」（原 39 字－熙＋新增 12 字）。 第五十六節擴充（2026-11）新增的 50 字用同一套方式查證（漢典大徐本＋段注、東華漢語字典《說文》欄位交叉核對，漢典導向別字時另查《康熙字典》、段注原文確認關係；查不到的再用 WebSearch 查教育部異體字字典等來源）；其中 4 字查無可靠出處填「字源不詳」，另有 2 字是《說文新附》字。全庫 550 字合計 54 字為「字源不詳」（原 50 字＋新增 4 字）。",
+    "wadeGilesNote": "第十八輪（2026-11）新增 wadeGiles 欄位：威妥瑪拼音（簡化式，無送氣撇號／變音符號），依 pinyin.info 收錄的威妥瑪-漢語拼音完整音節對照表，從既有 pinyin 欄位（含聲調）去聲調後查表換算，210 字全數換算成功，無缺漏。查證來源與換算方式見 NOTES.md 第二十四節。 第五十四節擴充新增的 151 字用同一張 pinyin.info 對照表換算（換算腳本先對原 210 字重跑一次、結果與既有欄位 0 差異才套用），151 字全數換算成功。 第五十五節擴充新增的 139 字同樣用 pinyin.info 對照表換算（重新抓表後先對既有 361 字重跑、0 差異才套用），139 字全數換算成功。 第五十六節擴充新增的 50 字同樣用 pinyin.info 對照表換算（先對既有 500 字重跑、0 差異才套用），50 字全數換算成功；全庫 550 字皆有 wadeGiles 欄位。"
   },
   "chars": [
     {
@@ -1670,7 +1670,7 @@
         "huo_po"
       ],
       "qualityTags": [],
-      "etymology": "字源不詳。多次查證《說文解字》原文與轉引資料，均未找到「熙」字的確切條目，字源出處暫無法確認。",
+      "etymology": "《說文解字》火部：「熙，燥也。從火、巸聲。」本義是曬乾、乾燥；段玉裁注說「燥者，熙之本義。又訓興、訓光者，引申之義也」，今天常用的光明、興盛都是引申義。（第十七節原判字源不詳，第五十五節重查漢典大徐本、段注與東華漢語字典三處都有此條，已更正。）",
       "wadeGiles": "Hsi"
     },
     {
@@ -3533,6 +3533,6510 @@
       ],
       "etymology": "字源不詳。查證結果找不到《說文解字》收錄「略」字本身的確切原文條目，傳統轉引的「經略土地也，從田、各聲」沒有找到可靠出處，字源出處暫無法確認，現代字典多將「界」「謀略」列為常見義項。",
       "wadeGiles": "Lueh"
+    },
+    {
+      "char": "家",
+      "pinyin": "jiā",
+      "gender": "neutral",
+      "tags": [
+        "平安",
+        "善良"
+      ],
+      "meaning": "家庭、家園，寄望孩子有溫暖安穩的歸屬，也重視家人情感。",
+      "etymology": "《說文解字》：「家，居也。從宀，豭省聲。」本義是居所；段玉裁《說文解字注》對字形有疑，認為字下從豕，本義可能是「豕之居」（養豬的屋舍），後來才借指人住的地方，屬學者推測，非定論。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Chia"
+    },
+    {
+      "char": "建",
+      "pinyin": "jiàn",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "富貴"
+      ],
+      "meaning": "建立、建樹，期許孩子有所作為、成就一番事業。",
+      "etymology": "《說文解字》：「建，立朝律也。從聿、從廴。」本義是訂立朝廷的法律制度；段玉裁注指出今天「凡豎立為建」的用法，跟《說文》這個古義已有落差，「建立、建樹」是後來通行的意思。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Chien"
+    },
+    {
+      "char": "宏",
+      "pinyin": "hóng",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "富貴"
+      ],
+      "meaning": "宏大、宏遠，形容胸襟開闊、志向遠大。",
+      "etymology": "《說文解字》：「宏，屋深響也。從宀、厷聲。」本義是房屋深廣而有回聲；段玉裁注認為「響」是衍字，本義應是屋內深廣，引申為一切廣大、宏大之意。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Hung"
+    },
+    {
+      "char": "俊",
+      "pinyin": "jùn",
+      "gender": "male",
+      "tags": [
+        "美麗",
+        "智慧"
+      ],
+      "meaning": "才智出眾、容貌英挺，取俊秀、俊傑之意。",
+      "etymology": "《說文解字》：「俊，材千人也。從人、夋聲。」本義是才智超過千人的人；段玉裁注引《尹文子》「千人才曰俊，萬人曰傑」等多家說法，古人把俊、傑、英、豪按才能高下分級，各家說法略有出入。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chun"
+    },
+    {
+      "char": "偉",
+      "pinyin": "wěi",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "富貴"
+      ],
+      "meaning": "偉大、雄偉，期許孩子氣度不凡、有所成就。",
+      "etymology": "《說文解字》：「偉，奇也。從人、韋聲。」本義是奇特、不平凡，段玉裁注引《莊子》「偉哉夫造物者」為例，後引申為偉大、雄偉。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Wei"
+    },
+    {
+      "char": "承",
+      "pinyin": "chéng",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "堅毅"
+      ],
+      "meaning": "承接、承擔，寓意承先啟後、有擔當。",
+      "etymology": "《說文解字》：「承，奉也。受也。從手、從卪、從𠬞。」本義是雙手捧著、承接，段玉裁注指出承受、承順、承繼等用法都由「奉」這個本義引申而來。",
+      "popularity": 5,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Cheng"
+    },
+    {
+      "char": "瀚",
+      "pinyin": "hàn",
+      "gender": "male",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "浩瀚，形容廣大無邊，寓意學識淵博、胸懷寬廣。",
+      "etymology": "字源不詳。查證《說文解字》、《說文新附》均未見收錄「瀚」字，字源出處暫無法確認，現代字典多解為形聲字（從水、翰聲），形容廣大，如「浩瀚」。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Han"
+    },
+    {
+      "char": "冠",
+      "pinyin": "guàn",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "智慧"
+      ],
+      "meaning": "位居第一、出類拔萃，取「冠軍」「冠絕」之意。",
+      "etymology": "《說文解字》：「冠，絭也。所以絭髮，弁冕之總名也。從冖、從元，元亦聲。冠有法制，從寸。」本義是束髮的帽子，「元」指頭；因戴在最上方，後引申為位居第一，如「冠軍」。",
+      "popularity": 4,
+      "personalityTags": [
+        "ba_qi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Kuan"
+    },
+    {
+      "char": "芬",
+      "pinyin": "fēn",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "花草的香氣，引申為美好的名聲與品德。",
+      "etymology": "《說文解字》正篆寫作「㞣」：「㞣，艸初生，其香分布。從屮、從分，分亦聲。芬，㞣或從艸。」本義是草木初生時散發的香氣，「芬」是《說文》收錄的或體寫法。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Fen"
+    },
+    {
+      "char": "玲",
+      "pinyin": "líng",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "快樂"
+      ],
+      "meaning": "玉石相擊的清脆聲，形容玲瓏剔透、靈巧可愛。",
+      "etymology": "《說文解字》：「玲，玉聲。從玉、令聲。」本義是玉石相碰的清脆聲音，段玉裁注引〈甘泉賦〉「和氏瓏玲」為例，後來「玲瓏」引申形容精巧、靈活。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Ling"
+    },
+    {
+      "char": "貞",
+      "pinyin": "zhēn",
+      "gender": "female",
+      "tags": [
+        "堅毅",
+        "善良"
+      ],
+      "meaning": "堅定不移、操守端正，取忠貞、貞靜之意。",
+      "etymology": "《說文解字》：「貞，卜問也。從卜，貝以為贄。一曰鼎省聲。」本義是占卜、問卜，跟今天「忠貞、貞節」的常用義差距很大；《說文》本身也並列兩說（從貝或從鼎省聲），段玉裁注有討論。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chen"
+    },
+    {
+      "char": "英",
+      "pinyin": "yīng",
+      "gender": "neutral",
+      "tags": [
+        "勇敢",
+        "美麗"
+      ],
+      "meaning": "花朵精華，也指才能出眾的人，取英氣、英才之意。",
+      "etymology": "《說文解字》：「英，艸榮而不實者。一曰黃英。從艸、央聲。」本義是只開花不結果的花，後引申為精華、才能出眾的人，如「英才」「英雄」。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Ying"
+    },
+    {
+      "char": "娟",
+      "pinyin": "juān",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "秀美、姿態柔美，取娟秀之意。",
+      "etymology": "《說文解字》原書未收錄此字，是宋代徐鉉增補的《說文新附》字：「娟，嬋娟也。從女、肙聲。」本義是姿態美好，「嬋娟」形容女子容貌秀美，也借指月亮。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Chuan"
+    },
+    {
+      "char": "琴",
+      "pinyin": "qín",
+      "gender": "female",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "古琴，象徵高雅的文藝修養與知音之情。",
+      "etymology": "《說文解字》：「琴，禁也。神農所作。洞越，練朱五弦，周加二弦。象形。」用同音字「禁」解釋，段玉裁注引《白虎通》說琴可以「禁止淫邪、正人心」；本義就是古琴這種樂器。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chin"
+    },
+    {
+      "char": "蘭",
+      "pinyin": "lán",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "善良"
+      ],
+      "meaning": "蘭花，象徵高潔、清雅的君子品格。",
+      "etymology": "《說文解字》：「蘭，香艸也。從艸、闌聲。」本義是一種香草，段玉裁注引《左傳》「蘭有國香」，並引「說者謂似澤蘭也」，古人說的蘭跟今天常見的觀賞蘭花未必是同一種植物。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Lan"
+    },
+    {
+      "char": "君",
+      "pinyin": "jūn",
+      "gender": "neutral",
+      "tags": [
+        "善良",
+        "富貴"
+      ],
+      "meaning": "君子，期許孩子品格端正、溫文有禮。",
+      "etymology": "《說文解字》：「君，尊也。從尹，發號，故從口。」「尹」是治理，加「口」表示發號施令，本義是有尊位、能發令的人，後來才有「君子」這種品德意義的用法。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_ya",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chun"
+    },
+    {
+      "char": "如",
+      "pinyin": "rú",
+      "gender": "female",
+      "tags": [
+        "善良",
+        "平安"
+      ],
+      "meaning": "順從、如意，寄寓一切順心如意。",
+      "etymology": "《說文解字》：「如，從隨也。從女、從口。」本義是順從、跟隨；段玉裁注指出「相似」「前往」等常用義都是由「從隨」引申出來的，本義帶有古代女子從人的觀念。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Ju"
+    },
+    {
+      "char": "宥",
+      "pinyin": "yòu",
+      "gender": "neutral",
+      "tags": [
+        "善良"
+      ],
+      "meaning": "寬容、饒恕，期許孩子心胸寬厚、待人包容。",
+      "etymology": "《說文解字》：「宥，寬也。從宀、有聲。」本義就是寬容，段玉裁注引《詩經·周頌》與毛傳「宥，寬也」，因此赦免罪過也叫「宥」。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "廷",
+      "pinyin": "tíng",
+      "gender": "male",
+      "tags": [
+        "富貴"
+      ],
+      "meaning": "朝廷，引申為端正莊重、有格局。",
+      "etymology": "《說文解字》：「廷，朝中也。從廴、𡈼聲。」本義是朝廷之中、君臣議事的地方，段玉裁注說古代外朝露天而不在屋內，所以叫「廷」。",
+      "popularity": 5,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Ting"
+    },
+    {
+      "char": "品",
+      "pinyin": "pǐn",
+      "gender": "neutral",
+      "tags": [
+        "善良",
+        "智慧"
+      ],
+      "meaning": "品格、品味，期許孩子人品端正、有修養。",
+      "etymology": "《說文解字》：「品，眾庶也。從三口。」本義是眾多，三個「口」代表很多人；段玉裁注說「人三為眾」。今天「品格、品味」是後來引申出的意思，跟本義落差不小。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Pin"
+    },
+    {
+      "char": "翰",
+      "pinyin": "hàn",
+      "gender": "male",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "原指羽毛、筆，引申為文章文采，取「翰墨」「翰林」之意。",
+      "etymology": "《說文解字》：「翰，天雞赤羽也。從羽、倝聲。」本義是一種名叫天雞的鳥身上的紅色長羽毛；因古人用羽毛作筆，後引申為筆、文章，如「翰墨」「翰林」。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Han"
+    },
+    {
+      "char": "碩",
+      "pinyin": "shuò",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "健康"
+      ],
+      "meaning": "大、豐碩，寓意成果豐碩、成就非凡。",
+      "etymology": "《說文解字》：「碩，頭大也。從頁、石聲。」本義是頭大，段玉裁注說「引伸為凡大之偁」，後泛指大、豐碩。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Shuo"
+    },
+    {
+      "char": "子",
+      "pinyin": "zǐ",
+      "gender": "neutral",
+      "tags": [
+        "善良",
+        "智慧"
+      ],
+      "meaning": "古代對有德者的尊稱，也泛指孩子，常與其他字搭配成名。",
+      "etymology": "《說文解字》：「子，十一月，陽气動，萬物滋，人以為偁。象形。」許慎以地支「子」解釋；段玉裁注認為「子」本指萬物滋生，借來稱人，字形也像人的頭與手腳。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_ya",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Tzu"
+    },
+    {
+      "char": "詠",
+      "pinyin": "yǒng",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "快樂"
+      ],
+      "meaning": "吟詠、歌詠，寓意有文采、懂得欣賞美好。",
+      "etymology": "《說文解字》：「詠，歌也。從言、永聲。咏，詠或從口。」本義是歌唱、拉長聲音吟唱，段玉裁注引〈堯典〉「歌永言」，「永」兼有長的意思。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Yung"
+    },
+    {
+      "char": "苡",
+      "pinyin": "yǐ",
+      "gender": "female",
+      "tags": [
+        "健康",
+        "美麗"
+      ],
+      "meaning": "薏苡，常見的草本植物，取其清新自然。",
+      "etymology": "《說文解字》正篆寫作「苢」：「苢，芣苢。一名馬舄。其實如李，令人宜子。從艸、㠯聲。」本義是植物「芣苢」，段玉裁注引《爾雅》「芣苢，馬舄。馬舄，車前」，也就是車前草，跟今天常說的「薏苡」所指不同。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "菲",
+      "pinyin": "fēi",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "花草芳香茂盛，取「芳菲」之意，形容美好。",
+      "etymology": "《說文解字》：「菲，芴也。從艸、非聲。」本義是一種名叫「芴」的菜，段玉裁注引《爾雅》又名「蒠菜」；今天取名常用的「芳菲」（花草香美）是後來的意思。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Fei"
+    },
+    {
+      "char": "雨",
+      "pinyin": "yǔ",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "健康"
+      ],
+      "meaning": "雨水滋潤萬物，寓意溫潤、帶來生機。",
+      "etymology": "《說文解字》：「雨，水從雲下也。一象天，冂象雲，水霝其閒也。」字形像水從天上的雲落下，段玉裁注說引申為凡是從上而下落的東西都可稱雨。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "qing_xiu"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "霏",
+      "pinyin": "fēi",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "雨雪紛飛、雲氣瀰漫的樣子，意境朦朧輕盈。",
+      "etymology": "《說文解字》原書未收錄此字，是宋代徐鉉增補的《說文新附》字：「霏，雨雲皃。從雨、非聲。」本義是雨雪紛飛、雲氣瀰漫的樣子。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "shen_mi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Fei"
+    },
+    {
+      "char": "蓁",
+      "pinyin": "zhēn",
+      "gender": "female",
+      "tags": [
+        "健康",
+        "富貴"
+      ],
+      "meaning": "草木茂盛的樣子，寓意生機蓬勃、繁茂興旺。",
+      "etymology": "《說文解字》：「蓁，艸盛皃。從艸、秦聲。」本義是草木茂盛的樣子，段玉裁注引毛傳「蓁蓁，至盛皃」，即《詩經·桃夭》「其葉蓁蓁」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Chen"
+    },
+    {
+      "char": "詩",
+      "pinyin": "shī",
+      "gender": "female",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "詩歌，寓意有文采、氣質高雅。",
+      "etymology": "《說文解字》：「詩，志也。從言、寺聲。」用「志」解釋詩，段玉裁注引〈毛詩序〉「在心為志，發言為詩」，意思是把心裡的志向說出來就是詩。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Shih"
+    },
+    {
+      "char": "涵",
+      "pinyin": "hán",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "善良"
+      ],
+      "meaning": "包容、涵養，期許孩子修養深厚、心胸寬大。",
+      "etymology": "《說文解字》正篆寫作「𣹢」：「𣹢，水澤多也。從水、圅聲。」本義是水澤很多、水量豐沛，後引申為包容、涵養。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_rou",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Han"
+    },
+    {
+      "char": "梅",
+      "pinyin": "méi",
+      "gender": "female",
+      "tags": [
+        "堅毅",
+        "美麗"
+      ],
+      "meaning": "梅花，凌寒獨開，象徵堅貞不屈的品格。",
+      "etymology": "《說文解字》：「梅，枏也。可食。從木、每聲。」許慎解為「枏」（楠樹）；段玉裁注指出古書裡的梅有兩種，一是楠樹，一是結酸果的梅樹，後世梅專指酸果梅，「梅之本義廢矣」。",
+      "popularity": 3,
+      "personalityTags": [
+        "leng_yan",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Mei"
+    },
+    {
+      "char": "雪",
+      "pinyin": "xuě",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "白雪，形容潔白純淨、冰清玉潔。",
+      "etymology": "《說文解字》正篆寫作「䨮」：「䨮，凝雨，說物者。從雨、彗聲。」本義是凝結的雨，段玉裁注說「說，今之悅字。物無不喜雪者」，即讓萬物歡悅；今字「雪」是後來簡省的寫法。",
+      "popularity": 4,
+      "personalityTags": [
+        "leng_yan",
+        "qing_xiu"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Hsueh"
+    },
+    {
+      "char": "菊",
+      "pinyin": "jú",
+      "gender": "female",
+      "tags": [
+        "堅毅",
+        "美麗"
+      ],
+      "meaning": "菊花，傲霜而開，象徵高潔、隱逸的品格。",
+      "etymology": "《說文解字》：「菊，大菊，蘧麥。從艸、匊聲。」許慎解為名叫「大菊、蘧麥」的植物，跟今天的菊花不同；《康熙字典》指出菊「古作蘜、鞠」，郭璞注《爾雅》說「蘜」才是「今之秋華菊」。",
+      "popularity": 2,
+      "personalityTags": [
+        "wen_ya",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chu"
+    },
+    {
+      "char": "月",
+      "pinyin": "yuè",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "平安"
+      ],
+      "meaning": "月亮，象徵溫柔、皎潔與團圓。",
+      "etymology": "《說文解字》：「月，闕也。大陰之精。象形。」用音近的「闕」（缺）解釋，段玉裁注引《釋名》「月，缺也，滿則缺也」，字形像不圓滿的月亮。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou",
+        "leng_yan"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yueh"
+    },
+    {
+      "char": "春",
+      "pinyin": "chūn",
+      "gender": "neutral",
+      "tags": [
+        "健康",
+        "快樂"
+      ],
+      "meaning": "春天，象徵生機勃發、萬象更新。",
+      "etymology": "《說文解字》正篆寫作「萅」：「萅，推也。從艸、從日，艸春時生也；屯聲。」本義是草木在春天推擠萌生，字形由草、日、屯組成，今字「春」是隸書省變的寫法。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Chun"
+    },
+    {
+      "char": "杰",
+      "pinyin": "jié",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "勇敢"
+      ],
+      "meaning": "才能出眾的人，與「傑」同義，取傑出、豪傑之意。",
+      "etymology": "字源不詳。《說文解字》未收「杰」字，漢典只把它對應到「傑」（「傑，傲也。從人、桀聲」，段玉裁注認為應作「材過萬人也」），但「杰」這個字形本身怎麼來的，這次沒有查到可靠出處。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Chieh"
+    },
+    {
+      "char": "靖",
+      "pinyin": "jìng",
+      "gender": "male",
+      "tags": [
+        "平安"
+      ],
+      "meaning": "平定、安定，寄望天下太平、處事沉穩。",
+      "etymology": "《說文解字》：「靖，立竫也。從立、青聲。一曰細皃。」本義是站得安穩、安靜，段玉裁注說「謂立容安竫也」，後引申為平定、安定，如「靖亂」。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Ching"
+    },
+    {
+      "char": "彬",
+      "pinyin": "bīn",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "善良"
+      ],
+      "meaning": "文質彬彬，形容外在文采與內在質樸兼備。",
+      "etymology": "《說文解字》正篆寫作「份」：「份，文質僣也。……《論語》曰：『文質份份。』彬，古文份從彡、林。」「彬」是「份」的古文寫法，本義是外在文采和內在質樸兼備，即「文質彬彬」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Pin"
+    },
+    {
+      "char": "森",
+      "pinyin": "sēn",
+      "gender": "male",
+      "tags": [
+        "健康",
+        "富貴"
+      ],
+      "meaning": "樹木眾多、繁茂，寓意生命力旺盛。",
+      "etymology": "《說文解字》：「森，木多皃。從林、從木。」本義是樹木眾多的樣子；段玉裁注提到《玉篇》等書解作「長木皃」，即高出樹林的樹木，兩種說法並存。",
+      "popularity": 3,
+      "personalityTags": [
+        "hao_mai",
+        "shen_mi"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Sen"
+    },
+    {
+      "char": "元",
+      "pinyin": "yuán",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "智慧"
+      ],
+      "meaning": "開始、第一，寓意首屈一指、萬象更新。",
+      "etymology": "《說文解字》：「元，始也。從一、從兀。」本義是開始、第一，段玉裁注引《爾雅》與《九家易》「元者，氣之始也」；段玉裁在「冠」字注中也說「元猶首也」，所以元也有「首」的意思。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Yuan"
+    },
+    {
+      "char": "莉",
+      "pinyin": "lì",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "茉莉花，花色潔白、香氣清雅。",
+      "etymology": "字源不詳。《說文解字》未收錄「莉」字，查到的資料多說明它是後起字，主要用在「茉莉」一詞（花名源自外來語音譯），這次沒有查到可靠的古代字書出處。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Li"
+    },
+    {
+      "char": "菁",
+      "pinyin": "jīng",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "智慧"
+      ],
+      "meaning": "精華，取「菁英」之意，寓意出類拔萃。",
+      "etymology": "《說文解字》：「菁，韭華也。從艸、青聲。」本義是韭菜的花，段玉裁注引《周禮》「菁菹」為證；今天「菁英、菁華」取精華之意，是後來的引申用法，跟本義落差很大。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Ching"
+    },
+    {
+      "char": "盈",
+      "pinyin": "yíng",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "快樂"
+      ],
+      "meaning": "充滿、圓滿，寓意豐盈飽滿、福氣滿滿。",
+      "etymology": "《說文解字》：「盈，滿器也。從皿、夃。」本義是器皿裝滿，「夃」表示買東西多得，段玉裁注說《說文》區分「把器裝滿」和「器已滿」，用字很精嚴。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "huo_po"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Ying"
+    },
+    {
+      "char": "純",
+      "pinyin": "chún",
+      "gender": "female",
+      "tags": [
+        "善良",
+        "美麗"
+      ],
+      "meaning": "純粹、純淨，期許孩子心地單純、真誠無瑕。",
+      "etymology": "《說文解字》：「純，絲也。從糸、屯聲。」本義是絲，段玉裁注說後來借作「醇」，因「美絲美酒，其不雜同也」，才引申為純粹、不雜。",
+      "popularity": 3,
+      "personalityTags": [
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Chun"
+    },
+    {
+      "char": "均",
+      "pinyin": "jūn",
+      "gender": "neutral",
+      "tags": [
+        "平安",
+        "善良"
+      ],
+      "meaning": "平均、均衡，寓意公平公正、處事平和。",
+      "etymology": "《說文解字》：「均，平徧也。從土、從勻，勻亦聲。」本義是平均、普遍沒有偏差，段玉裁注說「言無所不平也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Chun"
+    },
+    {
+      "char": "禹",
+      "pinyin": "yǔ",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "智慧"
+      ],
+      "meaning": "夏禹，治水的古代聖王，象徵勤勉堅毅、造福眾人。",
+      "etymology": "《說文解字》：「禹，蟲也。從禸，象形。」本義其實是一種蟲，段玉裁注說夏朝的王拿來當名字後，「學者昧其本義」，今天大家只知道大禹，跟本義落差很大。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "樺",
+      "pinyin": "huà",
+      "gender": "neutral",
+      "tags": [
+        "堅毅",
+        "健康"
+      ],
+      "meaning": "樺樹，樹幹挺直、耐寒，寓意挺拔堅韌。",
+      "etymology": "字源不詳。《說文解字》未收「樺」字，漢典把它關聯到「檴」字，但《康熙字典》指出「檴」在《說文》裡原被當作「樗」的重文，兩字關係說法不一，這次沒有查到可靠出處，現代字典解為樺樹（形聲，從木、華聲）。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "jian_yi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Hua"
+    },
+    {
+      "char": "郁",
+      "pinyin": "yù",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "智慧"
+      ],
+      "meaning": "文采盛美、香氣濃郁，取「郁郁乎文哉」之意。",
+      "etymology": "《說文解字》：「郁，右扶風郁夷也。從邑、有聲。」本義是地名（漢代右扶風的郁夷縣）；段玉裁注說《論語》「郁郁乎文哉」的文采義是假借用法，取名用的「文采盛美」跟本義是兩回事。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "文",
+      "pinyin": "wén",
+      "gender": "neutral",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "文采、文化，期許孩子有學識修養、溫文爾雅。",
+      "etymology": "《說文解字》：「文，錯畫也。象交文。」本義是交錯的花紋，段玉裁注說倉頡依照鳥獸足跡的紋理造字，所以文字也叫「文」，再引申為文采、文化。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Wen"
+    },
+    {
+      "char": "信",
+      "pinyin": "xìn",
+      "gender": "male",
+      "tags": [
+        "善良"
+      ],
+      "meaning": "誠信、守信，期許孩子言而有信、值得信賴。",
+      "etymology": "《說文解字》：「信，誠也。從人、從言。會意。」本義是誠實，段玉裁注說「人言則無不信者」，人說的話應當真實可信。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Hsin"
+    },
+    {
+      "char": "柏",
+      "pinyin": "bǎi",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "健康"
+      ],
+      "meaning": "柏樹四季常青，象徵堅貞長壽、正直不屈。",
+      "etymology": "《說文解字》：「柏，鞠也。從木、白聲。」本義是柏樹，「鞠」即「椈」，《爾雅》也說「柏，椈」；段玉裁注提到古書也常把柏借作伯、迫。",
+      "popularity": 5,
+      "personalityTags": [
+        "jian_yi",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Pai"
+    },
+    {
+      "char": "成",
+      "pinyin": "chéng",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "堅毅"
+      ],
+      "meaning": "成功、成就，寄望孩子事有所成。",
+      "etymology": "《說文解字》：「成，就也。從戊、丁聲。」本義是完成、成就，字形從戊、丁聲，《說文》另收有從午的古文寫法。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Cheng"
+    },
+    {
+      "char": "正",
+      "pinyin": "zhèng",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "堅毅"
+      ],
+      "meaning": "端正、正直，期許孩子光明磊落、行事正派。",
+      "etymology": "《說文解字》：「正，是也。從止，一以止。」本義是正確、合宜，段玉裁注引江沅說「一」代表使之停止的標準，即守住一個準則。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Cheng"
+    },
+    {
+      "char": "佳",
+      "pinyin": "jiā",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "快樂"
+      ],
+      "meaning": "美好、優秀，取佳人、佳音之意。",
+      "etymology": "《說文解字》：「佳，善也。從人、圭聲。」本義就是美好、優良，段玉裁注引《廣韻》「佳，善也，又曰好也」。",
+      "popularity": 5,
+      "personalityTags": [
+        "huo_po",
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Chia"
+    },
+    {
+      "char": "宜",
+      "pinyin": "yí",
+      "gender": "female",
+      "tags": [
+        "平安",
+        "美麗"
+      ],
+      "meaning": "合適、相宜，取「宜室宜家」之意，寓意和順美好。",
+      "etymology": "《說文解字》正篆寫作「宐」：「宐，所安也。從宀之下，一之上，多省聲。」本義是安居的地方、合適安穩，即《詩經》「宜其室家」的宜。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "以",
+      "pinyin": "yǐ",
+      "gender": "neutral",
+      "tags": [
+        "善良"
+      ],
+      "meaning": "文言虛字，常見於名字首字（如以恩），取「以此為念」的含蓄語感。",
+      "etymology": "《說文解字》正篆寫作「㠯」：「㠯，用也。從反巳。」本義是「用」，後來多作虛詞使用，名字裡常見的「以」取的是語感，不是具體字義。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "友",
+      "pinyin": "yǒu",
+      "gender": "neutral",
+      "tags": [
+        "善良",
+        "快樂"
+      ],
+      "meaning": "朋友、友愛，期許孩子待人真誠、人緣好。",
+      "etymology": "《說文解字》：「友，同志為友。從二又，相交友也。」兩個「又」是兩隻手，本義是志同道合的人互相扶持，段玉裁注引《周禮》注「同師曰朋，同志曰友」。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "隆",
+      "pinyin": "lóng",
+      "gender": "male",
+      "tags": [
+        "富貴"
+      ],
+      "meaning": "興盛、豐大，寓意事業隆盛、福澤深厚。",
+      "etymology": "《說文解字》正篆寫作「𨼇」：「𨼇，豐大也。從生、降聲。」本義是豐盛高大，徐鍇解釋為「生而不已，益高大也」。",
+      "popularity": 3,
+      "personalityTags": [
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Lung"
+    },
+    {
+      "char": "龍",
+      "pinyin": "lóng",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "富貴"
+      ],
+      "meaning": "龍，中華文化中象徵祥瑞、權威與力量的神獸。",
+      "etymology": "《說文解字》：「龍，鱗蟲之長。能幽，能明，能細，能巨，能短，能長；春分而登天，秋分而潛淵。」許慎把龍描述為鱗蟲之首、變化莫測的神物，字形說解（從肉、童省聲）段玉裁注也有討論。",
+      "popularity": 3,
+      "personalityTags": [
+        "ba_qi",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Lung"
+    },
+    {
+      "char": "武",
+      "pinyin": "wǔ",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "堅毅"
+      ],
+      "meaning": "勇武、武德，期許孩子勇敢剛強、守正不阿。",
+      "etymology": "《說文解字》：「武，楚莊王曰：『夫武，定功戢兵。故止戈為武。』」許慎引楚莊王語，解為「止息干戈才是武」；段玉裁注另引毛傳「武，迹也」，漢典則依甲骨文字形解為人持戈行進，本義是勇猛，「止戈為武」偏向後人的道德詮釋，兩說並存。",
+      "popularity": 3,
+      "personalityTags": [
+        "ba_qi",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Wu"
+    },
+    {
+      "char": "雯",
+      "pinyin": "wén",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "有花紋的彩雲，形容文采斑斕、氣質秀美。",
+      "etymology": "字源不詳。這次查證找不到《說文解字》或《說文新附》收錄「雯」的確切條目，現代字典解為有花紋的雲彩（形聲，從雨、文聲）。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_ya"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Wen"
+    },
+    {
+      "char": "微",
+      "pinyin": "wēi",
+      "gender": "female",
+      "tags": [
+        "善良",
+        "智慧"
+      ],
+      "meaning": "細微、精微，寓意心思細膩、能察覺細微之處，常見於女孩名。",
+      "etymology": "《說文解字》：「微，隱行也。從彳、𢼸聲。《春秋傳》曰：『白公其徒微之。』」本義是隱密地行走，段玉裁注說表示細小的本字是「𢼸」，後來借「微」通用，才有細微、精微的意思。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "shen_mi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Wei"
+    },
+    {
+      "char": "薇",
+      "pinyin": "wēi",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "薔薇、紫薇等花名，也指《詩經》「采薇」中的野菜，形容清新秀麗。",
+      "etymology": "《說文解字》：「薇，菜也。似藿。從艸、微聲。」本義是一種野菜，段玉裁注引陸璣說「莖葉皆似小豆，蔓生」，宋人說是野豌豆，即《詩經》「采薇」的薇，跟今天的薔薇、紫薇花不是同一種。",
+      "popularity": 5,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Wei"
+    },
+    {
+      "char": "萱",
+      "pinyin": "xuān",
+      "gender": "female",
+      "tags": [
+        "快樂",
+        "平安"
+      ],
+      "meaning": "萱草，又稱忘憂草，寓意無憂無慮、快樂自在。",
+      "etymology": "《說文解字》正篆寫作「藼」：「藼，令人忘憂艸也。……《詩》曰：『安得藼艸？』……萱，或從宣。」「萱」是《說文》收錄的或體寫法，本義就是忘憂草，即今天的萱草。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsuan"
+    },
+    {
+      "char": "瑄",
+      "pinyin": "xuān",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "古代祭天用的大璧玉，象徵珍貴美好。",
+      "etymology": "《說文解字》原書未收錄此字，東華漢語字典（dong-chinese.com）引宋代徐鉉增補的《說文新附》：「瑄，璧六寸也。從玉、宣聲。」本義是直徑六寸的璧玉；但《康熙字典》考證指出許慎原書沒有這句話，出處有爭議。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Hsuan"
+    },
+    {
+      "char": "璇",
+      "pinyin": "xuán",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "美玉，也是北斗星名之一，寓意珍貴閃耀。",
+      "etymology": "《說文解字》正篆寫作「璿」：「璿，美玉也。從玉、睿聲。」教育部異體字字典把「璇」列為「璿」的異體（另兼正字），段玉裁注也說古書的「琁」指美玉；也有字典說「璇」是次於玉的美石，說法不一。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "leng_yan"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Hsuan"
+    },
+    {
+      "char": "琪",
+      "pinyin": "qí",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "美玉，寓意美好珍貴。",
+      "etymology": "字源不詳。查證《說文解字》玉部、《說文新附》均未見收錄「琪」字，字源出處暫無法確認，現代字典多解為一種美玉（形聲，從玉、其聲）。",
+      "popularity": 5,
+      "personalityTags": [
+        "qing_xiu",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chi"
+    },
+    {
+      "char": "琳",
+      "pinyin": "lín",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "美玉，取「琳琅滿目」之意，寓意珍貴美好。",
+      "etymology": "《說文解字》：「琳，美玉也。從玉、林聲。」本義就是美玉，段玉裁注引高誘、王逸等人注也都說「琳，美玉名」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Lin"
+    },
+    {
+      "char": "瑤",
+      "pinyin": "yáo",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "美玉，取「瓊瑤」之意，也用來形容美好珍貴的事物。",
+      "etymology": "《說文解字》：「瑤，玉之美者。從玉、䍃聲。《詩》曰：『報之以瓊瑤。』」大徐本解為美玉，但段玉裁注認為「玉」是「石」的誤字，原文應作「石之美者」，即次於玉的美石，兩種版本說法不同。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "leng_yan"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Yao"
+    },
+    {
+      "char": "琦",
+      "pinyin": "qí",
+      "gender": "neutral",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "美玉，也有奇特、不凡之意。",
+      "etymology": "字源不詳。查證《說文解字》玉部、《說文新附》均未見收錄「琦」字，字源出處暫無法確認，現代字典多解為美玉，也有奇特、不凡之意（形聲，從玉、奇聲）。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chi"
+    },
+    {
+      "char": "瑋",
+      "pinyin": "wěi",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "美玉，也形容珍奇、美好，取「瑰瑋」之意。",
+      "etymology": "字源不詳。查證《說文解字》玉部、《說文新附》均未見收錄「瑋」字；段玉裁在「偉」字注中引玄應說「《埤蒼》作瑋」，可見三國時字書才收，確切字源暫無法確認，現代字典解為美玉、珍奇。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Wei"
+    },
+    {
+      "char": "宸",
+      "pinyin": "chén",
+      "gender": "male",
+      "tags": [
+        "富貴"
+      ],
+      "meaning": "帝王居住的宮殿，引申為高貴、尊貴。",
+      "etymology": "《說文解字》：「宸，屋宇也。從宀、辰聲。」本義是屋簷、屋宇，段玉裁注說「宸謂屋邊」；後來專指帝王的宮殿，如「宸居」，跟本義的一般屋舍已有不同。",
+      "popularity": 5,
+      "personalityTags": [
+        "ba_qi",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chen"
+    },
+    {
+      "char": "逸",
+      "pinyin": "yì",
+      "gender": "male",
+      "tags": [
+        "快樂",
+        "平安"
+      ],
+      "meaning": "安閒、超脫，取「飄逸」「安逸」之意，形容瀟灑自在。",
+      "etymology": "《說文解字》：「逸，失也。從辵、兔。兔謾訑善逃也。」本義是逃跑、走失（兔子善於逃跑），段玉裁注說「亡逸者，本義也。引伸之為逸游、為暇逸」，今天「安逸、飄逸」是引申義。",
+      "popularity": 5,
+      "personalityTags": [
+        "pi_shuai",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "浩",
+      "pinyin": "hào",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "智慧"
+      ],
+      "meaning": "浩大、浩瀚，形容氣勢盛大、胸襟寬廣。",
+      "etymology": "《說文解字》：「浩，澆也。從水、告聲。《虞書》曰：『洪水浩浩。』」段玉裁注認為「澆」是「沆」的誤字，本義是水勢盛大，後引申為廣大、浩瀚。",
+      "popularity": 5,
+      "personalityTags": [
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Hao"
+    },
+    {
+      "char": "凱",
+      "pinyin": "kǎi",
+      "gender": "male",
+      "tags": [
+        "快樂",
+        "勇敢"
+      ],
+      "meaning": "凱旋、和樂，寓意勝利歸來、歡欣喜悅。",
+      "etymology": "《說文解字》未收「凱」字，漢典與段玉裁注都指向「豈」「愷」：《說文》「豈，還師振旅樂也」「愷，樂也」，段玉裁注說「詩又作凱，俗字也……凱亦訓樂，即愷字也」，本義是軍隊得勝歸來的樂曲、和樂。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Kai"
+    },
+    {
+      "char": "鴻",
+      "pinyin": "hóng",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "智慧"
+      ],
+      "meaning": "鴻雁，取「鴻鵠之志」之意，寓意志向遠大。",
+      "etymology": "《說文解字》：「鴻，鴻鵠也。從鳥、江聲。」本義是一種大鳥，段玉裁注說古書的鴻有時指大雁、有時指黃鵠，「鴻之言𨾊也，言其大也」，所以也引申為大。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Hung"
+    },
+    {
+      "char": "楷",
+      "pinyin": "kǎi",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "智慧"
+      ],
+      "meaning": "楷模、典範，期許孩子品行端正、足為榜樣。",
+      "etymology": "《說文解字》：「楷，木也。孔子冢蓋樹之者。從木、皆聲。」本義是種在孔子墓上的一種樹；段玉裁注引〈儒行〉「後世以為楷」，說楷是法式，「楷模」是後來的引申義。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Kai"
+    },
+    {
+      "char": "楓",
+      "pinyin": "fēng",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "堅毅"
+      ],
+      "meaning": "楓樹，秋天轉紅，意象絢爛而有韻味。",
+      "etymology": "《說文解字》：「楓，木也。厚葉弱枝，善搖。一名欇。從木、風聲。」本義是楓樹，許慎描寫它葉厚枝弱、容易隨風搖動，段玉裁注引舍人說「大風則鳴」。",
+      "popularity": 4,
+      "personalityTags": [
+        "leng_yan",
+        "qing_xiu"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Feng"
+    },
+    {
+      "char": "松",
+      "pinyin": "sōng",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "健康"
+      ],
+      "meaning": "松樹四季常青、耐寒，象徵堅貞長壽。",
+      "etymology": "《說文解字》：「松，木也。從木、公聲。㮤，松或從容。」本義就是松樹，《說文》另收「㮤」為或體寫法。",
+      "popularity": 3,
+      "personalityTags": [
+        "jian_yi",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Sung"
+    },
+    {
+      "char": "雲",
+      "pinyin": "yún",
+      "gender": "neutral",
+      "tags": [
+        "快樂",
+        "平安"
+      ],
+      "meaning": "雲朵，形容自在飄逸、無拘無束。",
+      "etymology": "《說文解字》：「雲，山川气也。從雨，云象雲回轉形。……云，古文省雨。」本義是山川升起的雲氣，段玉裁注說古文只寫作「云」，小篆才加上「雨」。",
+      "popularity": 4,
+      "personalityTags": [
+        "pi_shuai",
+        "shen_mi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yun"
+    },
+    {
+      "char": "星",
+      "pinyin": "xīng",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "星辰，象徵光亮、希望與夢想。",
+      "etymology": "《說文解字》正篆寫作「曐」：「曐，萬物之精，上為列星。從晶、生聲。……星，曐或省。」許慎說星是萬物的精華上升成為天上的星辰，「星」是《說文》收錄的省寫。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "shen_mi"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsing"
+    },
+    {
+      "char": "陽",
+      "pinyin": "yáng",
+      "gender": "male",
+      "tags": [
+        "健康",
+        "快樂"
+      ],
+      "meaning": "陽光，象徵光明、溫暖、朝氣蓬勃。",
+      "etymology": "《說文解字》：「陽，高、明也。從𨸏、昜聲。」本義是高而明亮的地方，段玉裁注說是「闇之反也」，又引毛傳「山東曰朝陽」，山的南面向陽所以稱陽。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Yang"
+    },
+    {
+      "char": "光",
+      "pinyin": "guāng",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "快樂"
+      ],
+      "meaning": "光明、光彩，寓意前途光明、照亮他人。",
+      "etymology": "《說文解字》：「光，明也。從火在人上，光明意也。」字形是火在人的上方，表示光明，段玉裁注說這是會意字。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "huo_po"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Kuang"
+    },
+    {
+      "char": "輝",
+      "pinyin": "huī",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "智慧"
+      ],
+      "meaning": "光輝、輝煌，寓意閃耀出色、成就非凡。",
+      "etymology": "《說文解字》未收「輝」字，正篆寫作「煇」：「煇，光也。從火、軍聲。」段玉裁注說暉、煇音義相同，並說「俗作輝」，本義就是光芒。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Hui"
+    },
+    {
+      "char": "晟",
+      "pinyin": "shèng",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "智慧"
+      ],
+      "meaning": "光明、興盛，寓意前程明亮、事業昌盛。",
+      "etymology": "《說文解字》原書未收錄此字，東華漢語字典（dong-chinese.com）引宋代徐鉉增補的《說文新附》：「晟，明也。從日、成聲。」本義是光明、明亮。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Sheng"
+    },
+    {
+      "char": "昱",
+      "pinyin": "yù",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "快樂"
+      ],
+      "meaning": "日光、明亮，寓意光明燦爛、充滿朝氣。",
+      "etymology": "《說文解字》：「昱，明日也。從日、立聲。」大徐本解為「明日」（第二天），段玉裁注依《玉篇》等改為「日明也」，即日光明亮，兩種版本解法不同。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "朗",
+      "pinyin": "lǎng",
+      "gender": "male",
+      "tags": [
+        "快樂",
+        "智慧"
+      ],
+      "meaning": "明亮、開朗，形容性情爽朗、心胸坦蕩。",
+      "etymology": "《說文解字》：「朗，明也。從月、良聲。」本義就是明亮，段玉裁注引《詩經·大雅》「高朗令終」與毛傳「朗，明也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "zheng_zhi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Lang"
+    },
+    {
+      "char": "宣",
+      "pinyin": "xuān",
+      "gender": "neutral",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "宣揚、通達，寓意才德能廣為人知。",
+      "etymology": "《說文解字》：「宣，天子宣室也。從宀、亘聲。」本義是天子的正殿「宣室」，段玉裁注說後來「引伸為布也、明也、徧也、通也」，宣揚、通達都是引申義。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Hsuan"
+    },
+    {
+      "char": "庭",
+      "pinyin": "tíng",
+      "gender": "neutral",
+      "tags": [
+        "平安",
+        "富貴"
+      ],
+      "meaning": "庭院、廳堂，寓意家庭和睦、門庭興旺。",
+      "etymology": "《說文解字》：「庭，宮中也。從广、廷聲。」本義是屋室之中的庭院、廳堂，段玉裁注說「室之中曰庭」，又引《爾雅》「庭，直也」，引申為正直之處。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Ting"
+    },
+    {
+      "char": "誠",
+      "pinyin": "chéng",
+      "gender": "male",
+      "tags": [
+        "善良"
+      ],
+      "meaning": "真誠、誠實，期許孩子待人真心、言行一致。",
+      "etymology": "《說文解字》：「誠，信也。從言、成聲。」本義就是誠實守信，與「信」字互相解釋（「信，誠也」）。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Cheng"
+    },
+    {
+      "char": "義",
+      "pinyin": "yì",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "勇敢"
+      ],
+      "meaning": "道義、正義，期許孩子重情重義、行事正直。",
+      "etymology": "《說文解字》：「義，己之威儀也。從我、羊。」本義其實是自身的威儀、儀表，段玉裁注說古代威儀的「儀」寫作「義」，今天仁義、道義的用法是後來的轉用，本義跟常用義落差很大。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "德",
+      "pinyin": "dé",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "智慧"
+      ],
+      "meaning": "品德、德行，期許孩子品格高尚。",
+      "etymology": "《說文解字》：「德，升也。從彳、㥁聲。」本義是登升、向上前進，段玉裁注說「今俗謂用力徙前曰德」，跟今天「品德、德行」的常用義落差很大。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Te"
+    },
+    {
+      "char": "良",
+      "pinyin": "liáng",
+      "gender": "male",
+      "tags": [
+        "善良"
+      ],
+      "meaning": "善良、優良，期許孩子心地善良、品行美好。",
+      "etymology": "《說文解字》：「良，善也。從畗省，亡聲。」本義就是善、好，《說文》另收三個古文寫法。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Liang"
+    },
+    {
+      "char": "達",
+      "pinyin": "dá",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "富貴"
+      ],
+      "meaning": "通達、達成，寓意事理通透、事事順達。",
+      "etymology": "《說文解字》：「達，行不相遇也。從辵、羍聲。」本義是走路沒有遇到阻礙，段玉裁注說「訓通達者，今言也」，通達是後來的常用義。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Ta"
+    },
+    {
+      "char": "遠",
+      "pinyin": "yuǎn",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "堅毅"
+      ],
+      "meaning": "遠大、深遠，寓意志向高遠、眼光長遠。",
+      "etymology": "《說文解字》：「遠，遼也。從辵、袁聲。」本義就是距離遙遠，「遼」也是遠的意思。",
+      "popularity": 4,
+      "personalityTags": [
+        "gao_leng",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Yuan"
+    },
+    {
+      "char": "航",
+      "pinyin": "háng",
+      "gender": "male",
+      "tags": [
+        "勇敢"
+      ],
+      "meaning": "航行，寓意乘風破浪、勇往直前。",
+      "etymology": "《說文解字》正篆寫作「𣃚」：「𣃚，方舟也。從方、亢聲。」本義是兩船相併的方舟；徐鉉注說「今俗別作航，非是」，「航」是後世通行的俗寫，引申為航行。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Hang"
+    },
+    {
+      "char": "帆",
+      "pinyin": "fān",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "平安"
+      ],
+      "meaning": "船帆，取「一帆風順」之意，寓意順遂前行。",
+      "etymology": "《說文解字》未收「帆」字。《說文》有「颿」：「颿，馬疾步也。從馬、風聲。」徐鉉注說「舟船之颿，本用此字。今別作帆，非是」，「帆」是後世另造的寫法。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Fan"
+    },
+    {
+      "char": "揚",
+      "pinyin": "yáng",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "快樂"
+      ],
+      "meaning": "飛揚、揚名，寓意意氣風發、聲名遠播。",
+      "etymology": "《說文解字》：「揚，飛舉也。從手、昜聲。」本義是高高舉起、飛揚，《說文》另收從攴的古文寫法。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Yang"
+    },
+    {
+      "char": "然",
+      "pinyin": "rán",
+      "gender": "neutral",
+      "tags": [
+        "平安"
+      ],
+      "meaning": "自然、坦然，形容從容自在、不造作。",
+      "etymology": "《說文解字》：「然，燒也。從火、肰聲。」本義是燃燒，段玉裁注說後來借作語詞，表示「如此」，才另造「燃」字表示燃燒，今天「自然、坦然」的然跟本義落差很大。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "pi_shuai"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Jan"
+    },
+    {
+      "char": "心",
+      "pinyin": "xīn",
+      "gender": "female",
+      "tags": [
+        "善良"
+      ],
+      "meaning": "心意、真心，寓意心地善良、真誠待人。",
+      "etymology": "《說文解字》：「心，人心，土藏，在身之中。象形。博士說以為火藏。」本義是心臟，字形像心的形狀；許慎並列古文家「土藏」與今文博士「火藏」兩說。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_rou",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsin"
+    },
+    {
+      "char": "書",
+      "pinyin": "shū",
+      "gender": "neutral",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "書籍、書卷，期許孩子好學博學、有書卷氣。",
+      "etymology": "《說文解字》：「書，箸也。從聿、者聲。」本義是書寫（使文字附著在竹帛上），段玉裁注引《說文·敘》「箸於竹帛謂之書」，後來才指書籍。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Shu"
+    },
+    {
+      "char": "韻",
+      "pinyin": "yùn",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "智慧"
+      ],
+      "meaning": "韻味、音韻，形容氣質雅致、耐人尋味。",
+      "etymology": "《說文解字》原書未收錄此字，是宋代徐鉉增補的《說文新附》字：「韻，和也。從音、員聲。」本義是聲音和諧，徐鉉並引裴光遠說古時與「均」同字。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Yun"
+    },
+    {
+      "char": "紫",
+      "pinyin": "zǐ",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "紫色，古代視為尊貴祥瑞的顏色，取「紫氣東來」之意。",
+      "etymology": "《說文解字》：「紫，帛青赤色。從糸、此聲。」本義是青紅相間的帛色；段玉裁注認為「青」應作「黑」，即赤色加入黑色而成的紫色。",
+      "popularity": 3,
+      "personalityTags": [
+        "leng_yan",
+        "shen_mi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Tzu"
+    },
+    {
+      "char": "青",
+      "pinyin": "qīng",
+      "gender": "neutral",
+      "tags": [
+        "健康"
+      ],
+      "meaning": "青色，象徵青春、生機與清新。",
+      "etymology": "《說文解字》正篆寫作「靑」：「靑，東方色也。木生火，從生丹。丹青之信言象然。」許慎用五行解釋，青是東方的顏色，字形從「生」從「丹」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Ching"
+    },
+    {
+      "char": "素",
+      "pinyin": "sù",
+      "gender": "female",
+      "tags": [
+        "善良",
+        "美麗"
+      ],
+      "meaning": "樸素、本色，形容素雅純淨、不事浮華。",
+      "etymology": "《說文解字》：「素，白緻繒也。」本義是白色細緻的生絲織品，段玉裁注說因為顏色是白的，所以引申為一切白色、本色、質樸的東西。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Su"
+    },
+    {
+      "char": "真",
+      "pinyin": "zhēn",
+      "gender": "neutral",
+      "tags": [
+        "善良"
+      ],
+      "meaning": "真誠、純真，期許孩子率真坦誠。",
+      "etymology": "《說文解字》正篆寫作「眞」：「眞，僊人變形而登天也。」本義是仙人修煉後變形升天，跟今天「真實、真誠」的意思差距很大，常用義是後來轉變的。",
+      "popularity": 4,
+      "personalityTags": [
+        "chun_zhen",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Chen"
+    },
+    {
+      "char": "靜",
+      "pinyin": "jìng",
+      "gender": "female",
+      "tags": [
+        "平安",
+        "智慧"
+      ],
+      "meaning": "安靜、沉靜，形容嫻靜穩重、內心安定。",
+      "etymology": "《說文解字》：「靜，審也。從青、爭聲。」本義是審慎、色彩分布得宜，段玉裁注說「安靜本字當從立部之竫」，今天安靜的意思是假借，本義跟常用義不同。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Ching"
+    },
+    {
+      "char": "予",
+      "pinyin": "yǔ",
+      "gender": "neutral",
+      "tags": [
+        "善良"
+      ],
+      "meaning": "給予，寓意樂於付出、慷慨待人。",
+      "etymology": "《說文解字》：「予，推予也。象相予之形。」本義是給予，段玉裁注說「予」「與」是古今字，又被借作第一人稱「我」。",
+      "popularity": 5,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "亦",
+      "pinyin": "yì",
+      "gender": "neutral",
+      "tags": [
+        "快樂"
+      ],
+      "meaning": "文言虛字，意為「也」，常見於名字首字（如亦欣），語感輕盈。",
+      "etymology": "《說文解字》：「亦，人之臂亦也。從大，象兩亦之形。」本義是腋下，徐鉉注說後來另造「腋」字；「亦」被借作「也」的虛詞後，本義反而少用，本義跟常用義落差很大。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "依",
+      "pinyin": "yī",
+      "gender": "female",
+      "tags": [
+        "善良",
+        "平安"
+      ],
+      "meaning": "依靠、依戀，形容溫婉親人、讓人安心。",
+      "etymology": "《說文解字》：「依，倚也。從人、衣聲。」本義是倚靠、依附。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "芳",
+      "pinyin": "fāng",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "善良"
+      ],
+      "meaning": "花草香氣，引申為美好的名聲與品德。",
+      "etymology": "《說文解字》：「芳，香艸也。從艸、方聲。」本義是香草，段玉裁注認為應作「艸香」，即草的香氣，後泛指香氣、美好的名聲。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Fang"
+    },
+    {
+      "char": "芝",
+      "pinyin": "zhī",
+      "gender": "female",
+      "tags": [
+        "健康",
+        "美麗"
+      ],
+      "meaning": "靈芝、芝蘭，象徵祥瑞與高潔的品格。",
+      "etymology": "《說文解字》：「芝，神艸也。從艸、從之。」本義是被視為祥瑞的神草，段玉裁注引《論衡》「土氣和，故芝艸生」。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chih"
+    },
+    {
+      "char": "荷",
+      "pinyin": "hé",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "善良"
+      ],
+      "meaning": "荷花，出淤泥而不染，象徵清白高潔。",
+      "etymology": "《說文解字》：「荷，芙蕖葉。從艸、何聲。」本義是荷花（芙蕖）的葉子，段玉裁注說古書也用荷泛稱整株荷花。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Ho"
+    },
+    {
+      "char": "蓮",
+      "pinyin": "lián",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "善良"
+      ],
+      "meaning": "蓮花，象徵清淨高潔、心性純淨。",
+      "etymology": "《說文解字》：「蓮，芙蕖之實也。從艸、連聲。」本義其實是荷花的果實（蓮子），不是花本身，後來才泛指蓮花。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Lien"
+    },
+    {
+      "char": "綺",
+      "pinyin": "qǐ",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "富貴"
+      ],
+      "meaning": "有花紋的絲織品，形容美麗華麗，取「綺麗」之意。",
+      "etymology": "《說文解字》：「綺，文繒也。從糸、奇聲。」本義是有花紋的絲織品，段玉裁注說後來凡是像綺紋的都可稱綺，引申為美麗、華麗。",
+      "popularity": 3,
+      "personalityTags": [
+        "leng_yan"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chi"
+    },
+    {
+      "char": "晉",
+      "pinyin": "jìn",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "勇敢"
+      ],
+      "meaning": "進升、向前，寓意步步高升、不斷進步。",
+      "etymology": "《說文解字》：「晉，進也。日出萬物進。從日、從臸。」本義是前進、上升，像太陽升起萬物隨之生長，段玉裁注引《周易·彖傳》「晉，進也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chin"
+    },
+    {
+      "char": "凡",
+      "pinyin": "fán",
+      "gender": "neutral",
+      "tags": [
+        "平安"
+      ],
+      "meaning": "平凡，寓意踏實平順，或取「不凡」的反向寄寓。",
+      "etymology": "《說文解字》：「凡，最括也。」本義是總括、概括，段玉裁注說「凡者，獨舉其大也」；今天「平凡」的意思是後來的引申。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou",
+        "pi_shuai"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Fan"
+    },
+    {
+      "char": "舒",
+      "pinyin": "shū",
+      "gender": "female",
+      "tags": [
+        "快樂",
+        "平安"
+      ],
+      "meaning": "舒展、舒心，寓意從容自在、心情舒暢。",
+      "etymology": "《說文解字》：「舒，伸也。從舍、從予，予亦聲。一曰舒，緩也。」本義是伸展、舒展，另一說是舒緩。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Shu"
+    },
+    {
+      "char": "斐",
+      "pinyin": "fěi",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "文采華美，取「斐然成章」之意。",
+      "etymology": "《說文解字》：「斐，分別文也。從文、非聲。《易》曰：『君子豹變，其文斐也。』」本義是花紋交錯分明的樣子，引申為文采華美，如「斐然成章」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Fei"
+    },
+    {
+      "char": "姝",
+      "pinyin": "shū",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "美好、美女，取《詩經》「靜女其姝」之意。",
+      "etymology": "《說文解字》：「姝，好也。從女、朱聲。」本義是美好，段玉裁注引《詩經》毛傳「姝，美色也」，即「靜女其姝」的姝。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Shu"
+    },
+    {
+      "char": "穆",
+      "pinyin": "mù",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "平安"
+      ],
+      "meaning": "肅穆、和睦，形容端莊恭敬、氣度沉穩。",
+      "etymology": "《說文解字》：「穆，禾也。從禾、㣎聲。」本義是一種穀類作物，段玉裁注說經傳裡的穆都是借作「㣎」（細紋），所以「穆穆」取幽微、恭敬之意，本義跟常用義落差很大。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Mu"
+    },
+    {
+      "char": "修",
+      "pinyin": "xiū",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "修養、修長，期許孩子勤於修身、品格美好。",
+      "etymology": "《說文解字》：「修，飾也。從彡、攸聲。」本義是修飾、清理裝飾，段玉裁注說「修者，治也」，引申為修養、修治。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Hsiu"
+    },
+    {
+      "char": "靈",
+      "pinyin": "líng",
+      "gender": "female",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "靈巧、靈秀，形容聰慧機敏、有靈氣。",
+      "etymology": "《說文解字》正篆寫作「𩆜」：「𩆜，巫。以玉事神。從玉、霝聲。靈，𩆜或從巫。」本義是用玉事奉神明的巫者，「靈」是《說文》收錄的或體，後引申為神靈、靈巧。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "shen_mi"
+      ],
+      "qualityTags": [
+        "mysterious_dark"
+      ],
+      "wadeGiles": "Ling"
+    },
+    {
+      "char": "清",
+      "pinyin": "qīng",
+      "gender": "neutral",
+      "tags": [
+        "善良",
+        "美麗"
+      ],
+      "meaning": "清澈、清白，形容品格清高、純淨無瑕。",
+      "etymology": "《說文解字》：「清，朖也。澂水之皃。從水、青聲。」本義是水澄澈明淨，段玉裁注說「引伸之，凡潔曰清」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Ching"
+    },
+    {
+      "char": "新",
+      "pinyin": "xīn",
+      "gender": "neutral",
+      "tags": [
+        "快樂",
+        "健康"
+      ],
+      "meaning": "新生、嶄新，寓意朝氣蓬勃、不斷進步。",
+      "etymology": "《說文解字》：「新，取木也。從斤、𣓀聲。」本義是用斧頭砍伐木材，段玉裁注說引申為一切新開始的意思，本義跟常用義落差很大。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsin"
+    },
+    {
+      "char": "喜",
+      "pinyin": "xǐ",
+      "gender": "neutral",
+      "tags": [
+        "快樂"
+      ],
+      "meaning": "歡喜、喜悅，寓意生活快樂、喜事連連。",
+      "etymology": "《說文解字》：「喜，樂也。從壴、從口。」「壴」是陳列的樂器，段玉裁注說聽到音樂會笑，所以從壴、從口，本義是歡樂。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Hsi"
+    },
+    {
+      "char": "卿",
+      "pinyin": "qīng",
+      "gender": "neutral",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "古代高官，也是親暱的尊稱，帶有典雅的古風氣息。",
+      "etymology": "《說文解字》：「卿，章也。六卿：天官冢宰、地官司徒、春官宗伯、夏官司馬、秋官司寇、冬官司空。」本義是高級官員「卿」，段玉裁注引《白虎通》「卿之為言章也，章善明理也」。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Ching"
+    },
+    {
+      "char": "婕",
+      "pinyin": "jié",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "智慧"
+      ],
+      "meaning": "古代宮中女官名「婕妤」，形容美好有才。",
+      "etymology": "《說文解字》：「婕，女字也。從女、疌聲。」本義是女子的名字用字，段玉裁注引顏師古說「倢伃」（漢代宮中女官名）也可寫作「婕妤」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chieh"
+    },
+    {
+      "char": "茜",
+      "pinyin": "qiàn",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "茜草，可製紅色染料，引申為鮮豔明麗的紅色。",
+      "etymology": "《說文解字》：「茜，茅蒐也。從艸、西聲。」本義是茜草（茅蒐），根可作紅色染料，段玉裁注說「蒨即茜字也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Chien"
+    },
+    {
+      "char": "筱",
+      "pinyin": "xiǎo",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "堅毅"
+      ],
+      "meaning": "小竹子，形容清秀挺拔、清新可愛。",
+      "etymology": "《說文解字》：「筱，箭屬。小竹也。從竹、攸聲。」本義是可做箭桿的小竹子，段玉裁注說今字作「篠」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsiao"
+    },
+    {
+      "char": "芊",
+      "pinyin": "qiān",
+      "gender": "female",
+      "tags": [
+        "健康",
+        "美麗"
+      ],
+      "meaning": "草木茂盛的樣子，取「芊芊」之意，形容青翠繁茂。",
+      "etymology": "《說文解字》原書未收錄此字，東華漢語字典（dong-chinese.com）引宋代徐鉉增補的《說文新附》：「芊，艸盛也。從艸、千聲。」本義是草木茂盛；段玉裁在「谸」字注中說「千芊為古今字」，古書多寫作「千千」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Chien"
+    },
+    {
+      "char": "葳",
+      "pinyin": "wēi",
+      "gender": "female",
+      "tags": [
+        "健康",
+        "富貴"
+      ],
+      "meaning": "草木茂盛，取「葳蕤」之意，寓意生機蓬勃。",
+      "etymology": "字源不詳。查證《說文解字》、《說文新附》均未見收錄「葳」字，字源出處暫無法確認，現代字典多用於「葳蕤」一詞，形容草木茂盛。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Wei"
+    },
+    {
+      "char": "妮",
+      "pinyin": "nī",
+      "gender": "female",
+      "tags": [
+        "快樂"
+      ],
+      "meaning": "女孩的暱稱，語感親切可愛。",
+      "etymology": "字源不詳。查證《說文解字》女部、《說文新附》均未見收錄「妮」字，字源出處暫無法確認，現代字典多解為女孩的暱稱（形聲，從女、尼聲）。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Ni"
+    },
+    {
+      "char": "晞",
+      "pinyin": "xī",
+      "gender": "female",
+      "tags": [
+        "快樂",
+        "健康"
+      ],
+      "meaning": "曬乾、日照，取朝陽曬乾晨露的清新意象，寓意明朗、充滿希望。",
+      "etymology": "《說文解字》：「晞，乾也。從日、希聲。」本義是曬乾，段玉裁注引《詩經·小雅》「匪陽不晞」，漢典也引〈蒹葭〉「白露未晞」，指露水還沒被太陽曬乾。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsi"
+    },
+    {
+      "char": "采",
+      "pinyin": "cǎi",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "快樂"
+      ],
+      "meaning": "神采、文采，形容光彩煥發、才華出眾。",
+      "etymology": "《說文解字》：「采，捋取也。從木、從爪。」本義是用手摘取，段玉裁注說「凡文采之義本此」，後來另造「採」「彩」兩字分擔摘取與色彩的意思。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "wen_ya"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Tsai"
+    },
+    {
+      "char": "濤",
+      "pinyin": "tāo",
+      "gender": "male",
+      "tags": [
+        "勇敢"
+      ],
+      "meaning": "大浪、波濤，形容氣勢壯闊、勇往直前。",
+      "etymology": "《說文解字》原書未收錄此字，是宋代徐鉉增補的《說文新附》字：「濤，大波也。從水、壽聲。」本義是大浪、波濤。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "ba_qi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Tao"
+    },
+    {
+      "char": "鈺",
+      "pinyin": "yù",
+      "gender": "neutral",
+      "tags": [
+        "富貴"
+      ],
+      "meaning": "珍寶、堅硬的金屬，寓意珍貴、堅實。",
+      "etymology": "字源不詳。查證《說文解字》金部、《說文新附》均未見收錄「鈺」字，字源出處暫無法確認，現代字典多解為珍寶、堅硬的金屬（從金、玉聲）。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "銘",
+      "pinyin": "míng",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "智慧"
+      ],
+      "meaning": "銘刻、銘記，寓意牢記不忘、有所堅持。",
+      "etymology": "《說文解字》未收「銘」字，段玉裁注說許慎依古文經只用「名」字（「名，自命也」），「許君於金部不錄銘字」；東華漢語字典另引《說文新附》：「銘，記也。從金、名聲。」本義是刻在器物上的文字。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Ming"
+    },
+    {
+      "char": "泓",
+      "pinyin": "hóng",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "平安"
+      ],
+      "meaning": "水深而清澈，形容心思深沉、氣度寬廣。",
+      "etymology": "《說文解字》：「泓，下深皃。從水、弘聲。」本義是水深的樣子，段玉裁注說是「上似淺陿，其下深廣」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "shen_mi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Hung"
+    },
+    {
+      "char": "岳",
+      "pinyin": "yuè",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "勇敢"
+      ],
+      "meaning": "高大的山，象徵穩重如山、氣度恢宏。",
+      "etymology": "《說文解字》正篆寫作「嶽」，岳是《說文》收錄的古文：「嶽，東，岱；南，靃；西，華；北，恆；中，泰室。王者之所以巡狩所至。……岳，古文，象高形。」本義是五嶽這類大山。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Yueh"
+    },
+    {
+      "char": "崇",
+      "pinyin": "chóng",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "智慧"
+      ],
+      "meaning": "高大、崇高，寓意志向高遠、受人敬重。",
+      "etymology": "《說文解字》：「崇，嵬高也。從山、宗聲。」本義是山高大，段玉裁注改為「山大而高也」，並說崧、嵩都是崇的異體。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chung"
+    },
+    {
+      "char": "忠",
+      "pinyin": "zhōng",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "堅毅"
+      ],
+      "meaning": "忠誠、盡心，期許孩子真誠守信、忠於所託。",
+      "etymology": "《說文解字》：「忠，敬也。從心、中聲。」本義是恭敬盡心，段玉裁注依《孝經》疏補上「盡心曰忠」四字。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Chung"
+    },
+    {
+      "char": "立",
+      "pinyin": "lì",
+      "gender": "male",
+      "tags": [
+        "堅毅"
+      ],
+      "meaning": "站立、建立，寓意立身處世、有所建樹。",
+      "etymology": "《說文解字》：「立，住也。從大立一之上。」字形是人（大）站在地面（一）上，本義是站立，段玉裁注認為「住」應作「侸」。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Li"
+    },
+    {
+      "char": "晏",
+      "pinyin": "yàn",
+      "gender": "neutral",
+      "tags": [
+        "平安",
+        "快樂"
+      ],
+      "meaning": "天清無雲，也有安定、平和之意，取「海晏河清」之意。",
+      "etymology": "《說文解字》：「晏，天清也。從日、安聲。」本義是天空晴朗無雲，段玉裁注說「晏之言安也，古晏安通用」，所以也有安定、平和的意思。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Yan"
+    },
+    {
+      "char": "姿",
+      "pinyin": "zī",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "姿態、容貌，形容儀態優美、風姿綽約。",
+      "etymology": "《說文解字》：「姿，態也。從女、次聲。」本義是姿態、儀態，段玉裁注說「姿謂意態也」。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "leng_yan"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Tzu"
+    },
+    {
+      "char": "媛",
+      "pinyin": "yuàn",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "善良"
+      ],
+      "meaning": "美女，取《詩經》「邦之媛兮」之意，形容美好有德的女子。",
+      "etymology": "《說文解字》：「媛，美女也。人所援也。從女、從爰。爰，引也。《詩》曰：『邦之媛兮。』」本義是美女，許慎說是人人都想引為依靠的女子。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Yuan"
+    },
+    {
+      "char": "倩",
+      "pinyin": "qiàn",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "美好，取《詩經》「巧笑倩兮」之意，形容笑容迷人。",
+      "etymology": "《說文解字》：「倩，人字。從人、青聲。東齊壻謂之倩。」段玉裁注訂為「人美字也」，指古代男子名字裡的美稱（如東方朔字曼倩），並引毛傳說「巧笑倩兮」的倩是笑起來嘴角好看；本義偏男子美稱，跟今天多用在女孩名不同。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Chien"
+    },
+    {
+      "char": "恬",
+      "pinyin": "tián",
+      "gender": "female",
+      "tags": [
+        "平安",
+        "快樂"
+      ],
+      "meaning": "安靜、恬淡，形容心境平和、與世無爭。",
+      "etymology": "《說文解字》：「恬，安也。從心、甛省聲。」本義就是安靜、安適，與東華漢語字典（dong-chinese.com）所引原文一致。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Tien"
+    },
+    {
+      "char": "臻",
+      "pinyin": "zhēn",
+      "gender": "neutral",
+      "tags": [
+        "富貴",
+        "智慧"
+      ],
+      "meaning": "達到、至於，取「臻於完美」之意，寓意精益求精。",
+      "etymology": "《說文解字》：「臻，至也。從至、秦聲。」本義是到達，段玉裁注說見於《爾雅·釋詁》。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Chen"
+    },
+    {
+      "char": "芮",
+      "pinyin": "ruì",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "健康"
+      ],
+      "meaning": "草木初生的柔嫩樣子，形容清新柔美。",
+      "etymology": "《說文解字》：「芮，芮芮，艸生皃。從艸、內聲。讀若汭。」本義是草初生柔細的樣子，段玉裁注說是「柔細之狀」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Jui"
+    },
+    {
+      "char": "維",
+      "pinyin": "wéi",
+      "gender": "neutral",
+      "tags": [
+        "堅毅",
+        "善良"
+      ],
+      "meaning": "維繫、維護，寓意守得住承諾，能把家與人情維持得穩穩的。",
+      "etymology": "《說文解字》：「維，車蓋維也。從糸、隹聲。」本義是繫住車蓋的繩子；段玉裁注說引申為凡相繫者都叫維，並引《管子》「禮義廉恥，國之四維」。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Wei"
+    },
+    {
+      "char": "駿",
+      "pinyin": "jùn",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "健康"
+      ],
+      "meaning": "良馬，比喻才能出眾、奔騰向前的俊才。",
+      "etymology": "《說文解字》：「駿，馬之良材者。從馬、夋聲。」本義是良馬；段玉裁注說引申為凡大之稱，《爾雅·釋詁》、毛傳都訓「駿，大也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Chun"
+    },
+    {
+      "char": "斌",
+      "pinyin": "bīn",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "善良"
+      ],
+      "meaning": "文武兼備的樣子，寓意文雅又有擔當。",
+      "etymology": "《說文解字》沒有「斌」字頭，人部「份」解作「文質備也」，古文寫作「彬」；徐鉉注「今俗作斌，非是」，段玉裁注說俗字寫作斌是「取文武相半意」，所以斌是彬（份）的後起俗字。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Pin"
+    },
+    {
+      "char": "捷",
+      "pinyin": "jié",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "勇敢"
+      ],
+      "meaning": "敏捷、快速，也有勝利（捷報）之意，寓意反應靈敏、凡事順利。",
+      "etymology": "《說文解字》：「捷，獵也，軍獲得也。從手、疌聲。」引《春秋傳》「齊人來獻戎捷」。本義是打獵或作戰有所獲，段玉裁注引毛傳「捷，勝也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "jiao_xia"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Chieh"
+    },
+    {
+      "char": "鑫",
+      "pinyin": "xīn",
+      "gender": "male",
+      "tags": [
+        "富貴"
+      ],
+      "meaning": "三個金字相疊，取財富興盛之意。",
+      "etymology": "字源不詳。《說文解字》沒有這個字（漢典說文區塊與東華漢語字典《說文》欄位都查無條目）；《康熙字典》引《玉篇》注了讀音，但說字義「闕」，並引《正字通》記宋人用它取名。",
+      "popularity": 3,
+      "personalityTags": [
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Hsin"
+    },
+    {
+      "char": "震",
+      "pinyin": "zhèn",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "堅毅"
+      ],
+      "meaning": "雷聲震動，寓意氣勢恢宏、聲名遠播。",
+      "etymology": "《說文解字》：「震，劈歷，振物者。從雨、辰聲。」本義是疾雷（霹靂）；段玉裁注說「引申之，凡動謂之震」。",
+      "popularity": 3,
+      "personalityTags": [
+        "ba_qi",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Chen"
+    },
+    {
+      "char": "磊",
+      "pinyin": "lěi",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "善良"
+      ],
+      "meaning": "石頭堆疊，取「光明磊落」，寓意胸懷坦蕩。",
+      "etymology": "《說文解字》：「磊，眾石也。從三石。」本義是許多石頭堆在一起，段玉裁注引《楚辭》「石磊磊兮葛蔓蔓」。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Lei"
+    },
+    {
+      "char": "群",
+      "pinyin": "qún",
+      "gender": "neutral",
+      "tags": [
+        "善良",
+        "智慧"
+      ],
+      "meaning": "眾人、合群，寓意人緣好、能與人同心協力。",
+      "etymology": "《說文解字》正篆寫作「羣」：「羣，輩也。從羊、君聲。」徐鉉注「羊性好羣，故從羊」；段玉裁注說引申為凡類聚之稱，並引《五經文字》「俗作群」。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Chun"
+    },
+    {
+      "char": "進",
+      "pinyin": "jìn",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "富貴"
+      ],
+      "meaning": "前進、上進，寓意不斷進步。",
+      "etymology": "《說文解字》：「進，登也。從辵、閵省聲。」本義是向上、向前走。",
+      "popularity": 3,
+      "personalityTags": [
+        "jian_yi",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Chin"
+    },
+    {
+      "char": "愷",
+      "pinyin": "kǎi",
+      "gender": "male",
+      "tags": [
+        "快樂",
+        "善良"
+      ],
+      "meaning": "和樂、愉悅，取性情溫和開朗之意。",
+      "etymology": "《說文解字》心部：「愷，樂也。從心、豈聲。」豈部另有一條解作「康也」；段玉裁注懷疑心部這條是後人重出，並說「凱」是俗字。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Kai"
+    },
+    {
+      "char": "亮",
+      "pinyin": "liàng",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "快樂"
+      ],
+      "meaning": "光明、明亮，寓意心地光明、前途明朗。",
+      "etymology": "大徐本《說文解字》沒有「亮」字；段玉裁《說文解字注》依《六書故》所據的唐本補入：「亮，朙也。從儿，高省。」段注說「人處高則明」，並說「古人名亮者字明」。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "zheng_zhi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Liang"
+    },
+    {
+      "char": "昇",
+      "pinyin": "shēng",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "堅毅"
+      ],
+      "meaning": "太陽升起，寓意蒸蒸日上、步步高升。",
+      "etymology": "《說文新附》字：「昇，日上也。從日、升聲。古只用升。」（東華漢語字典標為新附；漢典把它導到「升」字頭，這裡照新附原文寫，不照抄漢典的導向。）",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Sheng"
+    },
+    {
+      "char": "興",
+      "pinyin": "xīng",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "快樂"
+      ],
+      "meaning": "興盛、興旺，寓意家業興隆。",
+      "etymology": "《說文解字》：「興，起也。從舁、從同。同力也。」本義是合力舉起；段玉裁注引《廣韻》說有盛、舉、善等義。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Hsing"
+    },
+    {
+      "char": "萬",
+      "pinyin": "wàn",
+      "gender": "male",
+      "tags": [
+        "富貴"
+      ],
+      "meaning": "數目極多，寓意萬事順遂、福澤綿長。",
+      "etymology": "《說文解字》：「萬，蟲也。從厹，象形。」本義是一種蟲；段玉裁注說它被借作「十千」的數名後久借不歸，「學者昧其本義矣」。",
+      "popularity": 2,
+      "personalityTags": [
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Wan"
+    },
+    {
+      "char": "旭",
+      "pinyin": "xù",
+      "gender": "male",
+      "tags": [
+        "健康",
+        "快樂"
+      ],
+      "meaning": "初升的太陽，寓意朝氣蓬勃、充滿希望。",
+      "etymology": "《說文解字》：「旭，日旦出皃。從日、九聲。讀若勖。一曰明也。」本義是太陽剛升起的樣子，段玉裁注引《詩·邶風》「旭日始旦」。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsu"
+    },
+    {
+      "char": "顥",
+      "pinyin": "hào",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "潔白光明，形容心境清明、氣度開闊。",
+      "etymology": "《說文解字》：「顥，白皃。從頁、從景。」引《楚辭》「天白顥顥」；段玉裁注說景是日光，本指白頭的樣子，形容天色光明是引申假借。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Hao"
+    },
+    {
+      "char": "易",
+      "pinyin": "yì",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "平安"
+      ],
+      "meaning": "變化、平易，取《易經》通變之智與待人平易之意。",
+      "etymology": "《說文解字》：「易，蜥易，蝘蜓，守宮也。象形。」本義是蜥蜴；又引《祕書》說「日月為易，象陰陽也」。段玉裁注說難易、變易等義都是假借而來。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya",
+        "shen_mi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "喆",
+      "pinyin": "zhé",
+      "gender": "male",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "「哲」的異體字，寓意聰明睿智、明理通達。",
+      "etymology": "《說文解字》沒有「喆」字頭，口部「哲，知也」下收古文「嚞」（從三吉），段玉裁注說「或省之作喆」，所以喆是哲的古文省寫。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Che"
+    },
+    {
+      "char": "全",
+      "pinyin": "quán",
+      "gender": "neutral",
+      "tags": [
+        "平安",
+        "富貴"
+      ],
+      "meaning": "完整、齊全，寓意圓滿無缺。",
+      "etymology": "《說文解字》入部正篆寫作「㒰」：「完也。從入、從工。」篆文寫作「全」，從玉，「純玉曰全」。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Chuan"
+    },
+    {
+      "char": "緯",
+      "pinyin": "wěi",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "堅毅"
+      ],
+      "meaning": "織布的橫線，取「經天緯地」，寓意有治理天下的才幹。",
+      "etymology": "《說文解字》：「緯，織橫絲也。從糸、韋聲。」本義是織布的橫線（與經線相對）；段玉裁注說引申為凡交會之稱。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Wei"
+    },
+    {
+      "char": "弘",
+      "pinyin": "hóng",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "智慧"
+      ],
+      "meaning": "宏大、弘揚，寓意胸襟寬廣、志向遠大。",
+      "etymology": "《說文解字》：「弘，弓聲也。從弓、厶聲。」本義是弓弦的聲音；段玉裁注說經傳多借它當「宏大」的宏。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Hung"
+    },
+    {
+      "char": "寬",
+      "pinyin": "kuān",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "平安"
+      ],
+      "meaning": "寬廣、寬厚，寓意待人寬容、心胸開闊。",
+      "etymology": "《說文解字》：「寬，屋寬大也。從宀、萈聲。」本義是房屋寬敞；段玉裁注引《廣韻》說「裕也，緩也」是引申義。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou",
+        "zheng_zhi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Kuan"
+    },
+    {
+      "char": "鵬",
+      "pinyin": "péng",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "富貴"
+      ],
+      "meaning": "傳說中的大鳥，取「鵬程萬里」，寓意前途遠大。",
+      "etymology": "《說文解字》沒有獨立的「鵬」字頭；鳥部「鳳」字下收了兩個古文字形，東華漢語字典把其中「亦古文鳳」的字形歸在鵬字下，漢典也把鵬導到「鳳」字，也就是說鵬原本是鳳的古文寫法。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "ba_qi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Peng"
+    },
+    {
+      "char": "齊",
+      "pinyin": "qí",
+      "gender": "neutral",
+      "tags": [
+        "平安",
+        "善良"
+      ],
+      "meaning": "整齊、齊心，寓意家和事齊、待人公正。",
+      "etymology": "《說文解字》：「齊，禾麥吐穗上平也。象形。」本義是禾麥抽穗時穗頂齊平；段玉裁注說引申為凡齊等之義。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Chi"
+    },
+    {
+      "char": "樹",
+      "pinyin": "shù",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "健康"
+      ],
+      "meaning": "樹木，也有樹立、建樹之意，寓意成材、有所成就。",
+      "etymology": "《說文解字》：「樹，生植之總名。從木、尌聲。」段玉裁注「植，立也」，指一切種植、直立生長的草木。",
+      "popularity": 3,
+      "personalityTags": [
+        "jian_yi",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Shu"
+    },
+    {
+      "char": "政",
+      "pinyin": "zhèng",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "堅毅"
+      ],
+      "meaning": "政事、端正，寓意處事公正、有治理才能。",
+      "etymology": "《說文解字》：「政，正也。從攴、從正，正亦聲。」段玉裁注引《論語》「政者，正也」。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "leng_yan"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Cheng"
+    },
+    {
+      "char": "慶",
+      "pinyin": "qìng",
+      "gender": "neutral",
+      "tags": [
+        "快樂",
+        "富貴"
+      ],
+      "meaning": "慶賀、喜慶，寓意福氣臨門、人生多喜事。",
+      "etymology": "《說文解字》：「慶，行賀人也。從心、從夊。吉禮以鹿皮為贄，故從鹿省。」本義是登門祝賀。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Ching"
+    },
+    {
+      "char": "永",
+      "pinyin": "yǒng",
+      "gender": "neutral",
+      "tags": [
+        "平安",
+        "堅毅"
+      ],
+      "meaning": "長久、永恆，寓意福壽綿長。",
+      "etymology": "《說文解字》：「永，長也。象水巠理之長。」引《詩》「江之永矣」；段玉裁本作「水長也」，說引申之凡長都叫永。",
+      "popularity": 3,
+      "personalityTags": [
+        "jian_yi",
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yung"
+    },
+    {
+      "char": "滿",
+      "pinyin": "mǎn",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "快樂"
+      ],
+      "meaning": "充盈、圓滿，寓意福氣滿盈、人生圓滿。",
+      "etymology": "《說文解字》：「滿，盈溢也。從水、㒼聲。」本義是水充盈到溢出。",
+      "popularity": 2,
+      "personalityTags": [
+        "huo_po",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Man"
+    },
+    {
+      "char": "燕",
+      "pinyin": "yàn",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "快樂"
+      ],
+      "meaning": "燕子，春天的象徵，形容輕盈靈巧、帶來喜訊。",
+      "etymology": "《說文解字》：「燕，玄鳥也。籋口，布翄，枝尾。象形。」本義是燕子；段玉裁注說古時常借燕作宴安、宴享的「宴」。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Yan"
+    },
+    {
+      "char": "花",
+      "pinyin": "huā",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "快樂"
+      ],
+      "meaning": "花朵，比喻美好、燦爛的年華。",
+      "etymology": "《說文解字》沒有「花」字頭，花的本字是「華」：「華，榮也。從艸、從𠌶。」段玉裁注說「俗作花，其字起於北朝」。",
+      "popularity": 2,
+      "personalityTags": [
+        "huo_po",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hua"
+    },
+    {
+      "char": "桃",
+      "pinyin": "táo",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "健康"
+      ],
+      "meaning": "桃花、桃子，取春日明豔與長壽吉祥之意。",
+      "etymology": "《說文解字》：「桃，果也。從木、兆聲。」",
+      "popularity": 2,
+      "personalityTags": [
+        "huo_po",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Tao"
+    },
+    {
+      "char": "愛",
+      "pinyin": "ài",
+      "gender": "female",
+      "tags": [
+        "善良",
+        "快樂"
+      ],
+      "meaning": "愛護、慈愛，寓意被疼愛、也懂得愛人。",
+      "etymology": "《說文解字》：「愛，行皃。從夊、㤅聲。」段玉裁注說愛的本義是走路的樣子，表示「惠愛」的本字是心部的「㤅」，後來借用愛字，㤅就廢而不用了。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Ai"
+    },
+    {
+      "char": "嬌",
+      "pinyin": "jiāo",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "嬌美、可愛，形容柔美動人。",
+      "etymology": "《說文新附》字：「嬌，姿也。從女、喬聲。」（東華漢語字典標為新附；漢典說文區塊直接列出、未標新附，這裡照東華的標法。）",
+      "popularity": 2,
+      "personalityTags": [
+        "wen_rou",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Chiao"
+    },
+    {
+      "char": "蕊",
+      "pinyin": "ruǐ",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "花蕊，花朵最精華的部分，比喻清新嬌嫩。",
+      "etymology": "《說文解字》沒有「蕊」字頭；段玉裁在惢部「惢，心疑也。從三心」下注說「今花蘂字當作此，蘂、橤皆俗字也」，所以花蕊的蕊是從惢衍生的俗字。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Jui"
+    },
+    {
+      "char": "桂",
+      "pinyin": "guì",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "桂樹、桂花，取「蟾宮折桂」，寓意芬芳高雅、功成名就。",
+      "etymology": "《說文解字》：「桂，江南木，百藥之長。從木、圭聲。」段玉裁注引《本草經》，桂列為上品藥木之首。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Kuei"
+    },
+    {
+      "char": "幸",
+      "pinyin": "xìng",
+      "gender": "female",
+      "tags": [
+        "快樂",
+        "平安"
+      ],
+      "meaning": "幸福、幸運，寓意人生順遂、福氣相伴。",
+      "etymology": "《說文解字》正篆寫作「𡴘」：「吉而免凶也。從屰、從夭。夭，死之事，故死謂之不𡴘。」段玉裁注說「得免於惡是為幸」。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "chun_zhen"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Hsing"
+    },
+    {
+      "char": "銀",
+      "pinyin": "yín",
+      "gender": "female",
+      "tags": [
+        "富貴"
+      ],
+      "meaning": "白銀，寓意財富、光潔。",
+      "etymology": "《說文解字》：「銀，白金也。從金、艮聲。」段玉裁注說本於《爾雅》「白金謂之銀」。",
+      "popularity": 2,
+      "personalityTags": [],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Yin"
+    },
+    {
+      "char": "圓",
+      "pinyin": "yuán",
+      "gender": "female",
+      "tags": [
+        "平安",
+        "快樂"
+      ],
+      "meaning": "圓滿、團圓，寓意事事周全、家庭和樂。",
+      "etymology": "《說文解字》：「圓，圜全也。從囗、員聲。」段玉裁注說圜而全，「上下四旁如一」才是圓。",
+      "popularity": 2,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Yuan"
+    },
+    {
+      "char": "勤",
+      "pinyin": "qín",
+      "gender": "neutral",
+      "tags": [
+        "堅毅"
+      ],
+      "meaning": "勤勞、勤奮，寓意肯下功夫、踏實努力。",
+      "etymology": "《說文解字》：「勤，勞也。從力、堇聲。」",
+      "popularity": 2,
+      "personalityTags": [
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Chin"
+    },
+    {
+      "char": "綿",
+      "pinyin": "mián",
+      "gender": "female",
+      "tags": [
+        "平安",
+        "善良"
+      ],
+      "meaning": "綿延、柔軟，寓意福澤綿長、性情柔和。",
+      "etymology": "《說文解字》正篆寫作「緜」：「緜，聯微也。從系、從帛。」段玉裁注引《詩》「緜緜瓜瓞」，說引申為凡連屬不絕之稱。",
+      "popularity": 2,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Mien"
+    },
+    {
+      "char": "杏",
+      "pinyin": "xìng",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "健康"
+      ],
+      "meaning": "杏花、杏樹，取春日清麗與「杏林」仁心之意。",
+      "etymology": "《說文解字》：「杏，果也。從木，可省聲。」段玉裁認為「可省聲」是誤字，改作「向省聲」。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsing"
+    },
+    {
+      "char": "惜",
+      "pinyin": "xī",
+      "gender": "female",
+      "tags": [
+        "善良"
+      ],
+      "meaning": "珍惜、愛惜，寓意懂得感恩、珍視身邊的人。",
+      "etymology": "《說文解字》：「惜，痛也。從心、昔聲。」本義是哀痛、痛惜，《康熙字典》引《增韻》才有「憐也，愛也」的意思。",
+      "popularity": 2,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Hsi"
+    },
+    {
+      "char": "丹",
+      "pinyin": "dān",
+      "gender": "neutral",
+      "tags": [
+        "堅毅",
+        "善良"
+      ],
+      "meaning": "紅色、赤誠，取「一片丹心」，寓意赤誠忠心。",
+      "etymology": "《說文解字》：「丹，巴越之赤石也。象采丹井，丶象丹形。」本義是巴郡、南越出產的丹砂；段玉裁注說「丹者，石之精」，所以藥物之精者也叫丹。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Tan"
+    },
+    {
+      "char": "香",
+      "pinyin": "xiāng",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "芬芳、香氣，寓意品德美好、令人喜愛。",
+      "etymology": "《說文解字》：「香，芳也。從黍、從甘。」引《春秋傳》「黍稷馨香」，段玉裁注說這是說明香字從黍的用意。",
+      "popularity": 2,
+      "personalityTags": [
+        "wen_rou",
+        "qing_xiu"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Hsiang"
+    },
+    {
+      "char": "鳳",
+      "pinyin": "fèng",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "鳳凰，百鳥之王，寓意高貴吉祥。",
+      "etymology": "《說文解字》：「鳳，神鳥也。」引天老之說描述鳳的形象，「見則天下大安寧」；又說古文鳳象形，「鳳飛，羣鳥從以萬數，故以為朋黨字」。",
+      "popularity": 3,
+      "personalityTags": [
+        "ba_qi",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Feng"
+    },
+    {
+      "char": "碧",
+      "pinyin": "bì",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "平安"
+      ],
+      "meaning": "青綠色的美石，形容清澈明淨。",
+      "etymology": "《說文解字》：「碧，石之青美者。從玉、石，白聲。」段玉裁注說是「似玉之石」。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Pi"
+    },
+    {
+      "char": "娥",
+      "pinyin": "é",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "美好的女子，也讓人聯想月宮嫦娥。",
+      "etymology": "《說文解字》：「娥，帝堯之女，舜妻娥皇字也。秦晉謂好曰娙娥。從女、我聲。」段玉裁注引《方言》「娥，好也」。",
+      "popularity": 2,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "E"
+    },
+    {
+      "char": "萍",
+      "pinyin": "píng",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "平安"
+      ],
+      "meaning": "浮萍，形容清新自在、隨遇而安。",
+      "etymology": "《說文解字》：「萍，苹也。水艸也。從水、苹，苹亦聲。」本義是浮萍。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Ping"
+    },
+    {
+      "char": "馨",
+      "pinyin": "xīn",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "善良"
+      ],
+      "meaning": "遠播的香氣，取「德馨」，寓意品德美好、溫馨。",
+      "etymology": "《說文解字》：「馨，香之遠聞者。從香、殸聲。」本義是傳得很遠的香氣。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Hsin"
+    },
+    {
+      "char": "秋",
+      "pinyin": "qiū",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "智慧"
+      ],
+      "meaning": "秋天，收穫的季節，寓意成熟豐收。",
+      "etymology": "《說文解字》：「秋，禾穀孰也。從禾，𤒅省聲。」本義是穀物成熟的時節；段玉裁注說秋天萬物皆老，「莫貴於禾穀，故從禾」。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chiu"
+    },
+    {
+      "char": "珠",
+      "pinyin": "zhū",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "珍珠，取「掌上明珠」，寓意珍貴、被捧在手心。",
+      "etymology": "《說文解字》：「珠，蚌之陰精。從玉、朱聲。」引《國語》「珠以禦火災」。本義是蚌殼裡結成的珍珠。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chu"
+    },
+    {
+      "char": "宗",
+      "pinyin": "zōng",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "富貴"
+      ],
+      "meaning": "宗族、宗旨，寓意根本端正、光宗耀祖。",
+      "etymology": "《說文解字》：「宗，尊祖廟也。從宀、從示。」本義是祭祀祖先的宗廟；段玉裁注說宀是屋、示是神，「凡尊者謂之宗」。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Tsung"
+    },
+    {
+      "char": "賢",
+      "pinyin": "xián",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "善良"
+      ],
+      "meaning": "有才德的人，寓意賢能有德。",
+      "etymology": "《說文解字》：「賢，多才也。從貝、臤聲。」段玉裁把「才」改為「財」，說賢本是多財之稱，引申為凡多，後來「賢能」的引申義通行，本義反而廢了。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Hsien"
+    },
+    {
+      "char": "國",
+      "pinyin": "guó",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "富貴"
+      ],
+      "meaning": "國家，寓意胸懷家國、有擔當。",
+      "etymology": "《說文解字》：「國，邦也。從囗、從或。」段玉裁注說「或」本身也是邦的意思，「古或國同用」。",
+      "popularity": 2,
+      "personalityTags": [
+        "zheng_zhi",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Kuo"
+    },
+    {
+      "char": "昌",
+      "pinyin": "chāng",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "快樂"
+      ],
+      "meaning": "昌盛、興旺，寓意家業興隆。",
+      "etymology": "《說文解字》：「昌，美言也。從日、從曰。一曰日光也。」引《詩》「東方昌矣」；段玉裁注說本義是美言，引申為凡光盛之稱，並懷疑「一曰日光也」五字是後人妄增。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Chang"
+    },
+    {
+      "char": "世",
+      "pinyin": "shì",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "堅毅"
+      ],
+      "meaning": "世代、世間，寓意家業傳承、經世致用。",
+      "etymology": "《說文解字》：「世，三十年為一世。從卅而曳長之，亦取其聲也。」段玉裁注引孔安國「三十年曰世」，說父子相繼曰世是引申義。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Shih"
+    },
+    {
+      "char": "中",
+      "pinyin": "zhōng",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "平安"
+      ],
+      "meaning": "中正、適中，寓意行事不偏不倚。",
+      "etymology": "《說文解字》：「中，內也。從口、丨，上下通。」段玉裁注說中是「別於外之辭也，別於偏之辭也，亦合宜之辭也」。",
+      "popularity": 2,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Chung"
+    },
+    {
+      "char": "章",
+      "pinyin": "zhāng",
+      "gender": "male",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "文章、條理，寓意文采出眾、處事有章法。",
+      "etymology": "《說文解字》：「章，樂竟為一章。從音、從十。十，數之終也。」本義是一段樂曲奏完；段玉裁注「歌所止曰章」。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chang"
+    },
+    {
+      "char": "欽",
+      "pinyin": "qīn",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "富貴"
+      ],
+      "meaning": "敬重、欽佩，寓意受人敬重。",
+      "etymology": "《說文解字》：「欽，欠皃。從欠、金聲。」本義是打呵欠張口的樣子；段玉裁注說引申為虛而能受，《爾雅·釋詁》才有「欽，敬也」的意思。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chin"
+    },
+    {
+      "char": "憲",
+      "pinyin": "xiàn",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "堅毅"
+      ],
+      "meaning": "法令、典範，寓意守規矩、可為人表率。",
+      "etymology": "《說文解字》：「憲，敏也。從心、從目，害省聲。」段玉裁注說「心目竝用，敏之意也」，「法」是引申義，並引謚法「博聞多能為憲」。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "leng_yan"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Hsien"
+    },
+    {
+      "char": "勝",
+      "pinyin": "shèng",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "堅毅"
+      ],
+      "meaning": "勝利、優勝，寓意事事得勝、超越自我。",
+      "etymology": "《說文解字》：「勝，任也。從力、朕聲。」本義是能承擔；段玉裁注說「凡能舉之，能克之皆曰勝」。",
+      "popularity": 3,
+      "personalityTags": [
+        "hao_mai",
+        "ba_qi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Sheng"
+    },
+    {
+      "char": "倫",
+      "pinyin": "lún",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "智慧"
+      ],
+      "meaning": "倫理、條理，寓意明事理、重情義。",
+      "etymology": "《說文解字》：「倫，輩也。從人、侖聲。一曰道也。」本義是同類、輩分；段玉裁注引《論語》包咸注「倫，道也，理也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Lun"
+    },
+    {
+      "char": "儒",
+      "pinyin": "rú",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "善良"
+      ],
+      "meaning": "讀書人、儒雅，寓意溫文有學問。",
+      "etymology": "《說文解字》：「儒，柔也。術士之偁。從人、需聲。」段玉裁注引鄭玄說「儒之言優也，柔也，能安人，能服人」，並說儒是以六藝教民的人。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Ju"
+    },
+    {
+      "char": "祐",
+      "pinyin": "yòu",
+      "gender": "neutral",
+      "tags": [
+        "平安",
+        "善良"
+      ],
+      "meaning": "神明保佑，寓意受上天庇佑、平安順遂。",
+      "etymology": "《說文解字》：「祐，助也。從示、右聲。」段玉裁注說古時只寫作「右」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "chun_zhen"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "儀",
+      "pinyin": "yí",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "善良"
+      ],
+      "meaning": "儀表、禮儀，寓意端莊得體。",
+      "etymology": "《說文解字》：「儀，度也。從人、義聲。」段玉裁注說度是法制，並引毛傳「儀，善也」「儀，宜也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "竹",
+      "pinyin": "zhú",
+      "gender": "neutral",
+      "tags": [
+        "堅毅",
+        "智慧"
+      ],
+      "meaning": "竹子有節而中空，寓意氣節高潔、虛心向上。",
+      "etymology": "《說文解字》：「竹，冬生艸也。象形。下垂者，箁箬也。」段玉裁注說稱冬生，是因為竹胎生於冬且枝葉不凋。",
+      "popularity": 3,
+      "personalityTags": [
+        "gao_leng",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chu"
+    },
+    {
+      "char": "孟",
+      "pinyin": "mèng",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "智慧"
+      ],
+      "meaning": "排行居長，也讓人聯想孟子，寓意有擔當、有學養。",
+      "etymology": "《說文解字》：「孟，長也。從子、皿聲。」本義是兄弟姊妹中排行最大的；段玉裁注引《爾雅》「孟，勉也」，說這是借孟為猛。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Meng"
+    },
+    {
+      "char": "羽",
+      "pinyin": "yǔ",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "快樂"
+      ],
+      "meaning": "羽毛，寓意輕盈自在、展翅高飛。",
+      "etymology": "《說文解字》：「羽，鳥長毛也。象形。」段玉裁注說長毛是別於細密的絨毛，引申為五音之一的羽。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "育",
+      "pinyin": "yù",
+      "gender": "neutral",
+      "tags": [
+        "健康",
+        "善良"
+      ],
+      "meaning": "養育、培育，寓意健康成長、有教養。",
+      "etymology": "《說文解字》：「育，養子使作善也。從𠫓、肉聲。」引《虞書》「教育子」；又收或體「毓」。段玉裁注說從倒子，是表示不善的孩子也可以教養使其向善。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "佩",
+      "pinyin": "pèi",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "善良"
+      ],
+      "meaning": "佩玉、敬佩，寓意品德受人敬重。",
+      "etymology": "《說文解字》：「佩，大帶佩也。從人、從凡、從巾。佩必有巾，巾謂之飾。」本義是繫在腰帶上的佩飾；徐鉉注「今俗別作珮，非是」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Pei"
+    },
+    {
+      "char": "勳",
+      "pinyin": "xūn",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "富貴"
+      ],
+      "meaning": "功勳，寓意建功立業、成就非凡。",
+      "etymology": "《說文解字》：「勳，能成王功也。從力、熏聲。」古文寫作「勛」；段玉裁注引《周禮·司勳》「王功曰勳」。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "ba_qi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Hsun"
+    },
+    {
+      "char": "羿",
+      "pinyin": "yì",
+      "gender": "male",
+      "tags": [
+        "勇敢"
+      ],
+      "meaning": "傳說中善射的后羿，寓意勇武、技藝出眾。",
+      "etymology": "《說文解字》正篆寫作「𦐧」（漢典把羿導到這個字頭，而條文本身就說到古諸侯與射師，對應明確）：「𦐧，羽之𦐧風。亦古諸侯也。一曰射師。從羽、幵聲。」段玉裁注說「古諸侯」指的是有窮國的后羿。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "ba_qi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "昭",
+      "pinyin": "zhāo",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "光明、彰顯，寓意光明正大、品德昭著。",
+      "etymology": "《說文解字》：「昭，日明也。從日、召聲。」段玉裁注說引申為凡明之稱。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chao"
+    },
+    {
+      "char": "侑",
+      "pinyin": "yòu",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "快樂"
+      ],
+      "meaning": "勸人飲食、從旁相助，寓意待人熱情周到。",
+      "etymology": "《說文解字》正篆寫作「姷」：「姷，耦也。從女、有聲，讀若祐。」又說「侑，姷或從人」；段玉裁注說今通用侑，並引鄭玄注「侑猶勸也」，本義是相助、勸人飲食。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "huo_po"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "韋",
+      "pinyin": "wéi",
+      "gender": "male",
+      "tags": [
+        "堅毅"
+      ],
+      "meaning": "熟牛皮，柔韌耐用，取堅韌之意。",
+      "etymology": "《說文解字》：「韋，相背也。從舛、囗聲。獸皮之韋，可以束枉戾相韋背，故借以為皮韋。」本義是相背離；段玉裁注說後來假借為熟皮的「韋」專行，本義改由「違」字承擔。",
+      "popularity": 3,
+      "personalityTags": [
+        "jian_yi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Wei"
+    },
+    {
+      "char": "毓",
+      "pinyin": "yù",
+      "gender": "neutral",
+      "tags": [
+        "善良",
+        "智慧"
+      ],
+      "meaning": "養育、孕育，取「鍾靈毓秀」，寓意得天地靈秀。",
+      "etymology": "《說文解字》沒有獨立的「毓」字頭，它是「育」的或體：「育，養子使作善也。……毓，育或從每。」漢典也把毓導到「育」字，與說文原文一致。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "融",
+      "pinyin": "róng",
+      "gender": "neutral",
+      "tags": [
+        "快樂",
+        "善良"
+      ],
+      "meaning": "融洽、融合，寓意與人和睦、圓融通達。",
+      "etymology": "《說文解字》：「融，炊气上出也。從鬲，蟲省聲。」本義是炊煮時蒸氣往上冒；段玉裁注引《爾雅·釋詁》、毛傳「融，長也」，說這是引申義。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "huo_po"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Jung"
+    },
+    {
+      "char": "千",
+      "pinyin": "qiān",
+      "gender": "neutral",
+      "tags": [
+        "富貴"
+      ],
+      "meaning": "數多，寓意前程千里、福澤千秋。",
+      "etymology": "《說文解字》：「千，十百也。從十、從人。」段玉裁本作「從十，人聲」。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Chien"
+    },
+    {
+      "char": "芯",
+      "pinyin": "xīn",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "智慧"
+      ],
+      "meaning": "燈芯草、花芯，寓意清新、內在有光。",
+      "etymology": "字源不詳。《說文解字》沒有這個字（漢典說文區塊與東華漢語字典《說文》欄位都查無條目）；《康熙字典》引《集韻》注音「思林切，音心」，引《類篇》說是一種草名。",
+      "popularity": 5,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsin"
+    },
+    {
+      "char": "筑",
+      "pinyin": "zhù",
+      "gender": "female",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "古代弦樂器，寓意風雅有才藝。",
+      "etymology": "《說文解字》：「筑，以竹曲五弦之樂也。從竹、從𢀜。𢀜，持之也。竹亦聲。」本義是一種用竹尺擊弦的古樂器；段玉裁注說筑形似箏。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chu"
+    },
+    {
+      "char": "玥",
+      "pinyin": "yuè",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "傳說中的神珠，寓意珍貴美好。",
+      "etymology": "字源不詳。《說文解字》沒有這個字（漢典說文區塊與東華漢語字典《說文》欄位都查無條目）；《康熙字典》引《廣韻》《集韻》說「音月，神珠也」。",
+      "popularity": 5,
+      "personalityTags": [
+        "qing_xiu",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Yueh"
+    },
+    {
+      "char": "伶",
+      "pinyin": "líng",
+      "gender": "female",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "伶俐聰明，也指樂人，寓意靈巧多才。",
+      "etymology": "《說文解字》：「伶，弄也。從人、令聲。益州有建伶縣。」段玉裁注引徐鍇「伶人者，弄臣也」，並說古時樂官「伶人」本寫作「泠」。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "jiao_xia"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Ling"
+    },
+    {
+      "char": "彩",
+      "pinyin": "cǎi",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "快樂"
+      ],
+      "meaning": "色彩、光彩，寓意人生多彩、光彩照人。",
+      "etymology": "《說文新附》字：「彩，文章也。從彡、采聲。」本義是文采、花紋（東華漢語字典標為新附）。漢典把彩導到正文的「采，捋取也」，段玉裁在采字下注說「凡文采之義本此」「五采作彩，皆非古也」，可見彩是從采分化出來的後起字。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Tsai"
+    },
+    {
+      "char": "秉",
+      "pinyin": "bǐng",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "善良"
+      ],
+      "meaning": "持握，取「秉持」，寓意堅守原則、秉公正直。",
+      "etymology": "《說文解字》：「秉，禾束也。從又持禾。」字形是手握一把禾；段玉裁注引毛傳「秉，把也」，並說經傳常借秉當「柄」字。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Ping"
+    },
+    {
+      "char": "騰",
+      "pinyin": "téng",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "富貴"
+      ],
+      "meaning": "奔騰、飛騰，寓意飛黃騰達、氣勢昂揚。",
+      "etymology": "《說文解字》：「騰，傳也。從馬、朕聲。一曰騰，犗馬也。」本義是驛馬傳遞；段玉裁注說引申為奔馳、跳躍。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "ba_qi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Teng"
+    },
+    {
+      "char": "洋",
+      "pinyin": "yáng",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "富貴"
+      ],
+      "meaning": "大海、盛大，寓意心胸寬廣、見識廣博。",
+      "etymology": "《說文解字》：「洋，水。出齊臨朐高山，東北入鉅定。從水、羊聲。」本義是一條河流的名字（段玉裁注說即《水經》的巨洋水），今天「海洋」「盛大」的意思是後起義。",
+      "popularity": 3,
+      "personalityTags": [
+        "hao_mai",
+        "huo_po"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yang"
+    },
+    {
+      "char": "叡",
+      "pinyin": "ruì",
+      "gender": "male",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "深明通達，「睿」的同源字，寓意聰明有遠見。",
+      "etymology": "《說文解字》：「叡，深明也。通也。從𣦼、從目，從谷省。」並收古文「睿」；段玉裁注說叡從目，所以解作「深明」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "shen_mi"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Jui"
+    },
+    {
+      "char": "丞",
+      "pinyin": "chéng",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "善良"
+      ],
+      "meaning": "輔佐，古代官名，寓意能輔助他人、有擔當。",
+      "etymology": "《說文解字》：「丞，翊也。從廾、從卩、從山。山高，奉承之義。」段玉裁注說翊當作翼，「翼猶輔也」，本義是輔佐，漢代許多官職設丞就是取輔佐之意。",
+      "popularity": 5,
+      "personalityTags": [
+        "zheng_zhi",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Cheng"
+    },
+    {
+      "char": "東",
+      "pinyin": "dōng",
+      "gender": "male",
+      "tags": [
+        "健康",
+        "快樂"
+      ],
+      "meaning": "東方，太陽升起之處，寓意朝氣與希望。",
+      "etymology": "《說文解字》：「東，動也。從木。官溥說：從日在木中。」段玉裁注說木指榑木（神話中日出處的大樹），「日在木中曰東」。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Tung"
+    },
+    {
+      "char": "榛",
+      "pinyin": "zhēn",
+      "gender": "neutral",
+      "tags": [
+        "健康",
+        "堅毅"
+      ],
+      "meaning": "榛樹，果實堅實，寓意踏實茁壯。",
+      "etymology": "《說文解字》：「榛，木也。從木、秦聲。一曰菆也。」段玉裁注把「一曰菆也」改為「一曰叢木也」，並引《倉頡篇》等說「木叢生曰榛」。",
+      "popularity": 4,
+      "personalityTags": [
+        "jian_yi",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Chen"
+    },
+    {
+      "char": "榆",
+      "pinyin": "yú",
+      "gender": "neutral",
+      "tags": [
+        "健康",
+        "平安"
+      ],
+      "meaning": "榆樹，耐旱長壽，寓意堅韌長久。",
+      "etymology": "《說文解字》：「榆，白枌。從木、俞聲。」段玉裁注引《詩·陳風》毛傳「枌，白榆也」，並說榆莢可以吃。",
+      "popularity": 4,
+      "personalityTags": [
+        "jian_yi",
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "湘",
+      "pinyin": "xiāng",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "智慧"
+      ],
+      "meaning": "湘江，讓人聯想瀟湘的詩意風景，寓意清雅靈秀。",
+      "etymology": "《說文解字》：「湘，水。出零陵陽海山，北入江。從水、相聲。」本義就是湘江。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Hsiang"
+    },
+    {
+      "char": "溱",
+      "pinyin": "zhēn",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "快樂"
+      ],
+      "meaning": "古水名，取《詩經》「溱與洧」，寓意清澈靈動。",
+      "etymology": "《說文解字》：「溱，水。出桂陽臨武，入匯。從水、秦聲。」本義是一條河的名字（段玉裁注考證在今湖南臨武一帶）。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chen"
+    },
+    {
+      "char": "畇",
+      "pinyin": "yún",
+      "gender": "female",
+      "tags": [
+        "富貴",
+        "平安"
+      ],
+      "meaning": "田地整齊墾闢的樣子，寓意家業平整豐足。",
+      "etymology": "字源不詳。《說文解字》沒有這個字（漢典說文區塊與東華漢語字典《說文》欄位都查無條目）；《康熙字典》引《爾雅·釋訓》「畇畇，田也」與《詩·小雅》「畇畇原隰」，注說是田地墾闢的樣子。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Yun"
+    },
+    {
+      "char": "希",
+      "pinyin": "xī",
+      "gender": "neutral",
+      "tags": [
+        "快樂",
+        "智慧"
+      ],
+      "meaning": "希望，也有稀少可貴之意，寓意人生充滿希望。",
+      "etymology": "字源不詳。《說文解字》沒有「希」字頭，段玉裁在目部「睎」字注中明說「說文無希篆」；漢典把希導到「睎，望也」，那是兩字通用的關係，不是許慎對希的解釋，所以不照抄。《康熙字典》引《爾雅·釋詁》「希，罕也」、《廣韻》「望也」。",
+      "popularity": 5,
+      "personalityTags": [
+        "chun_zhen",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsi"
+    },
+    {
+      "char": "歆",
+      "pinyin": "xīn",
+      "gender": "neutral",
+      "tags": [
+        "快樂",
+        "善良"
+      ],
+      "meaning": "欣喜、羨慕，寓意令人喜愛、心情愉悅。",
+      "etymology": "《說文解字》：「歆，神食气也。從欠、音聲。」本義是神明享用祭品的香氣；段玉裁注說引申為喜悅、羨慕之意。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Hsin"
+    },
+    {
+      "char": "沁",
+      "pinyin": "qìn",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "平安"
+      ],
+      "meaning": "滲入，取「沁人心脾」，寓意清新怡人。",
+      "etymology": "《說文解字》：「沁，水。出上黨羊頭山，東南入河。從水、心聲。」本義是一條河的名字（今山西沁河），「沁人心脾」的滲入義是後起義。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Chin"
+    },
+    {
+      "char": "蓓",
+      "pinyin": "bèi",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "健康"
+      ],
+      "meaning": "蓓蕾，含苞待放的花，寓意青春與成長。",
+      "etymology": "字源不詳。《說文解字》沒有這個字（漢典說文區塊與東華漢語字典《說文》欄位都查無條目）；《康熙字典》引《唐韻》說「蓓蕾，始華也」，即花朵初開的樣子。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Pei"
+    },
+    {
+      "char": "綾",
+      "pinyin": "líng",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "富貴"
+      ],
+      "meaning": "細薄有花紋的絲織品，形容柔美華貴。",
+      "etymology": "《說文解字》：「綾，東齊謂布帛之細曰綾。從糸、夌聲。」段玉裁注說與《方言》相同。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Ling"
+    },
+    {
+      "char": "霓",
+      "pinyin": "ní",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "彩虹的一種，寓意絢麗多彩。",
+      "etymology": "《說文解字》：「霓，屈虹，青赤。或白色，陰气也。從雨、兒聲。」段玉裁注引郭璞說，雙虹中色澤鮮明的叫虹，較暗的叫霓。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "shen_mi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Ni"
+    },
+    {
+      "char": "漪",
+      "pinyin": "yī",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "平安"
+      ],
+      "meaning": "水面的波紋，形容清新靈動。",
+      "etymology": "字源不詳。《說文解字》沒有這個字（漢典說文區塊與東華漢語字典《說文》欄位都查無條目）；《康熙字典》解作「水波也」，並引《初學記》「水波如錦文曰漪」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "澐",
+      "pinyin": "yún",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "富貴"
+      ],
+      "meaning": "大波浪，寓意氣象壯闊。",
+      "etymology": "《說文解字》：「澐，江水大波謂之澐。從水、雲聲。」段玉裁注說專指江水的大浪，並提到自己在四川任官時見過名叫「揚澐灘」的江灘。",
+      "popularity": 3,
+      "personalityTags": [
+        "hao_mai"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yun"
+    },
+    {
+      "char": "霈",
+      "pinyin": "pèi",
+      "gender": "neutral",
+      "tags": [
+        "善良",
+        "富貴"
+      ],
+      "meaning": "大雨、恩澤，寓意福澤廣被。",
+      "etymology": "字源不詳。《說文解字》沒有「霈」字頭；《康熙字典》說「【說文】作沛」，漢典也把它導到「沛」字，但《說文》的沛解作「水。出遼東番汗塞外」，是一條河名，跟霈「大雨」的意思對不上，所以不照抄漢典的導向。《康熙字典》引《玉篇》「大雨」、《廣韻》「霶霈，雨多貌」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "hao_mai"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Pei"
+    },
+    {
+      "char": "晶",
+      "pinyin": "jīng",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "光亮、晶瑩，寓意純淨明亮。",
+      "etymology": "《說文解字》：「晶，精光也。從三日。」段玉裁注說「凡言物之盛，皆三其文」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Ching"
+    },
+    {
+      "char": "頌",
+      "pinyin": "sòng",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "快樂"
+      ],
+      "meaning": "頌揚、歌頌，寓意美德受人稱頌。",
+      "etymology": "《說文解字》：「頌，皃也。從頁、公聲。」本義是容貌；段玉裁注說古時「頌皃」就是今天的「容貌」，歌頌的意思是《詩經》六詩之一「頌」所衍生。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Sung"
+    },
+    {
+      "char": "耀",
+      "pinyin": "yào",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "勇敢"
+      ],
+      "meaning": "光芒、榮耀，寓意光耀門楣。",
+      "etymology": "字源不詳。《說文解字》沒有「耀」字頭，火部有「燿，照也。從火、翟聲」；漢典把耀導到燿，《康熙字典》也說耀「音燿」、「光耀」，兩字音義相同，但《說文》本身沒有交代兩字的關係，這裡只列出供參考，不當作定論。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai",
+        "ba_qi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Yao"
+    },
+    {
+      "char": "煒",
+      "pinyin": "wěi",
+      "gender": "male",
+      "tags": [
+        "美麗",
+        "富貴"
+      ],
+      "meaning": "光明盛大，寓意光彩照人。",
+      "etymology": "《說文解字》：「煒，盛赤也。從火、韋聲。」引《詩》「彤管有煒」；段玉裁依玄應書改為「盛明皃也」。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "hao_mai"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Wei"
+    },
+    {
+      "char": "旻",
+      "pinyin": "mín",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "平安"
+      ],
+      "meaning": "秋天、天空，寓意心胸如天空般遼闊。",
+      "etymology": "《說文解字》：「旻，秋天也。從日、文聲。」引《虞書》說「仁閔覆下，則稱旻天」；段玉裁注引《爾雅·釋天》「秋為旻天」。",
+      "popularity": 3,
+      "personalityTags": [
+        "gao_leng",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Min"
+    },
+    {
+      "char": "昶",
+      "pinyin": "chǎng",
+      "gender": "male",
+      "tags": [
+        "快樂",
+        "健康"
+      ],
+      "meaning": "白晝長、通暢，寓意舒暢明朗。",
+      "etymology": "《說文新附》字：「昶，日長也。從日、永。會意。」（東華漢語字典標為新附；漢典說文區塊直接列出、未標新附。）",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Chang"
+    },
+    {
+      "char": "岑",
+      "pinyin": "cén",
+      "gender": "neutral",
+      "tags": [
+        "堅毅",
+        "智慧"
+      ],
+      "meaning": "小而高的山，寓意志向高遠、沉穩可靠。",
+      "etymology": "《說文解字》：「岑，山小而高。從山、今聲。」段玉裁注說與《爾雅·釋山》相同。",
+      "popularity": 3,
+      "personalityTags": [
+        "gao_leng",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Tsen"
+    },
+    {
+      "char": "楠",
+      "pinyin": "nán",
+      "gender": "neutral",
+      "tags": [
+        "堅毅",
+        "富貴"
+      ],
+      "meaning": "楠木，名貴木材，寓意材質優良、棟樑之才。",
+      "etymology": "《說文解字》正篆寫作「枏」：「枏，梅也。從木、冄聲。」《康熙字典》說楠「本作枏」，漢典也導到枏。這裡的「梅」指的是楠樹，不是今天的梅花。",
+      "popularity": 4,
+      "personalityTags": [
+        "jian_yi",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Nan"
+    },
+    {
+      "char": "桐",
+      "pinyin": "tóng",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "智慧"
+      ],
+      "meaning": "梧桐，相傳鳳凰棲於梧桐，寓意高潔吉祥。",
+      "etymology": "《說文解字》：「桐，榮也。從木、同聲。」",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Tung"
+    },
+    {
+      "char": "梓",
+      "pinyin": "zǐ",
+      "gender": "neutral",
+      "tags": [
+        "善良",
+        "堅毅"
+      ],
+      "meaning": "梓樹，取「桑梓」故鄉之意，也是良木，寓意成材。",
+      "etymology": "《說文解字》：「梓，楸也。從木，宰省聲。」或體寫作「榟」；段玉裁注說從或體可以知道是宰省聲。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Tzu"
+    },
+    {
+      "char": "楨",
+      "pinyin": "zhēn",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "富貴"
+      ],
+      "meaning": "築牆時立在兩端的木柱，比喻國家的棟樑。",
+      "etymology": "《說文解字》：「楨，剛木也。從木、貞聲。上郡有楨林縣。」段玉裁注說是指木質堅硬的木頭，不是某一種樹名。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chen"
+    },
+    {
+      "char": "姵",
+      "pinyin": "pèi",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "女子的佩飾之美，形容端莊秀麗。",
+      "etymology": "字源不詳。《說文解字》沒有這個字（漢典說文區塊與東華漢語字典《說文》欄位都查無條目）；《康熙字典》引《集韻》只說是「女名」，讀音同旆、佩。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Pei"
+    },
+    {
+      "char": "俐",
+      "pinyin": "lì",
+      "gender": "female",
+      "tags": [
+        "智慧",
+        "快樂"
+      ],
+      "meaning": "伶俐、俐落，寓意聰明能幹。",
+      "etymology": "字源不詳。《說文解字》沒有這個字（漢典說文區塊與東華漢語字典《說文》欄位都查無條目）；《康熙字典》引《字彙》說「今方言謂黠慧曰伶俐」，並註明「俐字諸書不載」。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "jiao_xia"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Li"
+    },
+    {
+      "char": "亭",
+      "pinyin": "tíng",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "平安"
+      ],
+      "meaning": "取「亭亭玉立」，形容姿態挺秀。",
+      "etymology": "《說文解字》：「亭，民所安定也。亭有樓，從高省，丁聲。」段玉裁注說亭是供百姓防盜、旅人停宿的處所，引申為停止，後來才另造「停」字。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Ting"
+    },
+    {
+      "char": "天",
+      "pinyin": "tiān",
+      "gender": "neutral",
+      "tags": [
+        "富貴",
+        "快樂"
+      ],
+      "meaning": "天空，寓意心胸寬廣、得天眷顧。",
+      "etymology": "《說文解字》：「天，顛也。至高無上，從一、大。」段玉裁注說顛是人的頭頂，引申為凡高之稱。",
+      "popularity": 3,
+      "personalityTags": [
+        "hao_mai",
+        "huo_po"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Tien"
+    },
+    {
+      "char": "遙",
+      "pinyin": "yáo",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "平安"
+      ],
+      "meaning": "遙遠，寓意志向遠大、眼界開闊。",
+      "etymology": "《說文新附》字：「遙，逍遙也。又，遠也。從辵、䍃聲。」（漢典說文區塊與東華漢語字典都標為新附。）",
+      "popularity": 3,
+      "personalityTags": [
+        "gao_leng",
+        "shen_mi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yao"
+    },
+    {
+      "char": "誼",
+      "pinyin": "yì",
+      "gender": "neutral",
+      "tags": [
+        "善良"
+      ],
+      "meaning": "情誼、友誼，寓意重情重義。",
+      "etymology": "《說文解字》：「誼，人所宜也。從言、從宜，宜亦聲。」段玉裁注說誼和義是古今字，誼就是仁義的義，後世分化為「恩誼」是俗說。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou",
+        "zheng_zhi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "譽",
+      "pinyin": "yù",
+      "gender": "neutral",
+      "tags": [
+        "富貴",
+        "善良"
+      ],
+      "meaning": "名譽、稱讚，寓意聲名美好。",
+      "etymology": "《說文解字》：「譽，偁也。從言、與聲。」段玉裁注說「譽，偁美也」，即稱讚。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "雋",
+      "pinyin": "juàn",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "意味深長、耐人尋味（雋永），也通「俊」，寓意才思出眾。",
+      "etymology": "《說文解字》：「雋，肥肉也。從弓，所以射隹。長沙有下雋縣。」段玉裁改為「鳥肥也」，並說蒯通著書名「雋永」，是說其言「味美而長」。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chuan"
+    },
+    {
+      "char": "鶴",
+      "pinyin": "hè",
+      "gender": "neutral",
+      "tags": [
+        "健康",
+        "美麗"
+      ],
+      "meaning": "仙鶴，象徵長壽與高潔。",
+      "etymology": "《說文解字》：「鶴，鳴九臯，聲聞于天。從鳥、隺聲。」引自《詩·小雅》；段玉裁注引毛傳說這句是「身隱而名著也」。",
+      "popularity": 3,
+      "personalityTags": [
+        "gao_leng",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Ho"
+    },
+    {
+      "char": "淳",
+      "pinyin": "chún",
+      "gender": "neutral",
+      "tags": [
+        "善良"
+      ],
+      "meaning": "質樸、淳厚，寓意待人真誠樸實。",
+      "etymology": "《說文解字》：「淳，淥也。從水、𦎫聲。」本義是澆灌、浸漉；段玉裁注說淳厚、淳樸的意思來自借作「純」「醇」，「假借行而本義廢矣」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "chun_zhen"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Chun"
+    },
+    {
+      "char": "湛",
+      "pinyin": "zhàn",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "清澈、深厚，取「精湛」，寓意技藝精深。",
+      "etymology": "《說文解字》：「湛，沒也。從水、甚聲。一曰湛水，豫章浸。」本義是沉沒；段玉裁注說「湛沈古今字」，引申義很多。",
+      "popularity": 3,
+      "personalityTags": [
+        "gao_leng",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Chan"
+    },
+    {
+      "char": "潤",
+      "pinyin": "rùn",
+      "gender": "neutral",
+      "tags": [
+        "富貴",
+        "善良"
+      ],
+      "meaning": "滋潤、潤澤，寓意溫潤如玉、福澤豐厚。",
+      "etymology": "《說文解字》：「潤，水曰潤下。從水、閏聲。」段玉裁注說語出《尚書·洪範》。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "qing_xiu"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Jun"
+    },
+    {
+      "char": "溪",
+      "pinyin": "xī",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "平安"
+      ],
+      "meaning": "山間小溪，形容清澈自在。",
+      "etymology": "《說文解字》正篆寫作「谿」：「谿，山瀆无所通者。從谷、奚聲。」《康熙字典》說溪「與谿同」，漢典也導到谿。本義是不與其他水道相通的山間溝谷。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsi"
+    },
+    {
+      "char": "茵",
+      "pinyin": "yīn",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "健康"
+      ],
+      "meaning": "綠草如茵，寓意生機盎然。",
+      "etymology": "《說文解字》：「茵，車重席。從艸、因聲。」本義是車上的墊褥；段玉裁注引《詩·秦風》「文茵」，說是用虎皮做的車墊。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Yin"
+    },
+    {
+      "char": "茹",
+      "pinyin": "rú",
+      "gender": "female",
+      "tags": [
+        "善良",
+        "美麗"
+      ],
+      "meaning": "柔軟、含容，寓意性情溫和包容。",
+      "etymology": "《說文解字》：「茹，飤馬也。從艸、如聲。」本義是餵馬（的草料），「茹素」等意思是後起義。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Ju"
+    },
+    {
+      "char": "蕎",
+      "pinyin": "qiáo",
+      "gender": "female",
+      "tags": [
+        "健康"
+      ],
+      "meaning": "蕎麥，耐寒易長，寓意生命力強。",
+      "etymology": "字源不詳。《說文解字》沒有「蕎」字頭；漢典把它導到艸部「荍，蚍𧉈也」，但段玉裁注引陸璣說荍「一名荊葵」，是葵類植物，跟蕎麥不是同一種東西，《康熙字典》也沒有說兩字相通，所以不照抄漢典的導向。《康熙字典》引《玉篇》「蕎麥」、《爾雅·釋草》「蕎，卭鉅」。",
+      "popularity": 3,
+      "personalityTags": [
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Chiao"
+    },
+    {
+      "char": "琇",
+      "pinyin": "xiù",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "富貴"
+      ],
+      "meaning": "似玉的美石，寓意秀美珍貴。",
+      "etymology": "《說文解字》正篆寫作「璓」：「璓，石之次玉者。從玉、莠聲。」引《詩》「充耳璓瑩」；段玉裁注說「說文从莠，隸从秀」，《康熙字典》也說琇「或作璓」。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Hsiu"
+    },
+    {
+      "char": "瑀",
+      "pinyin": "yǔ",
+      "gender": "male",
+      "tags": [
+        "美麗",
+        "富貴"
+      ],
+      "meaning": "似玉的美石，寓意品德美好。",
+      "etymology": "《說文解字》：「瑀，石之似玉者。從玉、禹聲。」段玉裁改「似」為「次」，並說瑀是雜佩中穿在珠子上下的美石。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "玟",
+      "pinyin": "mín",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "富貴"
+      ],
+      "meaning": "似玉的美石，寓意秀美有光彩。",
+      "etymology": "《說文解字》玉部：「火齊，玫瑰也。一曰石之美者。從玉、文聲。」大徐本這一條讀莫桮切（即玫瑰的玫），段玉裁注本字頭寫作「玟」，說「石之美者」這一義「古音讀如文」；漢典把這條列在玟字下，東華漢語字典的玟字則沒有《說文》欄位，兩家寫法有出入，這裡照實列出，不下定論。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Min"
+    },
+    {
+      "char": "峻",
+      "pinyin": "jùn",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "勇敢"
+      ],
+      "meaning": "山高而陡，寓意志向高遠、品格嚴正。",
+      "etymology": "《說文解字》正篆寫作「𡺲」：「𡺲，高也。從山、陖聲。峻，𡺲或省。」峻是說文本身收的或體；段玉裁注引《中庸》注「峻，高大也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "gao_leng",
+        "leng_yan"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Chun"
+    },
+    {
+      "char": "竣",
+      "pinyin": "jùn",
+      "gender": "male",
+      "tags": [
+        "堅毅"
+      ],
+      "meaning": "完成、竣工，寓意做事有始有終。",
+      "etymology": "《說文解字》：「竣，偓竣也。從立、夋聲。」引《國語》「有司已事而竣」；段玉裁認為「偓竣」是傳抄錯誤，改為「居也」，說竣與「蹲」音義相同，韋昭注解作「退伏」。完工的意思是後起義。",
+      "popularity": 3,
+      "personalityTags": [
+        "jian_yi",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Chun"
+    },
+    {
+      "char": "澔",
+      "pinyin": "hào",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "勇敢"
+      ],
+      "meaning": "同「浩」，水勢浩大，寓意胸懷寬廣。",
+      "etymology": "《說文解字》沒有「澔」字頭；《康熙字典》引《集韻》說「同浩」，漢典也導到浩。《說文解字》：「浩，澆也。從水、告聲。」引《虞書》「洪水浩浩」，段玉裁注認為「澆」當作「沆」。",
+      "popularity": 4,
+      "personalityTags": [
+        "hao_mai"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Hao"
+    },
+    {
+      "char": "翌",
+      "pinyin": "yì",
+      "gender": "neutral",
+      "tags": [
+        "快樂",
+        "健康"
+      ],
+      "meaning": "明日、次日，寓意充滿希望的明天。",
+      "etymology": "《說文解字》沒有「翌」字頭；漢典導到日部「昱，明日也」，段玉裁注明說「凡經傳子史翌日字皆昱日之叚借」，所以翌是借來表示「明日」的字。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "chun_zhen"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "蔚",
+      "pinyin": "wèi",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "富貴"
+      ],
+      "meaning": "草木茂盛、文采華美，取「蔚然成風」。",
+      "etymology": "《說文解字》：「蔚，牡蒿也。從艸、尉聲。」本義是一種蒿草；段玉裁注說「古多借為茂鬱字」，草木茂盛的意思由此而來。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Wei"
+    },
+    {
+      "char": "諺",
+      "pinyin": "yàn",
+      "gender": "male",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "諺語，流傳已久、言簡意賅的智慧之言，寓意言之有物、通達事理。",
+      "etymology": "《說文解字》：「諺，傳言也。從言、彥聲。」本義是世代流傳的古語；段玉裁注說經傳所稱的諺「無非前代故訓」，不是後人理解的俗語。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Yan"
+    },
+    {
+      "char": "任",
+      "pinyin": "rèn",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "善良"
+      ],
+      "meaning": "擔當、信任，取「任重道遠」，寓意有責任感、值得託付。",
+      "etymology": "《說文解字》：「任，符也。從人、壬聲。」段玉裁注本這條作「任，𠈃也」，並跟上文「𠈃，養也」對照討論。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Jen"
+    },
+    {
+      "char": "好",
+      "pinyin": "hǎo",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "快樂"
+      ],
+      "meaning": "美好、良善，最直白的祝福字，寓意一切美好順遂。",
+      "etymology": "《說文解字》：「好，美也。從女、子。」徐鍇說「子者，男子之美偁」，屬會意字；段玉裁注說好本指女子，「引伸爲凡美之偁」。",
+      "popularity": 2,
+      "personalityTags": [
+        "wen_rou",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hao"
+    },
+    {
+      "char": "蘋",
+      "pinyin": "píng",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "善良"
+      ],
+      "meaning": "水草名，取《詩經》「于以采蘋」，寓意清新樸素、溫柔賢淑。",
+      "etymology": "《說文解字》正篆寫作「薲」：「薲，大蓱也。從艸、賓聲。」本義是一種大的浮萍類水草；段玉裁注說「薲蘋古今字」，《康熙字典》也說蘋「本作薲」。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Ping"
+    },
+    {
+      "char": "艷",
+      "pinyin": "yàn",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "色彩鮮明、容貌美麗，寓意明豔動人。",
+      "etymology": "《說文解字》沒有「艷」字頭；《康熙字典》引《類篇》說艷「與豔同」，《集韻》說「豔，隸作艷」。《說文》豔字：「豔，好而長也。從豐。豐，大也。盇聲。」段玉裁注說豔是「進於美」，美而且豐碩修長。",
+      "popularity": 2,
+      "personalityTags": [
+        "huo_po",
+        "ba_qi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Yan"
+    },
+    {
+      "char": "發",
+      "pinyin": "fā",
+      "gender": "male",
+      "tags": [
+        "富貴"
+      ],
+      "meaning": "發達、興發，寓意事業興旺、家道興隆。",
+      "etymology": "《說文解字》：「發，䠶發也。從弓、癹聲。」本義是射箭；段玉裁注引《詩經》「壹發五豝」，說「引申爲凡作起之偁」，興發、發達都由此來。",
+      "popularity": 2,
+      "personalityTags": [
+        "hao_mai",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Fa"
+    },
+    {
+      "char": "城",
+      "pinyin": "chéng",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "平安"
+      ],
+      "meaning": "城池，取「金城湯池」的堅固，寓意穩固可靠、能守護一方。",
+      "etymology": "《說文解字》：「城，以盛民也。從土、從成，成亦聲。」本義是容納、保護百姓的城牆；段玉裁注說「盛」就像黍稷裝在器皿裡。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Cheng"
+    },
+    {
+      "char": "喬",
+      "pinyin": "qiáo",
+      "gender": "neutral",
+      "tags": [
+        "堅毅",
+        "美麗"
+      ],
+      "meaning": "高大挺拔的樹，取「喬木」，寓意挺拔向上、出類拔萃。",
+      "etymology": "《說文解字》：「喬，高而曲也。從夭、從高省。」引《詩經》「南有喬木」；段玉裁注引《爾雅》《毛傳》說「喬，高也」「喬，上竦也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chiao"
+    },
+    {
+      "char": "生",
+      "pinyin": "shēng",
+      "gender": "male",
+      "tags": [
+        "健康"
+      ],
+      "meaning": "生長、生機，寓意生生不息、生命力旺盛。",
+      "etymology": "《說文解字》：「生，進也。象艸木生出土上。」字形是草木從土裡長出來，本義就是生長。",
+      "popularity": 2,
+      "personalityTags": [
+        "chun_zhen",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Sheng"
+    },
+    {
+      "char": "超",
+      "pinyin": "chāo",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "智慧"
+      ],
+      "meaning": "超越、出眾，寓意超群拔俗、勇於突破。",
+      "etymology": "《說文解字》：「超，跳也。從走、召聲。」本義是跳躍；《康熙字典》引《釋名》「超，卓也。舉脚有所卓越也」，超越、出眾是引申義。",
+      "popularity": 3,
+      "personalityTags": [
+        "hao_mai",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Chao"
+    },
+    {
+      "char": "賜",
+      "pinyin": "cì",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "平安"
+      ],
+      "meaning": "恩賜、賞賜，取「天賜」，寓意是上天賜予的福氣。",
+      "etymology": "《說文解字》：「賜，予也。從貝、易聲。」本義是給予；段玉裁注說經傳裡的「錫」多是賜的假借，「賜者，與之通稱」。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou",
+        "zheng_zhi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Tzu"
+    },
+    {
+      "char": "泉",
+      "pinyin": "quán",
+      "gender": "neutral",
+      "tags": [
+        "健康",
+        "善良"
+      ],
+      "meaning": "泉水，源源不絕、清澈甘洌，寓意心性純淨、福澤綿長。",
+      "etymology": "《說文解字》：「泉，水原也。象水流出成川形。」本義是水的源頭；段玉裁注說古代也把錢稱作「泉布」。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Chuan"
+    },
+    {
+      "char": "振",
+      "pinyin": "zhèn",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "勇敢"
+      ],
+      "meaning": "振作、振興，寓意奮發向上、重振家聲。",
+      "etymology": "《說文解字》：「振，舉救也。從手、辰聲。一曰奮也。」本義是救濟（段注說賑濟的本字就是振），另一義「奮也」即振作、奮起。",
+      "popularity": 3,
+      "personalityTags": [
+        "hao_mai",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Chen"
+    },
+    {
+      "char": "水",
+      "pinyin": "shuǐ",
+      "gender": "neutral",
+      "tags": [
+        "善良",
+        "智慧"
+      ],
+      "meaning": "水，取「上善若水」，寓意柔和包容、靈活有智。",
+      "etymology": "《說文解字》：「水，準也。北方之行。象眾水並流，中有微陽之气也。」段玉裁注引《釋名》說「準，平也。天下莫平於水」。",
+      "popularity": 2,
+      "personalityTags": [
+        "wen_rou",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Shui"
+    },
+    {
+      "char": "葉",
+      "pinyin": "yè",
+      "gender": "female",
+      "tags": [
+        "健康"
+      ],
+      "meaning": "枝葉，取「枝繁葉茂」，寓意生機蓬勃、家族繁盛。",
+      "etymology": "《說文解字》：「葉，艸木之葉也。從艸、枼聲。」段玉裁注說「凡物之薄者，皆得以葉名」。",
+      "popularity": 2,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Yeh"
+    },
+    {
+      "char": "聖",
+      "pinyin": "shèng",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "善良"
+      ],
+      "meaning": "聖賢，通達事理、品德高尚的人，寓意智德兼備。",
+      "etymology": "《說文解字》：「聖，通也。從耳、呈聲。」本義是通達；段玉裁注說從耳是「謂其耳順」，引《風俗通》「聖者，聲也。言聞聲知情」，又說「凡一事精通，亦得謂之聖」。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Sheng"
+    },
+    {
+      "char": "廣",
+      "pinyin": "guǎng",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "富貴"
+      ],
+      "meaning": "寬廣、廣闊，寓意心胸開闊、見識廣博。",
+      "etymology": "《說文解字》：「廣，殿之大屋也。從广、黃聲。」本義是沒有四壁的大殿；段玉裁注說「引伸之爲凡大之偁」。",
+      "popularity": 3,
+      "personalityTags": [
+        "hao_mai",
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Kuang"
+    },
+    {
+      "char": "添",
+      "pinyin": "tiān",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "快樂"
+      ],
+      "meaning": "增添，取「添丁添福」，寓意福氣日增、家門興旺。",
+      "etymology": "《說文解字》沒有「添」字頭，水部「沾」下說「一曰沾，益也」，徐鉉注「今别作添，非是」；段玉裁注說「沾、添，古今字」，增益的意思原本寫作沾。",
+      "popularity": 2,
+      "personalityTags": [
+        "huo_po",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Tien"
+    },
+    {
+      "char": "仲",
+      "pinyin": "zhòng",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "平安"
+      ],
+      "meaning": "排行第二，也有「居中、持中」之意，寓意中正平和。",
+      "etymology": "《說文解字》：「仲，中也。從人、從中，中亦聲。」段玉裁注說伯、仲、叔、季是長幼的排行，「古中仲二字互通」。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chung"
+    },
+    {
+      "char": "俠",
+      "pinyin": "xiá",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "善良"
+      ],
+      "meaning": "行俠仗義、扶弱濟困的人，寓意重義氣、有俠骨。",
+      "etymology": "《說文解字》：「俠，俜也。從人、夾聲。」段玉裁注引荀悅、如淳說游俠是「相與信爲任，同是非爲俠」，又說「俠之言夾也」。",
+      "popularity": 3,
+      "personalityTags": [
+        "hao_mai",
+        "zheng_zhi",
+        "pi_shuai"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Hsia"
+    },
+    {
+      "char": "兆",
+      "pinyin": "zhào",
+      "gender": "male",
+      "tags": [
+        "平安",
+        "富貴"
+      ],
+      "meaning": "吉兆、預兆，也是極大的數目，寓意吉祥昌盛。",
+      "etymology": "《說文解字》正篆寫作「𠧞」：「𠧞，灼龜坼也。從卜、兆，象形。兆，古文𠧞省。」本義是燒灼龜甲出現的裂紋；段玉裁注說「朕兆」之兆是引申假借。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "shen_mi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Chao"
+    },
+    {
+      "char": "伯",
+      "pinyin": "bó",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "善良"
+      ],
+      "meaning": "兄弟中排行最長，也是對長者的敬稱，寓意穩重可靠、有長者風範。",
+      "etymology": "《說文解字》：「伯，長也。從人、白聲。」段玉裁注說「凡爲長者皆曰伯」，兄弟中排行最長也稱伯。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Po"
+    },
+    {
+      "char": "柳",
+      "pinyin": "liǔ",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "柳樹，枝條柔長、隨風輕擺，寓意姿態柔美、婀娜多姿。",
+      "etymology": "《說文解字》正篆寫作「桺」：「桺，小楊也。從木、丣聲。丣，古文酉。」本義是柳樹；段玉裁注說「楊之細莖小葉者曰桺」。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Liu"
+    },
+    {
+      "char": "山",
+      "pinyin": "shān",
+      "gender": "male",
+      "tags": [
+        "堅毅",
+        "平安"
+      ],
+      "meaning": "高山，取「穩如泰山」「仁者樂山」，寓意沉穩厚重、堅定可靠。",
+      "etymology": "《說文解字》：「山，宣也。宣气散，生萬物，有石而高。象形。」段玉裁注說是「能宣散气、生萬物」。",
+      "popularity": 2,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Shan"
+    },
+    {
+      "char": "懿",
+      "pinyin": "yì",
+      "gender": "female",
+      "tags": [
+        "善良",
+        "美麗"
+      ],
+      "meaning": "美好、德行美善，取「懿德」，寓意品德美好、端莊賢淑。",
+      "etymology": "《說文解字》：「懿，專久而美也。從壹、從恣省聲。」段玉裁注說《爾雅》、毛傳都訓「懿，美也」，許慎加「專久」是因為字從壹，「專壹而後可久，可久而後美」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "琛",
+      "pinyin": "chēn",
+      "gender": "male",
+      "tags": [
+        "富貴",
+        "美麗"
+      ],
+      "meaning": "珍寶，取《詩經》「來獻其琛」，寓意珍貴難得、才德出眾。",
+      "etymology": "《說文新附》字（宋代徐鉉補收，不是許慎原書）：「琛，寶也。從玉，深省聲。」本義是珍寶。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chen"
+    },
+    {
+      "char": "祺",
+      "pinyin": "qí",
+      "gender": "neutral",
+      "tags": [
+        "平安",
+        "快樂"
+      ],
+      "meaning": "吉祥、安泰，取書信用語「順頌時祺」，寓意吉祥如意。",
+      "etymology": "《說文解字》：「祺，吉也。從示、其聲。」段玉裁注引《詩經·周頌》「維周之祺」與《爾雅》「祺，祥也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "zheng_zhi"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chi"
+    },
+    {
+      "char": "頤",
+      "pinyin": "yí",
+      "gender": "neutral",
+      "tags": [
+        "健康",
+        "平安"
+      ],
+      "meaning": "保養、頤養，取「頤養天年」，寓意身心安康、福壽綿長。",
+      "etymology": "《說文解字》𦣝部：「𦣝，顄也。象形。」「頤，篆文𦣝。」頤是說文收的篆文寫法，本義是下巴、面頰。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "熠",
+      "pinyin": "yì",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "光彩鮮明的樣子，取「熠熠生輝」，寓意光彩照人、前途光明。",
+      "etymology": "《說文解字》：「熠，盛光也。從火、習聲。」引《詩經》「熠熠宵行」；段玉裁注引鄭箋說「熠燿其羽」是「羽鮮明也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "I"
+    },
+    {
+      "char": "燦",
+      "pinyin": "càn",
+      "gender": "neutral",
+      "tags": [
+        "快樂",
+        "美麗"
+      ],
+      "meaning": "光彩燦爛、明亮耀眼，寓意性格開朗、前程燦爛。",
+      "etymology": "《說文新附》字（宋代徐鉉補收，不是許慎原書）：「燦，燦爤，明瀞皃。從火、粲聲。」本義是明亮光彩的樣子；《康熙字典》說也通作「粲」。",
+      "popularity": 4,
+      "personalityTags": [
+        "huo_po",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Tsan"
+    },
+    {
+      "char": "煦",
+      "pinyin": "xù",
+      "gender": "neutral",
+      "tags": [
+        "善良",
+        "快樂"
+      ],
+      "meaning": "溫暖、和煦，像春天的陽光，寓意待人溫暖和善。",
+      "etymology": "《說文解字》：「煦，烝也。一曰赤皃。一曰溫潤也。從火、昫聲。」段玉裁注說煦大概是日出時的赤色，並引《韓詩章句》「煦，暖也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Hsu"
+    },
+    {
+      "char": "晗",
+      "pinyin": "hán",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "平安"
+      ],
+      "meaning": "天將明的樣子，寓意前途光明、充滿希望。",
+      "etymology": "字源不詳。《說文解字》沒有收「晗」字，漢典與東華漢語字典都沒有說文條目，教育部異體字字典也註明《說文》不錄；《康熙字典》最早引的是《玉篇》「欲明也」，即天將亮的時候。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Han"
+    },
+    {
+      "char": "蕙",
+      "pinyin": "huì",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "善良"
+      ],
+      "meaning": "香草名，取「蕙質蘭心」，寓意心地純美、氣質高雅。",
+      "etymology": "字源不詳。《說文解字》沒有「蕙」字條，漢典與東華漢語字典都查無說文條目；《康熙字典》最早引《玉篇》「香草，生下濕地」，並引《南方草木狀》「蕙一名薰草」。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Hui"
+    },
+    {
+      "char": "薰",
+      "pinyin": "xūn",
+      "gender": "female",
+      "tags": [
+        "美麗"
+      ],
+      "meaning": "香草，取「薰風」，寓意氣質芬芳、溫和宜人。",
+      "etymology": "《說文解字》：「薰，香艸也。從艸、熏聲。」本義是一種香草；段玉裁注引劉逵注說「葉曰蕙，根曰薰」，又引陳藏器說薰就是零陵香。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_rou",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Hsun"
+    },
+    {
+      "char": "茉",
+      "pinyin": "mò",
+      "gender": "female",
+      "tags": [
+        "美麗",
+        "快樂"
+      ],
+      "meaning": "茉莉花，花色潔白、香氣清雅，寓意純潔清新。",
+      "etymology": "字源不詳。《說文解字》沒有「茉」字，漢典與東華漢語字典都查無說文條目；《康熙字典》最早引的是《正字通》「茉莉，花名」。",
+      "popularity": 4,
+      "personalityTags": [
+        "qing_xiu",
+        "chun_zhen"
+      ],
+      "qualityTags": [
+        "innocent_young"
+      ],
+      "wadeGiles": "Mo"
+    },
+    {
+      "char": "莘",
+      "pinyin": "shēn",
+      "gender": "neutral",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "眾多的樣子，取「莘莘學子」，寓意好學上進、人才輩出。",
+      "etymology": "字源不詳。《說文解字》沒有「莘」字條，只在焱部「燊」字下說「讀若《詩》莘莘征夫」，把莘當作讀音參照；漢典把莘導到馬部「駪，馬眾多皃」，但段玉裁注只說《毛詩》作「駪駪征夫」、許慎引作「莘莘」是音近異文，沒有說兩字同字，所以不照漢典的導向寫。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "huo_po"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Shen"
+    },
+    {
+      "char": "淇",
+      "pinyin": "qí",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "平安"
+      ],
+      "meaning": "淇水，《詩經》多次寫到的河流，取「瞻彼淇奧，綠竹猗猗」，寓意溫潤雅致。",
+      "etymology": "《說文解字》：「淇，水。出河內共北山，東入河。或曰出隆慮西山。從水、其聲。」本義是淇水這條河；段玉裁注引《詩經》「毖彼泉水，亦流於淇」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Chi"
+    },
+    {
+      "char": "渝",
+      "pinyin": "yú",
+      "gender": "neutral",
+      "tags": [
+        "堅毅",
+        "善良"
+      ],
+      "meaning": "取「始終不渝」，寓意心志堅定、信守承諾。",
+      "etymology": "《說文解字》：「渝，變汙也。從水、俞聲。」本義是變得汙濁、改變；段玉裁注說《爾雅》與鄭風毛傳都訓「渝，變也」。名字裡用的是「始終不渝」，即不改變。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "jian_yi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "洛",
+      "pinyin": "luò",
+      "gender": "neutral",
+      "tags": [
+        "智慧",
+        "美麗"
+      ],
+      "meaning": "洛水，古都洛陽所在，取「洛陽紙貴」，寓意文采斐然。",
+      "etymology": "《說文解字》：「洛，水。出左馮翊歸德北夷界中，東南入渭。從水、各聲。」說文說的是陝西境內入渭水的北洛水；段玉裁注考證源頭在北地郡歸德。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Lo"
+    },
+    {
+      "char": "雍",
+      "pinyin": "yōng",
+      "gender": "male",
+      "tags": [
+        "平安",
+        "善良"
+      ],
+      "meaning": "和諧、從容大方，取「雍容」，寓意氣度雍容、舉止大方。",
+      "etymology": "《說文解字》正篆寫作「雝」：「雝，雝𪆫也。從隹、邕聲。」本義是一種鳥；段玉裁注說「經典多用爲雝和、辟雝」，隸書寫作雍。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Yung"
+    },
+    {
+      "char": "衡",
+      "pinyin": "héng",
+      "gender": "male",
+      "tags": [
+        "智慧",
+        "堅毅"
+      ],
+      "meaning": "衡量、平衡，取「權衡」，寓意處事公正、明辨是非。",
+      "etymology": "《說文解字》：「衡，牛觸，橫大木其角。從角、從大，行聲。」本義是防止牛觸人的橫木；段玉裁注說「古多假衡爲橫」。",
+      "popularity": 4,
+      "personalityTags": [
+        "zheng_zhi",
+        "leng_yan"
+      ],
+      "qualityTags": [
+        "rational_precise"
+      ],
+      "wadeGiles": "Heng"
+    },
+    {
+      "char": "裕",
+      "pinyin": "yù",
+      "gender": "male",
+      "tags": [
+        "富貴"
+      ],
+      "meaning": "富足、寬裕，寓意衣食豐足、家業富饒。",
+      "etymology": "《說文解字》：「裕，衣物饒也。從衣、谷聲。」本義是衣物豐足；段玉裁注說「引伸爲凡寛足之偁」。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_rou",
+        "zheng_zhi"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Yu"
+    },
+    {
+      "char": "賀",
+      "pinyin": "hè",
+      "gender": "male",
+      "tags": [
+        "快樂",
+        "富貴"
+      ],
+      "meaning": "慶賀、祝賀，寓意喜事連連、福慶相隨。",
+      "etymology": "《說文解字》：「賀，以禮相奉慶也。從貝、加聲。」段玉裁注說慶與賀互訓，「賀之言加也」。",
+      "popularity": 3,
+      "personalityTags": [
+        "huo_po",
+        "wen_rou"
+      ],
+      "qualityTags": [],
+      "wadeGiles": "Ho"
+    },
+    {
+      "char": "赫",
+      "pinyin": "hè",
+      "gender": "male",
+      "tags": [
+        "勇敢",
+        "富貴"
+      ],
+      "meaning": "顯赫、盛大，取「聲名赫赫」，寓意威名遠播、成就非凡。",
+      "etymology": "《說文解字》：「赫，火赤皃。從二赤。」段玉裁注改作「大赤皃」，說赫赫訓顯、盛「皆引申之義也」。",
+      "popularity": 3,
+      "personalityTags": [
+        "ba_qi",
+        "hao_mai"
+      ],
+      "qualityTags": [
+        "fierce_bold"
+      ],
+      "wadeGiles": "Ho"
+    },
+    {
+      "char": "韶",
+      "pinyin": "sháo",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "快樂"
+      ],
+      "meaning": "美好，取「韶華」「韶光」，寓意青春美好、時光燦爛。",
+      "etymology": "《說文解字》：「韶，虞舜樂也。從音、召聲。」引《尚書》「簫韶九成，鳳皇來儀」；本義是舜時的樂曲名；《康熙字典》引《集韻》「一曰美也」。",
+      "popularity": 3,
+      "personalityTags": [
+        "wen_ya",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Shao"
+    },
+    {
+      "char": "楚",
+      "pinyin": "chǔ",
+      "gender": "neutral",
+      "tags": [
+        "美麗",
+        "堅毅"
+      ],
+      "meaning": "清晰整齊，取「楚楚動人」「翹楚」，寓意清秀出眾、出類拔萃。",
+      "etymology": "《說文解字》：「楚，叢木。一名荊也。從林、疋聲。」本義是叢生的灌木（荊條）；段玉裁注引毛傳「楚楚，茨棘皃」。",
+      "popularity": 3,
+      "personalityTags": [
+        "qing_xiu",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "noble_elegant"
+      ],
+      "wadeGiles": "Chu"
+    },
+    {
+      "char": "禾",
+      "pinyin": "hé",
+      "gender": "neutral",
+      "tags": [
+        "健康",
+        "富貴"
+      ],
+      "meaning": "禾苗、穀物，寓意豐收富足、踏實成長。",
+      "etymology": "《說文解字》：「禾，嘉穀也。二月始生，八月而孰，得時之中，故謂之禾。」段玉裁注說「民食莫重於禾，故謂之嘉穀」。",
+      "popularity": 3,
+      "personalityTags": [
+        "chun_zhen",
+        "wen_rou"
+      ],
+      "qualityTags": [
+        "folk_grassroots"
+      ],
+      "wadeGiles": "Ho"
+    },
+    {
+      "char": "笙",
+      "pinyin": "shēng",
+      "gender": "neutral",
+      "tags": [
+        "快樂",
+        "美麗"
+      ],
+      "meaning": "笙，一種吹奏樂器，取《詩經》「吹笙鼓簧」，寓意生活和樂、才藝出眾。",
+      "etymology": "《說文解字》：「笙，十三簧。象鳳之身也。笙，正月之音。物生，故謂之笙。」本義是簧管樂器；段玉裁注引《釋名》「笙，生也」。",
+      "popularity": 4,
+      "personalityTags": [
+        "wen_ya",
+        "qing_xiu"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Sheng"
+    },
+    {
+      "char": "玄",
+      "pinyin": "xuán",
+      "gender": "male",
+      "tags": [
+        "智慧"
+      ],
+      "meaning": "深奧、幽遠，取「玄妙」，寓意思想深邃、見識不凡。",
+      "etymology": "《說文解字》：「玄，幽遠也。黑而有赤色者爲玄。象幽而入覆之也。」段玉裁注引《老子》「玄之又玄，衆妙之門」。",
+      "popularity": 3,
+      "personalityTags": [
+        "shen_mi",
+        "gao_leng"
+      ],
+      "qualityTags": [
+        "mysterious_dark"
+      ],
+      "wadeGiles": "Hsuan"
+    },
+    {
+      "char": "敬",
+      "pinyin": "jìng",
+      "gender": "male",
+      "tags": [
+        "善良",
+        "堅毅"
+      ],
+      "meaning": "恭敬、敬重，寓意待人謙恭有禮、行事慎重。",
+      "etymology": "《說文解字》：「敬，肅也。從攴、苟。」段玉裁注說與「肅」轉注，肅是「持事振敬」。",
+      "popularity": 3,
+      "personalityTags": [
+        "zheng_zhi",
+        "wen_ya"
+      ],
+      "qualityTags": [
+        "scholarly"
+      ],
+      "wadeGiles": "Ching"
     }
   ]
 }
