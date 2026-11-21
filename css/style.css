@@ -240,6 +240,17 @@ p {
 .btn-secondary {
   background-color: transparent;
   color: var(--color-ink);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* 第五十一節：外框按鈕底色透明，.btn:hover 的 opacity:0.85 幾乎看不出變化（跟 .btn-mail 同一個根因），
+   全站 .btn-secondary 統一改成 hover／鍵盤聚焦時反色填滿（墨黑底、暖白字），opacity 拉回 1 避免填色後又被調淡。
+   .btn-mail 另有陰影規則在檔案後段，填色部分跟這裡一致。 */
+.btn-secondary:not([disabled]):hover,
+.btn-secondary:focus-visible {
+  background-color: var(--color-ink);
+  color: var(--color-bg);
+  opacity: 1;
 }
 
 .btn-seal {
@@ -266,6 +277,20 @@ p {
 
 .hero p.lead {
   max-width: 640px;
+  color: var(--color-ink-soft);
+}
+
+/* 首頁示範候選卡（第五十一節）：卡片本身直接沿用工具頁的 .candidate-card／.candidate-name 等樣式，
+   這裡只管外框寬度與上方「範例」說明，不另外定義卡片外觀，之後改候選卡樣式時示範卡會自動跟著變。
+   寬度上限 360px：跟工具頁候選卡在桌面三欄網格裡的實際寬度相近，看起來就是「一張」結果卡，而不是整條橫幅。 */
+.hero-demo {
+  max-width: 360px;
+  margin: 24px 0 0;
+}
+
+.hero-demo-label {
+  margin-bottom: 8px;
+  font-size: 13px;
   color: var(--color-ink-soft);
 }
 
@@ -344,6 +369,14 @@ p {
 .reset-form-btn {
   font-size: 13px;
   white-space: nowrap;
+}
+
+/* 第五十一節：「清除此頁」「全部清空」是 .link-btn 文字連結樣式（不是 .btn-secondary），原本完全沒有 hover 回饋。
+   不套反色填滿（padding 為 0 的文字連結填色會變成一小塊貼字的色塊，也會改掉第四十二節定案的素淨連結外觀），
+   改用跟抽屜「清空收藏」（.fav-drawer-clear）一致的「清除類動作 hover 轉印章紅」。 */
+.reset-form-btn:hover,
+.reset-form-btn:focus-visible {
+  color: var(--color-seal);
 }
 
 .step-indicator {
@@ -774,6 +807,24 @@ body.fav-drawer-open .fav-tabs {
 .favorites-empty-hint {
   font-size: 13px;
   color: var(--color-ink-soft);
+}
+
+/* 第五十一節：第一次打開收藏抽屜時的「收藏只存在這台裝置」提醒（js/shared.js 動態插在抽屜內容最上方）。
+   字級／字色跟 .fav-drawer-cross-note、.favorites-empty-hint 同一套小字；為了比這兩個常駐說明更顯眼，
+   改用整圈印章紅細框＋淡紅底（cross-note 只有左側色條），但仍是一行說明的份量，不做成大面積警示框。 */
+.fav-storage-warning {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-seal);
+  border-radius: var(--radius-base);
+  background-color: #f8ece9;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+}
+
+.fav-storage-warning[hidden] {
+  display: none;
 }
 
 /* ---------- 分享連結專屬視圖（網址帶 ?shared= / ?sharedAll= 時，分享區塊排在表單上方） ---------- */
@@ -1309,6 +1360,68 @@ html {
   color: var(--color-ink-soft);
 }
 
+/* FAQ 搜尋（NOTES.md 第五十節）：跟 .faq-list 同寬，輸入框沿用全站 input 的邊框／圓角，
+   聚焦時邊框換印章紅（跟 .option-btn hover、驗證紅框同一個點綴色），不另外引入新顏色。 */
+.faq-search {
+  max-width: 680px;
+  margin-bottom: 16px;
+}
+
+.faq-search-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  background-color: #fff;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--color-ink);
+}
+
+.faq-search-input:focus {
+  outline: none;
+  border-color: var(--color-seal);
+  box-shadow: 0 0 0 1px var(--color-seal);
+}
+
+.faq-search-empty {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: var(--color-ink-soft);
+}
+
+/* 相關文章：比照首頁/文章頁的引用框，左側印章紅細線＋暖白卡片底，跟 FAQ 題目卡片區隔開來，
+   標題只用一般連結樣式（全站 a 已是印章紅），不套文章列表頁的整卡 stretched-link（那是給
+   有摘要的完整列表用的，這裡只列標題）。 */
+.faq-related {
+  max-width: 680px;
+  margin-top: 24px;
+  padding: 16px 18px;
+  border-left: 3px solid var(--color-seal);
+  background-color: var(--color-card-bg);
+}
+
+.faq-related-title {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.faq-related-group h3 {
+  font-size: 15px;
+  margin: 12px 0 6px;
+  color: var(--color-ink-soft);
+}
+
+.faq-related-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.faq-related-list li {
+  margin: 4px 0;
+  overflow-wrap: anywhere;
+}
+
 /* ---------- 聯絡信箱按鈕（FAQ 頁、關於頁共用，見 NOTES.md 第三十八節） ---------- */
 
 .btn-mail svg {
@@ -1410,6 +1523,17 @@ html {
   body.fav-drawer-open .fav-tabs {
     right: 16px;
     bottom: var(--fav-sheet-h);
+  }
+
+  /* 第五十一節：廣告版位捲進標籤所在的底邊範圍時（js/shared.js 的 initFavTabsAdAvoidance 加上
+     body.fav-tabs-yield），標籤往下收出畫面，廣告離開後滑回。位移的是 .fav-tab 本身、不是 .fav-tabs 外框，
+     JS 才能一直用外框位置當作標籤「原位」來判斷重疊。 */
+  .fav-tab {
+    transition: transform 0.18s ease;
+  }
+
+  body.fav-tabs-yield .fav-tab {
+    transform: translateY(calc(100% + 8px));
   }
 
   /* 標籤貼在底邊，頁面最底部（頁尾最後一行）要留出標籤高度，捲到底時不會被蓋住 */

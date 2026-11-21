@@ -139,6 +139,17 @@
         "9733"
       ],
       "port": 9733
+    },
+    {
+      "name": "name-generator-wrangler-9812",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--port",
+        "9812"
+      ],
+      "port": 9812
     }
   ]
 }

@@ -49,66 +49,75 @@
     <p>使用前後比較常被問到的問題，整理在這裡。如果你的疑問不在下面，之後會再補上。</p>
   </div>
 
+  <div class="faq-search">
+    <input type="search" id="faq-search-input" class="faq-search-input" placeholder="搜尋常見問題，例如：字輩、複姓、收藏" aria-label="搜尋常見問題" autocomplete="off">
+    <p class="faq-search-empty" id="faq-search-empty" role="status" hidden>沒有找到符合的問題，換個關鍵字試試看。</p>
+  </div>
+
   <div class="faq-list">
 
-    <details class="faq-item" open>
+    <details class="faq-item" data-category="general" open>
       <summary>這個工具要收費或註冊嗎？</summary>
       <p>完全免費，不需要註冊、不需要登入，也不收集任何個人資料。所有取名的運算都在你自己的瀏覽器裡完成，不會把你的選擇傳到任何伺服器。</p>
     </details>
 
-    <details class="faq-item">
+    <details class="faq-item" data-category="general">
       <summary>這個工具的取名邏輯是什麼？</summary>
       <p>依你選的性別、字數、寓意祝福（小說取名則是分類、角色氣質、性格標籤）這些條件，對字庫裡每個字／姓名評分，分數越符合條件的排序越前面，再從分數較高的一批裡隨機挑出候選，所以同樣條件多按幾次「再產生一次」，名字會換、但方向不會跑掉。字庫本身怎麼查證、哪些字查不到出處，寫在<a href="/methodology">字庫與考據方式</a>這頁。產生的建議僅供參考。</p>
     </details>
 
-    <details class="faq-item" id="faq-favorites">
+    <details class="faq-item" data-category="general" id="faq-favorites">
       <summary>收藏的名字會不會不見？</summary>
       <p>收藏是存在瀏覽器的本機儲存空間（localStorage），只會留在你目前使用的這台裝置、這個瀏覽器裡，不會跨裝置同步。換了裝置或瀏覽器、清除瀏覽器資料，或是關掉隱私/無痕視窗，收藏都可能會遺失（無痕模式下，同一個視窗還開著的時候收藏都還在，整個無痕視窗關掉之後通常就會被清空）。</p>
       <p>想長期保留的名字，最穩的做法是存一個分享連結：在候選卡或收藏清單的名字卡上點「分享」，或是在結果頁點「分享全部 N 個名字」，系統會把名字編進一個專屬網址並自動複製。把這個網址貼到 LINE 的記事本、手機備忘錄，或任何你方便找的地方，之後隨時點開都能看到同一批名字。</p>
     </details>
 
-    <details class="faq-item">
+    <details class="faq-item" data-category="general">
       <summary>為什麼同樣的條件，每次按「再產生一次」出來的名字不一樣？</summary>
       <p>系統會先依寓意/氣質評分排序，再從分數較高、而且這次瀏覽還沒出現過的名字裡抽出 5 個，所以每次都是新的名字，整體仍貼合你選的方向。符合條件的名字都看過一輪後，才會開始出現看過的名字（畫面會提示）。鎖定名字裡的字之後，能變化的組合會變少。如果你鎖住的已經是完整的名字（例如單字名只有一個字，鎖了它就等於鎖住整個名字），姓氏又是隨機的，之後每批都會是這個名字，再配上 5 個不同的姓氏讓你比較；如果連姓氏也固定了，每批就只會剩 1 個名字，這是正常的。</p>
     </details>
 
-    <details class="faq-item">
+    <details class="faq-item" data-category="general">
       <summary>分享連結是怎麼運作的？</summary>
       <p>候選名字會編碼進網址參數裡，不需要帳號或後端資料庫。別人點開你分享的連結，瀏覽器會直接從網址解碼出同一批候選名字顯示出來，純前端技術，不會額外傳送你的其他資料。</p>
     </details>
 
-    <details class="faq-item">
+    <details class="faq-item" data-category="general">
       <summary>寶寶取名跟小說角色取名有什麼不一樣？</summary>
       <p>寶寶取名是給真實新生兒命名用的，字庫偏向正向祝福用字。小說角色取名額外考慮小說分類（古風武俠、現代都市、西方奇幻等）、角色氣質、性格標籤、情感取向，字庫也涵蓋更多元、更中性甚至偏灰色調的命名風格，不限於正向祝福字。</p>
     </details>
 
-    <details class="faq-item">
+    <details class="faq-item" data-category="novel">
       <summary>小說角色取名的「複姓」跟「隨機」選項有什麼差別？</summary>
       <p>「隨機」只是有一定機率抽到複姓；「複姓」模式則保證每次都從歐陽、司馬、諸葛這類真實歷史複姓裡抽一個，想要每次都確定是複姓時選這個。</p>
     </details>
 
-    <details class="faq-item">
+    <details class="faq-item" data-category="novel">
       <summary>科幻分類的姓氏怎麼套用？AI 角色為什麼沒有姓？</summary>
       <p>科幻的人類角色跟現代都市一樣是中文姓名，「隨機」「複姓」「自訂輸入」「不需要」四種姓氏模式都可以選，例如選「自訂輸入」打「陳」會得到「陳知微」這類名字。AI／仿生人角色則是代號（例如凱－零七），不論選哪種模式都不加姓，維持代號原樣，所以同一批結果裡可能有人類角色帶姓、AI 角色沒有姓。西方奇幻與日系輕小說則有各自的姓氏庫，選「隨機」會依文化習慣組合：日系是「姓 名」（例如佐藤 美咲），西方奇幻是「名 姓」（例如 Elowen Blackwood）。「複姓」是中文姓氏才有的概念，只套用在古風武俠、現代都市、校園青春、懸疑驚悚、科幻這幾類。</p>
     </details>
 
-    <details class="faq-item">
+    <details class="faq-item" data-category="baby">
       <summary>寶寶取名的「固定字輩」要怎麼用？</summary>
       <p>字輩是華人家族常見的命名傳統，同一輩份的兄弟姊妹共用名字裡固定的一個字。開啟「固定字輩」並輸入用字後，系統會把這個字放進雙字名的兩個位置都試著組合，所以產生出來的名字有時字輩在前、有時在後，不會固定在同一個位置。更完整的介紹可以看<a href="/articles/zibei-jiazu-chuancheng" target="_blank" rel="noopener">字輩：跨越世代的家族傳承</a>這篇文章。</p>
     </details>
 
-    <details class="faq-item">
+    <details class="faq-item" data-category="baby">
       <summary>寶寶取名產生的名字，正式報戶口時一定能用嗎？</summary>
       <p>這個網站的字庫以現代常用字為主，但沒有逐字比對《姓名條例》規定的那幾本辭典。依現行《姓名條例》第 2 條，辦理戶籍登記時，中文姓名必須使用辭源、辭海、康熙等通用字典或教育部編訂的國語辭典裡收錄的字，沒有收錄的字，戶政機關不會受理登記。本站字庫大致不容易踩到這個限制，但「僅供參考」也包含這一點：正式報戶口前，建議再自行確認一次用字沒問題。</p>
     </details>
 
-    <details class="faq-item">
+    <details class="faq-item" data-category="general">
       <summary>發現問題或想提供意見，可以怎麼聯絡？</summary>
-      <p>歡迎寄信給我，不管是錯字、功能問題還是單純的想法都可以。</p>
-      <p class="contact-action"><a class="btn btn-secondary btn-mail" href="mailto:contact@getnamechop.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.8 7l8.2 6 8.2-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>contact@getnamechop.com</a></p>
+      <p>歡迎到<a href="/contact">聯絡方式</a>頁找我的信箱，不管是錯字、功能問題還是單純的想法都可以。</p>
     </details>
 
   </div>
+
+  <section class="faq-related" id="faq-related" aria-labelledby="faq-related-title" hidden>
+    <h2 id="faq-related-title" class="faq-related-title">相關文章</h2>
+    <div id="faq-related-groups"></div>
+  </section>
 </main>
 
 <footer class="site-footer">
@@ -119,6 +128,7 @@
       <a href="/articles/">文章精選</a>
       <a href="/faq">FAQ</a>
       <a href="/privacy">隱私權政策</a>
+      <a href="/contact">聯絡方式</a>
       <a href="/about">關於</a>
     </div>
     <hr class="footer-divider">
@@ -148,6 +158,111 @@
   }
   openHashTarget();
   window.addEventListener("hashchange", openHashTarget);
+
+  // 第五十節：FAQ 搜尋。只比對 <summary> 題目文字，命中題目的 data-category（baby／novel，
+  // general 不算）決定要帶出哪一組相關文章。文章清單要跟 articles/index.html 的兩組分組保持一致，
+  // 之後新增文章時兩邊都要改。
+  (function () {
+    var RELATED_ARTICLES = {
+      baby: {
+        title: "寶寶取名",
+        items: [
+          ["藏在詩經楚辭裡的好名字", "/articles/shijing-chuci-qiming"],
+          ["名字裡的祝福怎麼選", "/articles/zhufu-zenmexuan"],
+          ["字輩：跨越世代的家族傳承", "/articles/zibei-jiazu-chuancheng"],
+          ["我們為什麼愛幫孩子取疊字小名", "/articles/diezi-xiaoming"],
+          ["小名要不要呼應大名", "/articles/xiaoming-huying-daming"],
+          ["菜市場名：看見一整個時代的記憶", "/articles/caishichang-ming"],
+          ["新手爸媽最常問的取名問題", "/articles/xinshoubama-changwen-wenti"]
+        ]
+      },
+      novel: {
+        title: "小說角色取名",
+        items: [
+          ["主角的名字要怎麼讓人記住", "/articles/novel-protagonist-name-memorable"],
+          ["反派的名字要有記憶點", "/articles/novel-villain-name-impact"],
+          ["取名邏輯大不同：從古風到科幻，七大類型一次比較", "/articles/novel-genre-naming-logic-compared"],
+          ["小說命名常見雷區", "/articles/novel-naming-common-pitfalls"],
+          ["小說筆名怎麼取", "/articles/novel-pen-name-guide"],
+          ["名字如何跟著角色一起成長", "/articles/novel-character-name-growth"],
+          ["角色氣質為什麼要跟著小說分類改變", "/articles/novel-character-quality-by-genre"],
+          ["複姓：讓角色一出場就有世家感的姓氏", "/articles/fuxing-xiaoshuo-shijia"],
+          ["小說取名工具怎麼挑？3 個常見雷點", "/articles/novel-naming-tool-pitfalls"]
+        ]
+      }
+    };
+    var CATEGORY_ORDER = ["baby", "novel"];
+
+    var input = document.getElementById("faq-search-input");
+    var emptyMsg = document.getElementById("faq-search-empty");
+    var related = document.getElementById("faq-related");
+    var relatedGroups = document.getElementById("faq-related-groups");
+    var items = Array.prototype.slice.call(document.querySelectorAll(".faq-list .faq-item"));
+    if (!input) return;
+
+    function renderRelated(categories) {
+      relatedGroups.innerHTML = "";
+      CATEGORY_ORDER.forEach(function (key) {
+        if (!categories[key]) return;
+        var group = RELATED_ARTICLES[key];
+        var wrap = document.createElement("div");
+        wrap.className = "faq-related-group";
+        var h3 = document.createElement("h3");
+        h3.textContent = group.title;
+        var ul = document.createElement("ul");
+        ul.className = "faq-related-list";
+        group.items.forEach(function (it) {
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.href = it[1];
+          a.textContent = it[0];
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+        wrap.appendChild(h3);
+        wrap.appendChild(ul);
+        relatedGroups.appendChild(wrap);
+      });
+      related.hidden = relatedGroups.children.length === 0;
+    }
+
+    function applySearch() {
+      var q = input.value.trim().toLowerCase();
+      if (!q) {
+        items.forEach(function (el) { el.hidden = false; });
+        emptyMsg.hidden = true;
+        renderRelated({});
+        return;
+      }
+      var matched = 0;
+      var categories = {};
+      items.forEach(function (el) {
+        var summary = el.querySelector("summary");
+        var text = summary ? summary.textContent.toLowerCase() : "";
+        var hit = text.indexOf(q) !== -1;
+        el.hidden = !hit;
+        if (hit) {
+          matched++;
+          var cat = el.getAttribute("data-category");
+          if (cat && cat !== "general") categories[cat] = true;
+        }
+      });
+      emptyMsg.hidden = matched > 0;
+      renderRelated(categories);
+    }
+
+    // 中文輸入法組字中（注音還沒選字）不比對，避免畫面在「沒有找到」跟結果之間閃爍；
+    // 選完字的 compositionend 再比對一次（第四十六節踩過 IME 組字的雷）。
+    input.addEventListener("input", function (e) {
+      if (e.isComposing) return;
+      applySearch();
+    });
+    input.addEventListener("compositionend", applySearch);
+    // 重新整理／上一頁回來時，瀏覽器可能把上次輸入的字還原進搜尋框但不觸發 input，
+    // pageshow 再比對一次，避免框裡有字、列表卻是全部顯示的不一致狀態。
+    window.addEventListener("pageshow", applySearch);
+    applySearch();
+  })();
 </script>
 </body>
 </html>

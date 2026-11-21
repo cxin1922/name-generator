@@ -460,6 +460,10 @@ const NG = (function () {
 
     function startDrag(e, index) {
       if (e.button !== 0) return;
+      // 箭頭按鈕、× 移除鈕不從這裡起拖（跟 startTouchDrag 同一個判斷）。手機短按時瀏覽器會在 touchend 後
+      // 補發模擬 mousedown/mouseup/click；若這裡照樣起拖，mouseup 的 onUp 會 render() 把按鈕整個換掉，
+      // 瀏覽器找不到原本的按鈕就不派送 click，箭頭/× 就沒反應（NOTES.md 第四十九節）。
+      if (e.target.closest("button, .remove-tag")) return;
       e.preventDefault();
       let currentIndex = index;
       // 一拿起來就馬上標上 .dragging＋容器加 .mouse-dragging（配合 CSS 的桌面拖曳視覺回饋，
@@ -717,6 +721,29 @@ const NG = (function () {
     if (!drawer || !overlay || tabs.length === 0) return;
     let lastTrigger = null;
 
+    // 第五十一節：收藏只存在這台裝置的瀏覽器，第一次打開抽屜時在列表最上方提醒一次，之後不再出現。
+    // 用 localStorage 旗標記「看過了」；兩個工具頁共用同一把旗標（同源），在哪一頁先看過都算。
+    // 判斷時機是「從關閉變打開」的那一次 open()：抽屜開著時點另一個標籤切換工具也會呼叫 open()，
+    // 那時不重新判斷，提示在這次打開期間維持顯示，關掉再開才消失。
+    // localStorage 不可用（隱私模式等）時讀寫都會丟例外，這種情況收藏本來就存不住，每次打開都提醒。
+    const STORAGE_WARNING_KEY = "ng_fav_warning_seen";
+    const storageWarning = document.createElement("p");
+    storageWarning.className = "fav-storage-warning";
+    storageWarning.id = "fav-storage-warning";
+    storageWarning.hidden = true;
+    storageWarning.textContent = "💡 收藏只存在這台裝置的瀏覽器裡，清除瀏覽資料或換手機、換電腦就看不到了；想長期保留，請用卡片上的「分享」產生網址存起來。";
+    const drawerBody = drawer.querySelector(".fav-drawer-body");
+    if (drawerBody) drawerBody.insertBefore(storageWarning, drawerBody.firstChild);
+    function shouldShowStorageWarning() {
+      try {
+        if (localStorage.getItem(STORAGE_WARNING_KEY) === "1") return false;
+        localStorage.setItem(STORAGE_WARNING_KEY, "1");
+      } catch (e) {
+        /* localStorage 不可用：照樣顯示 */
+      }
+      return true;
+    }
+
     function isOpen() {
       return drawer.classList.contains("open");
     }
@@ -728,6 +755,7 @@ const NG = (function () {
       });
     }
     function open(tool, trigger) {
+      if (!isOpen()) storageWarning.hidden = !shouldShowStorageWarning();
       favState.viewTool = tool;
       lastTrigger = trigger || null;
       refreshFavorites();
@@ -776,6 +804,48 @@ const NG = (function () {
     window.addEventListener("storage", (e) => {
       if (e.key === null || (e.key && e.key.indexOf("ng_favorites_") === 0)) refreshFavorites();
     });
+
+    initFavTabsAdAvoidance(isOpen);
+  }
+
+  // 第五十一節：較窄螢幕（<1100px）收藏標籤 position:fixed 貼在畫面底邊，捲動時任何文件流元素都會從它底下經過，
+  // 廣告版位（.ad-slot）經過那一段時會被標籤蓋住（實測 375px 寬最多蓋住佔位圖約 65～70%）。
+  // 加大 .ad-slot 的 margin 只會改變「哪一個捲動位置」重疊，捲動途中一定還是會掃過，所以改成：
+  // 只有當某個廣告版位真的進到標籤所在的那條底邊範圍時，標籤暫時往下收進畫面外（body.fav-tabs-yield），
+  // 廣告一離開就自動滑回來。不動 z-index（標籤不會躲到廣告後面點不到），也不永久移位。
+  // 抽屜開著、或標籤正有鍵盤焦點時一律不收，避免使用者正在操作時標籤消失。
+  function initFavTabsAdAvoidance(isDrawerOpen) {
+    const tabsEl = document.getElementById("fav-tabs");
+    if (!tabsEl || !window.matchMedia) return;
+    const narrow = window.matchMedia("(max-width: 1099px)");
+    // 廣告貼近標籤上緣這個距離就先收：涵蓋標籤陰影，加上收起動畫（0.18s）期間快速捲動多走的距離，
+    // 避免動畫還沒收完、廣告已經滑進標籤範圍的瞬間重疊。
+    const GAP = 24;
+
+    // 直接在 scroll 事件裡判斷、不另外包 requestAnimationFrame：瀏覽器本來就是每個畫格最多派發一次 scroll，
+    // 這裡每次只讀幾個元素的位置，成本很低；而且少一層非同步，捲動當下就能決定收不收。
+    function update() {
+      let yieldTabs = false;
+      // 只看「鍵盤聚焦」（:focus-visible）：用手點標籤關掉抽屜後，焦點會還給標籤按鈕且一直留在上面，
+      // 如果用一般 focus 判斷，之後整段瀏覽標籤都不會再讓位。
+      if (narrow.matches && !isDrawerOpen() && !tabsEl.querySelector(":focus-visible")) {
+        // .fav-tabs 外框本身不位移（收起時位移的是裡面的 .fav-tab），所以它的位置永遠是標籤的「原位」。
+        const t = tabsEl.getBoundingClientRect();
+        yieldTabs = Array.from(document.querySelectorAll(".ad-slot")).some((ad) => {
+          const a = ad.getBoundingClientRect();
+          if (a.height === 0) return false; // 在 hidden 區塊裡（例如還沒產生結果）
+          return a.bottom > t.top - GAP && a.top < t.bottom && a.right > t.left && a.left < t.right;
+        });
+      }
+      document.body.classList.toggle("fav-tabs-yield", yieldTabs);
+    }
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    tabsEl.addEventListener("focusin", update);
+    tabsEl.addEventListener("focusout", update);
+    // 產生結果、切換表單步驟等版面變化不一定伴隨捲動，用 ResizeObserver 監看頁面高度變化補判斷一次。
+    if (window.ResizeObserver) new ResizeObserver(update).observe(document.body);
+    update();
   }
 
   // ---------- 分享連結專屬視圖（見 NOTES.md 第二十五節；第三十五節改版） ----------
