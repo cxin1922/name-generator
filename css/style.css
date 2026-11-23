@@ -203,6 +203,11 @@ p {
   margin: 24px 0;
 }
 
+/* 暫時隱藏廣告佔位框，流量較高後移除這段即可恢復顯示。不影響 <head> 的 AdSense 驗證碼。 */
+.ad-slot {
+  display: none;
+}
+
 /* ---------- 麵包屑 ---------- */
 
 .breadcrumb {
