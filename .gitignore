@@ -4,3 +4,6 @@ Thumbs.db
 .env
 .wrangler/
 secrets/
+NOTES.md
+docs/
+.claude/
