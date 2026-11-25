@@ -51,6 +51,11 @@
   </nav>
   <p class="form-intro"><span class="no-break">寶寶取名</span>與<span class="no-break">小說角色取名</span>背後，還有不少值得多想一層的問題。這裡整理成幾篇短文，<br>不是工具的使用說明，是取名這件事本身的延伸閱讀。</p>
 
+  <div class="article-search">
+    <input type="search" id="article-search-input" class="article-search-input" placeholder="搜尋文章，例如：字輩、反派、筆名" aria-label="搜尋文章" autocomplete="off">
+    <p class="article-search-empty" id="article-search-empty" role="status" hidden>沒有找到符合的文章，換個關鍵字試試看。</p>
+  </div>
+
   <div class="article-list-group" id="cat-baby">
     <h2>寶寶取名</h2>
     <div class="article-list-item">
@@ -169,6 +174,50 @@
       active.blur();
     }
   });
+
+  // 文章搜尋：寫法沿用 faq.html（第五十節），比對標題＋卡片摘要；整組都沒命中的分類連標題一起隱藏。
+  (function () {
+    var input = document.getElementById("article-search-input");
+    var emptyMsg = document.getElementById("article-search-empty");
+    var groups = Array.prototype.slice.call(document.querySelectorAll(".article-list-group"));
+    if (!input) return;
+
+    function applySearch() {
+      var q = input.value.trim().toLowerCase();
+      var matched = 0;
+      groups.forEach(function (group) {
+        var groupHits = 0;
+        group.querySelectorAll(".article-list-item").forEach(function (item) {
+          var hit = !q || item.textContent.toLowerCase().indexOf(q) !== -1;
+          item.hidden = !hit;
+          if (hit) groupHits++;
+        });
+        group.hidden = groupHits === 0;
+        matched += groupHits;
+      });
+      emptyMsg.hidden = !q || matched > 0;
+    }
+
+    // 中文輸入法組字中不比對，compositionend 再比對（第四十六節 IME 組字的雷）。
+    input.addEventListener("input", function (e) {
+      if (e.isComposing) return;
+      applySearch();
+    });
+    input.addEventListener("compositionend", applySearch);
+    window.addEventListener("pageshow", applySearch);
+
+    // 搜尋中點分類跳轉，目標分類可能被隱藏而跳不過去，先清空搜尋再讓錨點照常跳轉。
+    document.querySelectorAll(".article-list-jump a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        if (!input.value) return;
+        input.value = "";
+        applySearch();
+      });
+    });
+
+    applySearch();
+  })();
 </script>
+<script src="../js/back-to-top.js" defer></script>
 </body>
 </html>
