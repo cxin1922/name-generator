@@ -1181,6 +1181,54 @@ html.ng-shared-leaving {
   color: var(--color-ink-soft);
 }
 
+/* 含清單、表格、h3、粗體、重點框的文章用：在 article 上多掛 .article-rich，沒掛的頁面不受影響。 */
+.article-rich h3 {
+  font-size: 16px;
+  margin-top: 1.4em;
+  margin-bottom: 0.4em;
+}
+
+.article-rich ul,
+.article-rich ol {
+  color: var(--color-ink-soft);
+  padding-left: 1.4em;
+  line-height: 1.8;
+}
+
+.article-rich li {
+  margin-bottom: 0.35em;
+}
+
+.article-rich strong {
+  color: var(--color-ink);
+}
+
+.article-rich .key-points {
+  border-left: 4px solid var(--color-seal);
+  background: #fcfbf8;
+  padding: 4px 16px;
+  margin: 1em 0;
+}
+
+.article-rich table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 15px;
+  color: var(--color-ink-soft);
+}
+
+.article-rich th,
+.article-rich td {
+  border: 1px solid var(--color-border);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.article-rich th {
+  background: #fcfbf8;
+  color: var(--color-ink);
+}
+
 /* 工具頁下方的靜態說明區（寶寶取名／小說角色取名，見 NOTES.md 第六十節）：上方留白加淡邊線跟表單／結果分開，
    做法比照 .related-articles。範例卡沿用 .candidate-card 系列，卡片組後面直接接段落，補下方間距避免文字貼著卡片。 */
 .tool-guide {
