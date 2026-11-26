@@ -1181,6 +1181,28 @@ html.ng-shared-leaving {
   color: var(--color-ink-soft);
 }
 
+/* 工具頁下方的靜態說明區（寶寶取名／小說角色取名，見 NOTES.md 第六十節）：上方留白加淡邊線跟表單／結果分開，
+   做法比照 .related-articles。範例卡沿用 .candidate-card 系列，卡片組後面直接接段落，補下方間距避免文字貼著卡片。 */
+.tool-guide {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+}
+
+.tool-guide h2:first-child {
+  margin-top: 0;
+}
+
+/* 瀏覽器預設的 h3 大小（約 18.7px）跟 .article-body h2 的 19px 幾乎一樣，這裡縮小拉出層次。 */
+.tool-guide h3 {
+  font-size: 16px;
+  margin-top: 1.8em;
+}
+
+.tool-guide .candidate-grid {
+  margin-bottom: 14px;
+}
+
 .related-articles {
   max-width: 680px;
   margin-top: 36px;

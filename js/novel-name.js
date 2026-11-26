@@ -146,7 +146,6 @@
 
   const state = {
     gender: "unisex",
-    ageTier: "",
     surnameMode: "random", // 姓氏顯示規則：random／compound／custom／none，compound 是新增的第四種模式（固定從複姓池抽，見 NOTES.md）
     surnameCustom: "",
     style: "",
@@ -193,7 +192,6 @@
     namePoolByStyle.scifi = scifi;
 
     bindSingleSelect("gender", (v) => { state.gender = v; });
-    bindSingleSelect("ageTier", (v) => { state.ageTier = v; });
     bindSingleSelect("style", onStyleChange);
     bindSingleSelect("orientation", (v) => { state.orientation = v; });
 
@@ -281,7 +279,7 @@
       if (saved[k] === undefined) return;
       state[k] = Array.isArray(state[k]) ? (Array.isArray(saved[k]) ? saved[k].slice() : []) : saved[k];
     });
-    ["gender", "ageTier", "surnameMode", "style", "orientation"].forEach((field) => {
+    ["gender", "surnameMode", "style", "orientation"].forEach((field) => {
       const row = document.querySelector('.option-row[data-field="' + field + '"]');
       if (!row) return;
       row.querySelectorAll(".option-btn").forEach((b) => b.classList.toggle("active", b.dataset.value === String(state[field])));
@@ -624,7 +622,7 @@
 
   // 第三十八節：「清空重填」，第四十二節拆成「全部清空」（resetForm，範圍與確認門檻不變）＋
   // 「清除此頁」（clearCurrentStep，只清目前這一頁、結果與另一頁都保留），做法同 baby-name.js。
-  // 頁面分組依 HTML 的 #step-1／#step-2：第 1 頁＝性別／年齡層／姓氏模式／自訂姓氏；
+  // 頁面分組依 HTML 的 #step-1／#step-2：第 1 頁＝性別／姓氏模式／自訂姓氏；
   // 第 2 頁＝小說分類／情感取向／角色氣質／性格標籤／特殊需求。
   // 跨頁連動只有一條：第 1 頁「複姓」會停用第 2 頁的西方奇幻／日系輕小說（updateStyleAvailability）。
   // 清第 1 頁＝姓氏模式回到「隨機」，只會把停用的分類重新開放，不會清掉第 2 頁已選的分類；
@@ -640,7 +638,6 @@
   function step1HasContent() {
     return (
       state.gender !== "unisex" ||
-      !!state.ageTier ||
       state.surnameMode !== "random" ||
       !!state.surnameCustom
     );
@@ -670,10 +667,9 @@
 
   function clearStep1Fields() {
     state.gender = "unisex";
-    state.ageTier = "";
     state.surnameMode = "random";
     state.surnameCustom = "";
-    syncOptionRows(["gender", "ageTier", "surnameMode"]);
+    syncOptionRows(["gender", "surnameMode"]);
     $("#novel-surname-custom").value = "";
     $("#novel-surname-custom").hidden = true;
     updateSurnameRandomHint();
