@@ -1,3 +1,7 @@
 .env
 .env.*
 secrets/
+NOTES.md
+docs/
+.claude/
+articles/*.md
